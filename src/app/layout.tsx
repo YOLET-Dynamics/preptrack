@@ -16,7 +16,7 @@ const funnelDisplay = Funnel_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Coming Soon | preptrack.app",
+  title: "PrepTrack | Coming Soon",
   description: "preptrack.app - Coming Soon",
 };
 
