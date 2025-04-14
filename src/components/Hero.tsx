@@ -1,37 +1,114 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, Activity, LineChart } from "lucide-react";
+import { useFormspark } from "@formspark/use-formspark";
+import { BookOpen, Activity, LineChart } from "lucide-react";
+import { useState, useRef } from "react";
+import { toast } from "sonner";
+
+const FORMSPARK_FORM_ID = "7MQx5JvdO";
+const RATE_LIMIT_DURATION = 30000; // 30 seconds
+
+const isValidEmail = (email: string) => {
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  return emailRegex.test(email);
+};
 
 export default function Hero() {
+  const [submit, submitting] = useFormspark({
+    formId: FORMSPARK_FORM_ID,
+  });
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const lastSubmissionTime = useRef<number>(0);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setEmailError("");
+
+    const now = Date.now();
+    const timeSinceLastSubmission = now - lastSubmissionTime.current;
+
+    if (timeSinceLastSubmission < RATE_LIMIT_DURATION) {
+      const remainingTime = Math.ceil((RATE_LIMIT_DURATION - timeSinceLastSubmission) / 1000);
+      toast.error(`Please wait ${remainingTime} seconds before submitting again`);
+      return;
+    }
+
+    if (!email.trim()) {
+      setEmailError("Email is required");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
+    try {
+      lastSubmissionTime.current = now;
+      await submit({ 
+        email,
+        source: "hero",
+        timestamp: new Date().toISOString(),
+      });
+      toast.success("Successfully joined the waitlist!");
+      setEmail("");
+    } catch (error) {
+      toast.error("Failed to join waitlist. Please try again.");
+    }
+  };
+
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 overflow-hidden">
-      <div className="px-8 md:px-24">
-        <div className="grid gap-6 lg:grid-cols-[1fr_600px] lg:gap-12 xl:grid-cols-[1fr_700px]">
+    <section className="w-full py-8 md:py-12 lg:py-16 overflow-hidden">
+      <div className="px-8 md:px-24 h-full">
+        <div className="grid gap-6 lg:grid-cols-[1fr_600px] lg:gap-12 xl:grid-cols-[1fr_700px] h-full">
           <div
-            className="flex flex-col justify-center space-y-4 animate-fade-in-up"
+            className="flex flex-col justify-center space-y-4 animate-fade-in-up ease-in"
             style={{ animationDelay: "0.2s" }}
           >
             <div className="space-y-6">
-              <h1 className="text-4xl font-funnel tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+              <h1 className="text-4xl font-funnel-sans tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
                 Precision Learning for Radiation Therapy
               </h1>
-              <p className="max-w-[600px] text-gray-400 md:text-xl">
-                Where science meets simplicity. Your personalized path to
-                certification success.
+              <p className="max-w-[600px] text-gray-400 md:text-xl font-funnel-sans">
+                Personalized test preparation paths and study guides.
               </p>
             </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Button className="bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-raleway">
-                Join Waitlist
-              </Button>
-              <Button
-                variant="outline"
-                className="border-white/20 bg-white/5 transition-all duration-300 font-raleway text-white"
-              >
-                Learn More{" "}
-                <ArrowRight className="ml-2 h-4 w-4 animate-pulse-subtle" />
-              </Button>
-            </div>
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-2 min-[400px]:flex-row"
+            >
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <input
+                    className={`flex h-10 w-48 rounded-lg border ${
+                      emailError ? "border-red-400" : "border-white/10"
+                    } bg-white/5 px-4 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300`}
+                    placeholder="Enter your email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setEmailError("");
+                    }}
+                    required
+                  />
+                  <Button
+                    type="submit"
+                    disabled={submitting}
+                    className="bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-funnel-sans"
+                  >
+                    {submitting ? "Joining..." : "Join Waitlist"}
+                  </Button>
+                </div>
+                {emailError && (
+                  <span className="text-xs text-red-400 mt-1">
+                    {emailError}
+                  </span>
+                )}
+              </div>
+            </form>
             <div className="mt-6">
               <p className="text-sm text-gray-400">Coming Soon</p>
             </div>

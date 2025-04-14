@@ -98,8 +98,8 @@ const config: Config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        raleway: ['var(--font-raleway)'],
-        'funnel-display': ['var(--font-funnel-display)'],
+        raleway: ["var(--font-raleway)"],
+        "funnel-sans": ["var(--font-funnel-sans)"],
       },
     },
   },

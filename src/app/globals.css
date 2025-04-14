@@ -117,11 +117,8 @@
   body {
     @apply bg-background text-foreground;
   }
-  .font-raleway {
-    font-family: var(--font-raleway), system-ui, sans-serif;
-  }
 
-  .font-funnel-display {
-    font-family: var(--font-funnel-display), system-ui, sans-serif;
+  .font-funnel-sans {
+    font-family: var(--font-funnel-sans), system-ui, sans-serif;
   }
 }

@@ -1,23 +1,18 @@
 import type React from "react";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Raleway, Funnel_Display } from "next/font/google";
+import { Funnel_Sans } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
 
-const raleway = Raleway({
+const funnelSans = Funnel_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-raleway",
-});
-
-const funnelDisplay = Funnel_Display({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-funnel-display",
+  variable: "--font-funnel-sans",
 });
 
 export const metadata: Metadata = {
-  title: "PrepTrack | Coming Soon",
-  description: "preptrack.app - Coming Soon",
+  title: "PrepTrack | Precision Learning for Radiation Therapy",
+  description: "preptrack.app - Precision Learning for Radiation Therapy",
 };
 
 export default function RootLayout({
@@ -27,8 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${raleway.variable} ${funnelDisplay.variable}`}>
+      <body className={`${funnelSans.variable}`}>
         {children}
+        <Toaster />
       </body>
     </html>
   );
