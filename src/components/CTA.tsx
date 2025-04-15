@@ -82,47 +82,13 @@ export default function CTA() {
                 <Atom className="h-6 w-6 text-cyan-400" />
               </div>
               <h2 className="text-3xl font-funnel-sans tracking-tight sm:text-4xl">
-                Prepare With Precision
+                Waitlist is Full
               </h2>
               <p className="max-w-[600px] text-gray-400 md:text-lg font-funnel-sans">
-                Join the waitlist to be the first to know when PrepTrack
-                launches. Early subscribers get exclusive access and special
-                pricing.
+                Thank you for your interest in PrepTrack! Our initial waitlist is now full. Stay tuned for updates on our official launch.
               </p>
             </div>
             <div className="w-full max-w-md space-y-3">
-              <div className="flex flex-col gap-2">
-                <form
-                  onSubmit={handleSubmit}
-                  className="flex flex-col gap-3 sm:flex-row"
-                >
-                  <input
-                    className={`flex h-12 w-full rounded-lg border ${
-                      emailError ? "border-red-400" : "border-white/10"
-                    } bg-white/5 px-4 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300`}
-                    placeholder="Enter your email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      setEmailError("");
-                    }}
-                    required
-                  />
-                  <Button
-                    type="submit"
-                    disabled={submitting}
-                    className="h-12 bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 rounded-lg"
-                  >
-                    {submitting ? "Joining..." : "Join Waitlist"}
-                  </Button>
-                </form>
-                {emailError && (
-                  <span className="text-xs text-red-400 mt-1">
-                    {emailError}
-                  </span>
-                )}
-              </div>
               <div className="flex items-center justify-center gap-4 pt-2">
                 <div className="flex items-center gap-1">
                   <div className="h-1 w-1 rounded-full bg-cyan-400"></div>

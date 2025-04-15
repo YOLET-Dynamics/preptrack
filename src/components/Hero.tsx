@@ -75,40 +75,21 @@ export default function Hero() {
                 Personalized test preparation paths and study guides.
               </p>
             </div>
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-2 min-[400px]:flex-row"
-            >
+            <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2">
-                  <input
-                    className={`flex h-10 w-48 rounded-lg border ${
-                      emailError ? "border-red-400" : "border-white/10"
-                    } bg-white/5 px-4 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300`}
-                    placeholder="Enter your email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      setEmailError("");
-                    }}
-                    required
-                  />
+                  <div className="flex h-10 w-48 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-gray-400 items-center justify-center">
+                    Waitlist is Full
+                  </div>
                   <Button
-                    type="submit"
-                    disabled={submitting}
+                    disabled={true}
                     className="bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-funnel-sans"
                   >
-                    {submitting ? "Joining..." : "Join Waitlist"}
+                    Join Waitlist
                   </Button>
                 </div>
-                {emailError && (
-                  <span className="text-xs text-red-400 mt-1">
-                    {emailError}
-                  </span>
-                )}
               </div>
-            </form>
+            </div>
             <div className="mt-6">
               <p className="text-sm text-gray-400">Coming Soon</p>
             </div>
