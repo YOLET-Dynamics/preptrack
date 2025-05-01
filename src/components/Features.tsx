@@ -36,7 +36,7 @@ export default function Features() {
             transition: "all 0.5s ease-out 0.2s",
           }}
         >
-          <div className="space-y-2">
+          <div className="space-y-6">
             <div className="inline-block rounded-full bg-gradient-to-r from-cyan-400/20 to-teal-400/20 px-4 py-1 text-xs text-cyan-400 font-funnel-sans">
               Features
             </div>

@@ -42,14 +42,6 @@ export default function Footer() {
                     Why PrepTrack
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="#testimonials"
-                    className="text-sm text-gray-400 hover:text-cyan-400 transition-colors font-funnel-sans"
-                  >
-                    Testimonials
-                  </Link>
-                </li>
               </ul>
             </div>
             <div className="space-y-4">

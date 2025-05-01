@@ -1,108 +1,134 @@
 "use client";
+
+import type React from "react";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ArrowUpRight } from "lucide-react";
-import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isMenuOpen]);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur-md">
-      <div className="flex items-center justify-between px-8 md:px-24 py-6">
-        <Link href="/" className="flex items-center gap-2">
+    <header className="fixed top-0 left-0 right-0 z-50">
+      <nav className="relative flex items-center justify-between px-6 md:px-18 py-4 md:py-8 bg-black">
+        <Link href="/" className="z-50">
           <span className="text-xl md:text-3xl font-funnel-sans tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400">
             preptrack.app
           </span>
         </Link>
-        <nav className="hidden lg:flex space-x-24">
-          <Link
-            href="#features"
-            className="group text-sm text-white/80 hover:text-white transition-all duration-300 flex items-center gap-1 font-funnel-sans"
-          >
-            Features
-            <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
-          <Link
-            href="#why"
-            className="group text-sm text-white/80 hover:text-white transition-all duration-300 flex items-center gap-1 font-funnel-sans"
-          >
-            Why PrepTrack
-            <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
-          <Link
-            href="#testimonials"
-            className="group text-sm text-white/80 hover:text-white transition-all duration-300 flex items-center gap-1 font-funnel-sans"
-          >
-            Testimonials
-            <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
-        </nav>
-        <div className="flex items-center gap-4">
-          <Link href="#cta">
-            <Button className="hidden lg:flex bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-funnel-sans">
-              Join Waitlist
+
+        <div className="hidden md:flex items-center space-x-24 font-funnel-sans">
+          <NavLink href="#features">Features</NavLink>
+          <NavLink href="#why-preptrack">Why PrepTrack</NavLink>
+        </div>
+
+        <div className="hidden md:block z-50 font-funnel-sans">
+          <Link href="/signup">
+            <Button className="hidden md:flex bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-funnel-sans">
+              Get Started
             </Button>
           </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden text-white/80 hover:text-white"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
-            <span className="sr-only">Toggle menu</span>
-          </Button>
         </div>
-      </div>
 
-      <div
-        className={`lg:hidden transform transition-all duration-300 ease-in-out ${
-          isMenuOpen
-            ? "opacity-100 translate-y-0 h-auto"
-            : "opacity-0 -translate-y-5 pointer-events-none h-0 overflow-hidden"
-        }`}
-      >
-        <div className="py-8 px-4">
-          <nav className="flex flex-col space-y-8">
-            <Link
-              href="#features"
-              className="group text-2xl text-white/80 hover:text-white transition-all duration-300 flex items-center gap-2 font-funnel-sans transform"
-              onClick={() => setIsMenuOpen(false)}
-            >
+        <button
+          className="md:hidden z-50 text-white focus:outline-none"
+          onClick={toggleMenu}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        >
+          {isMenuOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
+        </button>
+
+        <div
+          className={cn(
+            "fixed inset-0 bg-black transition-all duration-300 ease-in-out",
+            isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          )}
+        >
+          <div className="flex flex-col items-center justify-center h-full space-y-8 pt-20 font-funnel-sans">
+            <MobileNavLink href="#features" onClick={toggleMenu}>
               Features
-              <ArrowUpRight className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
-            <Link
-              href="#why"
-              className="group text-2xl text-white/80 hover:text-white transition-all duration-300 flex items-center gap-2 font-funnel-sans transform"
-              onClick={() => setIsMenuOpen(false)}
-            >
+            </MobileNavLink>
+            <MobileNavLink href="#why-preptrack" onClick={toggleMenu}>
               Why PrepTrack
-              <ArrowUpRight className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
-            <Link
-              href="#testimonials"
-              className="group text-2xl text-white/80 hover:text-white duration-300 flex items-center gap-2 font-funnel-sans transform transition-transform"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Testimonials
-              <ArrowUpRight className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
-          </nav>
-          <div className="mt-8">
-            <Link href="#cta" onClick={() => setIsMenuOpen(false)}>
-              <Button className="w-full bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-funnel-sans text-lg py-6">
-                Join Waitlist
-              </Button>
-            </Link>
+            </MobileNavLink>
+            <div className="mt-8">
+              <Link href="/signup">
+                <Button className="bg-gradient-to-r from-cyan-400 to-teal-400 text-black px-8 py-6 text-lg">
+                  Get Started
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      </nav>
     </header>
+  );
+}
+
+interface NavLinkProps {
+  href: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+}
+
+function NavLink({ href, children }: NavLinkProps) {
+  return (
+    <Link
+      href={href}
+      className="group relative text-white hover:text-cyan-400 transition-colors duration-300 flex items-center"
+    >
+      <span>{children}</span>
+      <ArrowUpRight className="h-4 w-0 ml-1 opacity-0 group-hover:opacity-100 group-hover:w-4 transition-all duration-300" />
+    </Link>
+  );
+}
+
+function MobileNavLink({ href, children, onClick }: NavLinkProps) {
+  return (
+    <Link
+      href={href}
+      className="group text-white hover:text-cyan-400 transition-colors duration-300 text-2xl flex items-center"
+      onClick={onClick}
+    >
+      <span>{children}</span>
+      <ArrowUpRight className="h-5 w-0 ml-1 opacity-0 group-hover:opacity-100 group-hover:w-5 transition-all duration-300" />
+    </Link>
   );
 }

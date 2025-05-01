@@ -47,7 +47,7 @@ export default function Differentiator() {
     >
       <div className="px-8 md:px-24">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
-          <div className="space-y-2">
+          <div className="space-y-6">
             <div className="inline-block rounded-full bg-gradient-to-r from-cyan-400/20 to-teal-400/20 px-4 py-1 text-xs text-cyan-400 font-funnel-sans">
               Why PrepTrack
             </div>
@@ -74,7 +74,7 @@ export default function Differentiator() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col justify-center space-y-12">
+          <div className="flex flex-col justify-center space-y-16">
             <ul className="grid gap-4">
               {features.map((item, index) => (
                 <li

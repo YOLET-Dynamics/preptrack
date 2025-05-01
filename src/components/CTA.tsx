@@ -1,65 +1,13 @@
 "use client";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { Atom } from "lucide-react";
+import { useRef } from "react";
+import { Atom, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useFormspark } from "@formspark/use-formspark";
-import { toast } from "sonner";
-
-const FORMSPARK_FORM_ID = "7MQx5JvdO";
-const RATE_LIMIT_DURATION = 30000; // 30 seconds
-
-const isValidEmail = (email: string) => {
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-  return emailRegex.test(email);
-};
+import Link from "next/link";
 
 export default function CTA() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [submit, submitting] = useFormspark({
-    formId: FORMSPARK_FORM_ID,
-  });
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const lastSubmissionTime = useRef<number>(0);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setEmailError("");
-
-    const now = Date.now();
-    const timeSinceLastSubmission = now - lastSubmissionTime.current;
-
-    if (timeSinceLastSubmission < RATE_LIMIT_DURATION) {
-      const remainingTime = Math.ceil((RATE_LIMIT_DURATION - timeSinceLastSubmission) / 1000);
-      toast.error(`Please wait ${remainingTime} seconds before submitting again`);
-      return;
-    }
-
-    if (!email.trim()) {
-      setEmailError("Email is required");
-      return;
-    }
-
-    if (!isValidEmail(email)) {
-      setEmailError("Please enter a valid email address");
-      return;
-    }
-
-    try {
-      lastSubmissionTime.current = now;
-      await submit({ 
-        email,
-        source: "cta",
-        timestamp: new Date().toISOString(),
-      });
-      toast.success("Successfully joined the waitlist!");
-      setEmail("");
-    } catch (error) {
-      toast.error("Failed to join waitlist. Please try again.");
-    }
-  };
 
   return (
     <section
@@ -82,30 +30,20 @@ export default function CTA() {
                 <Atom className="h-6 w-6 text-cyan-400" />
               </div>
               <h2 className="text-3xl font-funnel-sans tracking-tight sm:text-4xl">
-                Waitlist is Full
+                Ready to Boost Your Prep?
               </h2>
               <p className="max-w-[600px] text-gray-400 md:text-lg font-funnel-sans">
-                Thank you for your interest in PrepTrack! Our initial waitlist is now full. Stay tuned for updates on our official launch.
+                Join PrepTrack today and start mastering radiation therapy
+                concepts with precision learning.
               </p>
             </div>
-            <div className="w-full max-w-md space-y-3">
-              <div className="flex items-center justify-center gap-4 pt-2">
-                <div className="flex items-center gap-1">
-                  <div className="h-1 w-1 rounded-full bg-cyan-400"></div>
-                  <p className="text-xs text-gray-400">Early access</p>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="h-1 w-1 rounded-full bg-cyan-400"></div>
-                  <p className="text-xs text-gray-400">Special pricing</p>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="h-1 w-1 rounded-full bg-cyan-400"></div>
-                  <p className="text-xs text-gray-400">Priority support</p>
-                </div>
-              </div>
-              <p className="text-xs text-center text-gray-400 pt-2">
-                We respect your privacy. Unsubscribe at any time.
-              </p>
+            <div className="pt-4">
+              <Link href="/signup">
+                <Button className="bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-funnel-sans px-8 py-3 text-lg group">
+                  Get Started
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
