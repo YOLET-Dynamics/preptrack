@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import Footer from "@/components/Footer";
 import Differentiator from "@/components/Differentiator";
-import Testimonials from "@/components/Testimonials";
 import CTA from "@/components/CTA";
 
 export default function Home() {
