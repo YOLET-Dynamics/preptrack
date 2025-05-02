@@ -49,16 +49,16 @@ export const authApi = {
 
   async verify(body: InferType<typeof VerifySchema>) {
     try {
-      const { data: result } = await identityClient.post<HttpResponse<null>>(
+      const { data: result } = await identityClient.post<HttpResponse<string>>(
         "/auth/verify-otp",
         body
       );
 
-      if (result.success && !result.success) {
+      if (!result.success) {
         return Promise.reject(result.data);
       }
 
-      return result.data;
+      return result.data as string;
     } catch (error: any) {
       return Promise.reject("An unexpected error occurred");
     }
