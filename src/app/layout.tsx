@@ -3,6 +3,11 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Funnel_Sans } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { HttpInterceptor } from "@/provider/HttpInterceptor";
+import { AuthGuard } from "@/provider/AuthGuard";
+import { NetworkProvider } from "@/provider/NetworkProvider";
+import { AuthProvider } from "@/provider/AuthProvider";
+import { QueryProvider } from "@/provider/QueryProvider";
 
 const funnelSans = Funnel_Sans({
   subsets: ["latin"],
@@ -23,7 +28,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${funnelSans.variable}`}>
-        {children}
+        <AuthProvider>
+          <HttpInterceptor>
+            <AuthGuard>
+              <QueryProvider>
+                <NetworkProvider>{children}</NetworkProvider>
+              </QueryProvider>
+            </AuthGuard>
+          </HttpInterceptor>
+        </AuthProvider>
         <Toaster />
       </body>
     </html>

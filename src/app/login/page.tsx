@@ -8,53 +8,72 @@ import { ArrowRight, Eye, EyeOff, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useForm } from "@tanstack/react-form";
+import type { AnyFieldApi } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/provider/AuthProvider";
+import { authApi } from "@/api/auth";
+import { formatError } from "@/common/utils";
+
+function FieldInfo({ field }: { field: AnyFieldApi }) {
+  return (
+    <>
+      {field.state.meta.isTouched && field.state.meta.errors.length > 0 ? (
+        <p className="text-red-500 text-xs mt-1 absolute -bottom-5 left-0">
+          {field.state.meta.errors.join(", ")}
+        </p>
+      ) : null}
+    </>
+  );
+}
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(true);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
-  const validateEmail = (email: string) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
+  const router = useRouter();
+  const { login } = useAuth();
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value);
-    setIsEmailValid(validateEmail(value));
-  };
+  const mutation = useMutation({
+    mutationFn: authApi.login,
+    onSuccess: async (data) => {
+      await login(data);
+      toast.success("Login successful!");
+      router.push("/dashboard");
+    },
+    onError: (error: any) => {
+      const errorMessage =
+        typeof error === "string"
+          ? formatError(error)
+          : error.message || "Login failed. Please try again.";
+      toast.error(errorMessage);
+    },
+  });
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async ({ value }) => {
+      mutation.mutate(value);
+    },
+  });
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const isEmailCurrentlyValid = validateEmail(email);
-    setIsEmailValid(isEmailCurrentlyValid);
-
-    if (email && password && isEmailCurrentlyValid) {
-      toast("Login action coming soon!");
-      console.log("Login attempt with:", { email });
-    } else if (!isEmailCurrentlyValid) {
-      toast.error("Please enter a valid email address.");
-    } else if (!password) {
-      toast.error("Please enter your password.");
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-black px-4 py-12 relative">
       <Link href="/" passHref>
-        <Button variant="ghost" size="icon" className="absolute top-4 right-4 text-gray-400 hover:text-cyan-400">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute top-4 right-4 text-gray-400 hover:text-cyan-400"
+        >
           <Home className="h-6 w-6" />
         </Button>
       </Link>
@@ -78,84 +97,136 @@ export default function LoginPage() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <div className="relative">
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={handleEmailChange}
-                    onFocus={() => setIsEmailFocused(true)}
-                    onBlur={() => {
-                      setIsEmailFocused(false);
-                      if (email) setIsEmailValid(validateEmail(email));
-                    }}
-                    className={cn(
-                      "h-12 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-cyan-500 transition-all pr-10",
-                      !isEmailValid &&
-                        email &&
-                        "border-red-500 focus:border-red-500",
-                      isEmailFocused && isEmailValid && "border-cyan-500"
-                    )}
-                    required
-                  />
-                  {!isEmailValid && email && (
-                    <p className="text-red-500 text-xs mt-1 absolute -bottom-5 left-0">
-                      Please enter a valid email address.
-                    </p>
-                  )}
-                </div>
-              </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+              }}
+              className="space-y-4"
+            >
+              <form.Field
+                name="email"
+                validators={{
+                  onChange: ({ value }) =>
+                    !value
+                      ? "Email is required"
+                      : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+                      ? undefined
+                      : "Please enter a valid email address.",
+                  onBlur: ({ value }) =>
+                    !value
+                      ? "Email is required"
+                      : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+                      ? undefined
+                      : "Please enter a valid email address.",
+                }}
+                children={(field) => (
+                  <div className="space-y-2">
+                    <div className="relative">
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        type="email"
+                        placeholder="Email"
+                        value={field.state.value}
+                        onBlur={() => {
+                          field.handleBlur();
+                          setIsEmailFocused(false);
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        className={cn(
+                          "h-12 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-cyan-500 transition-all pr-10",
+                          field.state.meta.errors.length > 0 &&
+                            "border-red-500 focus:border-red-500",
+                          isEmailFocused &&
+                            !field.state.meta.errors.length &&
+                            "border-cyan-500"
+                        )}
+                      />
+                      <FieldInfo field={field} />
+                    </div>
+                  </div>
+                )}
+              />
 
-              <div className="space-y-2 relative pt-4">
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                    onFocus={() => setIsPasswordFocused(true)}
-                    onBlur={() => setIsPasswordFocused(false)}
-                    className={cn(
-                      "h-12 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-cyan-500 transition-all pr-10",
-                      isPasswordFocused && "border-cyan-500"
-                    )}
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={togglePasswordVisibility}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-300"
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
+              <form.Field
+                name="password"
+                validators={{
+                  onChange: ({ value }) =>
+                    !value ? "Password is required" : undefined,
+                  onBlur: ({ value }) =>
+                    !value ? "Password is required" : undefined,
+                }}
+                children={(field) => (
+                  <div className="space-y-2 relative pt-4">
+                    <div className="relative">
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        value={field.state.value}
+                        onBlur={() => {
+                          field.handleBlur();
+                          setIsPasswordFocused(false);
+                        }}
+                        onFocus={() => setIsPasswordFocused(true)}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        className={cn(
+                          "h-12 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-cyan-500 transition-all pr-10",
+                          field.state.meta.errors.length > 0 &&
+                            "border-red-500 focus:border-red-500",
+                          isPasswordFocused &&
+                            !field.state.meta.errors.length &&
+                            "border-cyan-500"
+                        )}
+                      />
+                      <button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-300"
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5" />
+                        ) : (
+                          <Eye className="h-5 w-5" />
+                        )}
+                      </button>
+                      <FieldInfo field={field} />
+                    </div>
+                    <div className="flex justify-end text-xs pt-1">
+                      <Link href="/forgot-password" passHref>
+                        <span className="text-cyan-400 hover:underline cursor-pointer">
+                          Forgot password?
+                        </span>
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              />
+
+              <form.Subscribe
+                selector={(state) => [state.canSubmit, state.isSubmitting]}
+                children={([canSubmit, isSubmitting]) => (
+                  <Button
+                    type="submit"
+                    disabled={!canSubmit || isSubmitting || mutation.isPending}
+                    className="w-full h-12 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white group mt-6 disabled:opacity-50"
                   >
-                    {showPassword ? (
-                      <EyeOff className="h-5 w-5" />
-                    ) : (
-                      <Eye className="h-5 w-5" />
+                    {isSubmitting || mutation.isPending
+                      ? "Signing In..."
+                      : "Sign In"}
+                    {!(isSubmitting || mutation.isPending) && (
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     )}
-                  </button>
-                </div>
-                <div className="flex justify-end text-xs pt-1">
-                  <Link href="/forgot-password" passHref>
-                    <span className="text-cyan-400 hover:underline cursor-pointer">
-                      Forgot password?
-                    </span>
-                  </Link>
-                </div>
-              </div>
-
-              <Button
-                type="submit"
-                className="w-full h-12 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white group mt-6"
-              >
-                Sign In
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Button>
+                  </Button>
+                )}
+              />
             </form>
 
             <div className="text-center mt-6">
