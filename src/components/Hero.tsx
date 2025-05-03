@@ -22,9 +22,9 @@ export default function Hero() {
     <section className="min-h-screen pt-18 px-6 md:px-18 mx-auto flex flex-col justify-center">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
-          <div className="font-funnel-sans inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/10 to-teal-500/10 border border-cyan-500/20 text-sm text-cyan-400">
+          {/* <div className="font-funnel-sans inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/10 to-teal-500/10 border border-cyan-500/20 text-sm text-cyan-400">
             <span>Trusted by 1000+ students</span>
-          </div>
+          </div> */}
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight font-funnel-sans">
             Precision Learning <br />
@@ -40,7 +40,7 @@ export default function Hero() {
 
           <div className="pt-4">
             <Link href="/signup">
-              <Button className="hidden md:flex bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-funnel-sans md:px-8 md:py-3 md:text-lg">
+              <Button className="flex items-center justify-center w-full md:w-auto bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-funnel-sans px-6 py-2.5 text-base md:px-8 md:py-3 md:text-lg">
                 Get Started
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
@@ -48,7 +48,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative h-[500px] md:h-[600px]">
+        <div className="relative h-[650px] md:h-[600px]">
           <FloatingCards />
         </div>
       </div>
@@ -65,35 +65,35 @@ function FloatingCards() {
       title: "Adaptive Learning Paths",
       description: "Personalized routes based on your performance.",
       icon: Route,
-      position: "top-0 left-8",
+      position: "top-0 left-4 md:left-8",
       rotation: "rotate-3",
     },
     {
       title: "Bite-Sized Study Guides",
       description: "Master complex topics with focused lessons.",
       icon: FileText,
-      position: "top-12 right-8",
+      position: "top-20 right-4 md:top-12 md:right-8",
       rotation: "-rotate-6",
     },
     {
       title: "Instant Quizzes",
       description: "Reinforce learning with immediate feedback.",
       icon: Sparkles,
-      position: "top-32 left-16",
+      position: "top-40 left-8 md:top-32 md:left-16",
       rotation: "rotate-6",
     },
     {
       title: "Progress Analytics",
       description: "Track your strengths and weaknesses.",
       icon: BarChart,
-      position: "top-48 right-12",
+      position: "top-60 right-8 md:top-48 md:right-12",
       rotation: "-rotate-3",
     },
     {
       title: "Exam Simulation",
       description: "Practice with timed, realistic mock exams.",
       icon: ClipboardCheck,
-      position: "top-64 left-8",
+      position: "top-80 left-4 md:top-64 md:left-8",
       rotation: "rotate-2",
     },
   ];
@@ -105,7 +105,7 @@ function FloatingCards() {
         return (
           <motion.div
             key={index}
-            className={`absolute ${card.position} ${card.rotation} w-64 md:w-72 min-w-[250px] p-6 rounded-xl
+            className={`absolute ${card.position} ${card.rotation} w-60 md:w-72 min-w-[240px] p-4 md:p-6 rounded-xl
                        bg-gray-900/80 border border-gray-700 hover:border-gray-600
                        shadow-md transition-all duration-300 cursor-pointer z-10`}
             style={{
@@ -126,9 +126,9 @@ function FloatingCards() {
             onMouseLeave={() => setHoveredCard(null)}
             whileHover={{ y: -3 }}
           >
-            <div className="flex items-center mb-3">
+            <div className="flex items-center mb-2 md:mb-3">
               <Icon className="w-5 h-5 mr-3 text-cyan-400 flex-shrink-0" />
-              <h3 className="text-lg font-bold text-white font-funnel-sans">
+              <h3 className="text-base md:text-lg font-bold text-white font-funnel-sans">
                 {card.title}
               </h3>
             </div>
