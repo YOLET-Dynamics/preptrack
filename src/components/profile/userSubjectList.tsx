@@ -151,7 +151,7 @@ const SubjectCard = ({ subject, isActive, onClick }: SubjectCardProps) => {
 };
 
 const LoadingSkeleton = () => (
-  <div className="flex space-x-3 overflow-x-hidden">
+  <div className="flex space-x-3 overflow-x-auto scrollbar-none">
     {[...Array(4)].map((_, index) => (
       <Skeleton
         key={index}
