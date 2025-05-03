@@ -38,7 +38,7 @@ export default function Hero() {
             never before.
           </p>
 
-          <div className="pt-4">
+          <div className="pt-4 flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4">
             <Link href="/signup">
               <Button className="flex items-center justify-center w-full md:w-auto bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-funnel-sans px-6 py-2.5 text-base md:px-8 md:py-3 md:text-lg">
                 Get Started

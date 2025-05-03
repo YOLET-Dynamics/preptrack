@@ -68,7 +68,7 @@ export const authApi = {
     try {
       const { data: result } = await identityClient.post<
         HttpResponse<AuthUser>
-      >("auth/signup", body, {});
+      >("/auth/signup", body, {});
 
       if (!result.success) {
         return Promise.reject(result.data);
@@ -83,7 +83,7 @@ export const authApi = {
   async sendVerification(body: InferType<typeof SendVerificationSchema>) {
     try {
       const { data: result } = await identityClient.post<HttpResponse<string>>(
-        "auth/send-verification",
+        "/auth/send-verification",
         body,
         {}
       );
@@ -101,7 +101,7 @@ export const authApi = {
   async resetPassword(body: InferType<typeof ResetPasswordSchema>) {
     try {
       const { data: result } = await identityClient.post<HttpResponse<string>>(
-        "auth/reset-password",
+        "/auth/reset-password",
         body,
         {}
       );
@@ -119,7 +119,7 @@ export const authApi = {
   async updateEmail(body: InferType<typeof ChangeEmailSchema>) {
     try {
       const { data: result } = await identityClient.put<HttpResponse<string>>(
-        "auth/update-email",
+        "/auth/update-email",
         body,
         {}
       );
@@ -137,7 +137,7 @@ export const authApi = {
   async updateName(body: InferType<typeof UpdateNameSchema>) {
     try {
       const { data: result } = await identityClient.put<HttpResponse<UserInfo>>(
-        "auth/user",
+        "/auth/user",
         body,
         {}
       );
@@ -155,7 +155,7 @@ export const authApi = {
   async updatePassword(body: InferType<typeof ChangePasswordSchema>) {
     try {
       const { data: result } = await identityClient.put<HttpResponse<string>>(
-        "auth/password",
+        "/auth/password",
         body,
         {}
       );

@@ -55,9 +55,14 @@ export default function Navbar() {
           <NavLink href="#why-preptrack">Why PrepTrack</NavLink>
         </div>
 
-        <div className="hidden md:block z-50 font-funnel-sans">
+        <div className="hidden md:flex items-center space-x-4 z-50 font-funnel-sans">
+          <Link href="/login">
+            <Button variant="link" className="text-white hover:text-cyan-400 transition-colors duration-300">
+              Login
+            </Button>
+          </Link>
           <Link href="/signup">
-            <Button className="hidden md:flex bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-funnel-sans">
+            <Button className="bg-gradient-to-r from-cyan-400 to-teal-400 text-black hover:opacity-90 transition-all duration-300 hover:scale-105 font-funnel-sans">
               Get Started
             </Button>
           </Link>
@@ -87,6 +92,9 @@ export default function Navbar() {
             </MobileNavLink>
             <MobileNavLink href="#why-preptrack" onClick={toggleMenu}>
               Why PrepTrack
+            </MobileNavLink>
+            <MobileNavLink href="/login" onClick={toggleMenu}>
+              Login
             </MobileNavLink>
             <div className="mt-8">
               <Link href="/signup">
