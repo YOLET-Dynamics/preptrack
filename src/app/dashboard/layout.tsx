@@ -168,15 +168,6 @@ export default function DashboardLayout({
                   <SheetTitle className="text-lg font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400">
                     Links
                   </SheetTitle>
-                  <SheetClose asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-gray-400 hover:text-cyan-300"
-                    >
-                      <X className="h-5 w-5" />
-                    </Button>
-                  </SheetClose>
                 </SheetHeader>
                 <SideNavContent isMobile={true} />
 
@@ -225,7 +216,7 @@ export default function DashboardLayout({
                   <Button
                     variant="outline"
                     onClick={() => setIsLogoutDialogOpen(false)}
-                    className="border-gray-600 bg-white text-gray-900 hover:bg-gray-200 px-4 py-2 rounded-md"
+                    className="border-gray-600 bg-white text-white hover:bg-gray-200 px-4 py-2 rounded-md"
                   >
                     Cancel
                   </Button>
