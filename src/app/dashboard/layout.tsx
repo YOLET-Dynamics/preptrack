@@ -166,7 +166,7 @@ export default function DashboardLayout({
               >
                 <SheetHeader className="p-4 border-b border-gray-800 flex flex-row items-center justify-between">
                   <SheetTitle className="text-lg font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400">
-                    Menu
+                    Links
                   </SheetTitle>
                   <SheetClose asChild>
                     <Button

@@ -8,6 +8,7 @@ import { AuthGuard } from "@/provider/AuthGuard";
 import { NetworkProvider } from "@/provider/NetworkProvider";
 import { AuthProvider } from "@/provider/AuthProvider";
 import { QueryProvider } from "@/provider/QueryProvider";
+import { ThemeProvider } from "@/provider/theme-provider";
 
 const funnelSans = Funnel_Sans({
   subsets: ["latin"],
@@ -26,18 +27,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${funnelSans.variable}`}>
-        <AuthProvider>
-          <HttpInterceptor>
-            <AuthGuard>
-              <QueryProvider>
-                <NetworkProvider>{children}</NetworkProvider>
-              </QueryProvider>
-            </AuthGuard>
-          </HttpInterceptor>
-        </AuthProvider>
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>
+            <HttpInterceptor>
+              <AuthGuard>
+                <QueryProvider>
+                  <NetworkProvider>{children}</NetworkProvider>
+                </QueryProvider>
+              </AuthGuard>
+            </HttpInterceptor>
+          </AuthProvider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

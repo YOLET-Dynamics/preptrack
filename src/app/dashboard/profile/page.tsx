@@ -140,9 +140,9 @@ export default function ProfilePage() {
     },
     onSubmit: async ({ value }) => {
       if (updateNameMutation.isPending) return;
-      updateNameMutation.mutate({ 
+      updateNameMutation.mutate({
         first_name: value.first_name || "",
-        last_name: value.last_name || ""
+        last_name: value.last_name || "",
       });
     },
     validators: {
@@ -151,15 +151,23 @@ export default function ProfilePage() {
           UpdateNameSchema.validateSync(opts.value, { abortEarly: false });
           return undefined;
         } catch (error: any) {
-          const errors = error.inner.reduce((acc: Record<string, string[]>, currentError: any) => {
-            if (currentError.path) {
-              acc[currentError.path] = [...(acc[currentError.path] || []), currentError.message];
-            }
-            else if (currentError.message.includes("At least one")) {
-               acc["_error"] = [...(acc["_error"] || []), currentError.message];
-            }
-            return acc;
-          }, {});
+          const errors = error.inner.reduce(
+            (acc: Record<string, string[]>, currentError: any) => {
+              if (currentError.path) {
+                acc[currentError.path] = [
+                  ...(acc[currentError.path] || []),
+                  currentError.message,
+                ];
+              } else if (currentError.message.includes("At least one")) {
+                acc["_error"] = [
+                  ...(acc["_error"] || []),
+                  currentError.message,
+                ];
+              }
+              return acc;
+            },
+            {}
+          );
           return errors;
         }
       },
@@ -174,20 +182,20 @@ export default function ProfilePage() {
   }, [userInfo, nameForm]); // Keep nameForm dependency for safety
 
   const handlePersonalInfoEdit = () => {
-     if (userInfo) {
-       nameForm.setFieldValue("first_name", userInfo.first_name || "");
-       nameForm.setFieldValue("last_name", userInfo.last_name || "");
-     }
+    if (userInfo) {
+      nameForm.setFieldValue("first_name", userInfo.first_name || "");
+      nameForm.setFieldValue("last_name", userInfo.last_name || "");
+    }
     setIsEditingPersonalInfo(true);
   };
 
   const handlePersonalInfoCancel = () => {
-     if (userInfo) {
-        nameForm.setFieldValue("first_name", userInfo.first_name || "");
-        nameForm.setFieldValue("last_name", userInfo.last_name || "");
-     }
-     nameForm.reset();
-     setIsEditingPersonalInfo(false);
+    if (userInfo) {
+      nameForm.setFieldValue("first_name", userInfo.first_name || "");
+      nameForm.setFieldValue("last_name", userInfo.last_name || "");
+    }
+    nameForm.reset();
+    setIsEditingPersonalInfo(false);
   };
 
   const handlePersonalInfoSave = () => {
@@ -246,7 +254,13 @@ export default function ProfilePage() {
         isSaving={updateNameMutation.isPending}
         canSave={nameForm.state.canSubmit && nameForm.state.isDirty}
       >
-        <form onSubmit={(e) => { e.preventDefault(); e.stopPropagation(); handlePersonalInfoSave(); }}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handlePersonalInfoSave();
+          }}
+        >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8">
             {isEditingPersonalInfo ? (
               <>
@@ -254,7 +268,12 @@ export default function ProfilePage() {
                   name="first_name"
                   children={(field) => (
                     <div className="relative">
-                      <label htmlFor={field.name} className="text-xs font-medium text-gray-500 mb-1 block">First Name</label>
+                      <label
+                        htmlFor={field.name}
+                        className="text-xs font-medium text-gray-500 mb-1 block"
+                      >
+                        First Name
+                      </label>
                       <Input
                         id={field.name}
                         name={field.name}
@@ -263,7 +282,8 @@ export default function ProfilePage() {
                         onChange={(e) => field.handleChange(e.target.value)}
                         className={cn(
                           "bg-gray-800 border-gray-600 text-white placeholder:text-gray-500 focus:border-cyan-500",
-                          field.state.meta.errors.length > 0 && "border-red-500 focus:border-red-500"
+                          field.state.meta.errors.length > 0 &&
+                            "border-red-500 focus:border-red-500"
                         )}
                       />
                       <FieldInfo field={field} />
@@ -273,20 +293,26 @@ export default function ProfilePage() {
                 <nameForm.Field
                   name="last_name"
                   children={(field) => (
-                     <div className="relative">
-                       <label htmlFor={field.name} className="text-xs font-medium text-gray-500 mb-1 block">Last Name</label>
+                    <div className="relative">
+                      <label
+                        htmlFor={field.name}
+                        className="text-xs font-medium text-gray-500 mb-1 block"
+                      >
+                        Last Name
+                      </label>
                       <Input
                         id={field.name}
                         name={field.name}
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                         className={cn(
+                        className={cn(
                           "bg-gray-800 border-gray-600 text-white placeholder:text-gray-500 focus:border-cyan-500",
-                          field.state.meta.errors.length > 0 && "border-red-500 focus:border-red-500"
+                          field.state.meta.errors.length > 0 &&
+                            "border-red-500 focus:border-red-500"
                         )}
                       />
-                       <FieldInfo field={field} />
+                      <FieldInfo field={field} />
                     </div>
                   )}
                 />

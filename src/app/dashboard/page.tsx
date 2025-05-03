@@ -25,12 +25,12 @@ const quickLinks = [
     icon: ClipboardList,
     description: "Create and manage your test preparation paths.",
   },
-  {
-    href: "/dashboard/study-guides",
-    label: "Explore Study Guides",
-    icon: BookOpen,
-    description: "Access curated study materials and guides.",
-  },
+  // {
+  //   href: "/dashboard/study-guides",
+  //   label: "Explore Study Guides",
+  //   icon: BookOpen,
+  //   description: "Access curated study materials and guides.",
+  // },
   {
     href: "/dashboard/track",
     label: "Track Your Progress",
@@ -105,23 +105,6 @@ export default function DashboardPage() {
           <CardContent>
             <p className="text-sm text-gray-500 italic">
               No recent activity yet.
-            </p>
-            {/* Placeholder content */}
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gray-900/60 border-gray-700 text-gray-100 shadow-md backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="text-lg font-medium text-gray-200">
-              Stats Overview
-            </CardTitle>
-            <CardDescription className="text-gray-400">
-              Key statistics at a glance.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-gray-500 italic">
-              Statistics loading...
             </p>
           </CardContent>
         </Card>
