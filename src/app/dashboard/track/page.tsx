@@ -1,30 +1,29 @@
-import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+"use client";
+
+import UserSubjectList from "@/components/profile/userSubjectList";
+import UserTopicList from "@/components/profile/userTopicList";
+import { useUserSubjectStore } from "@/store/userSubject";
 
 export default function TrackPage() {
+  const { userSubject } = useUserSubjectStore();
+
   return (
-    <div className="h-full flex flex-col bg-black text-white">
-      <main className="flex-1 flex flex-col items-center justify-center px-4">
-        <div className="text-center space-y-6 max-w-2xl">
-          <h1 className="text-4xl md:text-6xl font-bold font-funnel-sans bg-gradient-to-r from-cyan-400 to-teal-400 text-transparent bg-clip-text">
-            Coming Soon
+    <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="space-y-1">
+          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
+            Track
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 font-funnel-sans">
-            We're working on something amazing. Stay tuned for updates!
+          <p className="text-sm md:text-base text-muted-foreground">
+            Your performance over time.
           </p>
-          <div className="pt-8">
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-teal-400 rounded-lg blur opacity-25"></div>
-              <Link href="/dashboard">
-                <Button className="relative px-8 py-3 bg-black rounded-lg text-white font-semibold hover:bg-gray-900 transition-colors">
-                  Back to Dashboard
-                </Button>
-              </Link>
-            </div>
-          </div>
         </div>
-      </main>
+      </div>
+
+      <div className="space-y-6">
+        <UserSubjectList />
+        <UserTopicList subjectId={userSubject?.id} />
+      </div>
     </div>
   );
 }

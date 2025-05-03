@@ -141,7 +141,7 @@ export default function DashboardLayout({
 
           {isSheetOpen && (
             <div className="mt-auto p-4 border-t border-gray-800 text-xs text-gray-500 space-y-1">
-              <p>&copy; {new Date().getFullYear()} Preptrack</p>
+              <p>&copy; {new Date().getFullYear()} PrepTrack</p>
             </div>
           )}
         </div>
@@ -172,7 +172,7 @@ export default function DashboardLayout({
                 <SideNavContent isMobile={true} />
 
                 <div className="mt-auto p-4 border-t border-gray-800 text-xs text-gray-500 space-y-1">
-                  <p>&copy; {new Date().getFullYear()} Preptrack</p>
+                  <p>&copy; {new Date().getFullYear()} PrepTrack</p>
                 </div>
               </SheetContent>
             </Sheet>

@@ -209,7 +209,7 @@ export default function ProfilePage() {
       <h1 className="text-2xl font-semibold text-gray-100 mb-6">My Profile</h1>
 
       <Card className="bg-gray-900/60 border-gray-700 text-gray-100 shadow-lg backdrop-blur-sm">
-        <CardContent className="flex items-center space-x-4 pt-6">
+        <CardContent className="flex items-center space-x-4">
           {isLoading ? (
             <Skeleton className="h-16 w-16 rounded-full bg-gray-700" />
           ) : (

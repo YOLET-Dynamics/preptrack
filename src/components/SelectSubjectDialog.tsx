@@ -114,7 +114,7 @@ export default function SelectSubjectDialog({
           <DialogHeader className="flex-shrink-0 border-b pb-4">
             <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold text-foreground">
               <GraduationCap className="h-5 w-5 text-primary" />
-              Select Subject
+              Select a course
             </DialogTitle>
           </DialogHeader>
 
@@ -168,7 +168,7 @@ export default function SelectSubjectDialog({
               </div>
             ) : (
               <div className="text-center py-8 text-muted-foreground">
-                No subjects available.
+                No courses available.
               </div>
             )}
           </div>

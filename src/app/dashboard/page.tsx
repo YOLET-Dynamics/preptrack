@@ -23,23 +23,23 @@ const quickLinks = [
     href: "/dashboard/test-paths",
     label: "Assessment",
     icon: ClipboardList,
-    description: "Create and manage your test preparation paths.",
+    description: "Personalized collection of assessments.",
   },
-  // {
-  //   href: "/dashboard/study-guides",
-  //   label: "Explore Study Guides",
-  //   icon: BookOpen,
-  //   description: "Access curated study materials and guides.",
-  // },
+  {
+    href: "/dashboard/study-guides",
+    label: "Study Guides",
+    icon: BookOpen,
+    description: "Personalized and bite-sized lessons.",
+  },
   {
     href: "/dashboard/track",
-    label: "Track Your Progress",
+    label: "Track",
     icon: BarChart2,
     description: "View analytics and monitor your performance.",
   },
   {
     href: "/dashboard/profile",
-    label: "Update Profile",
+    label: "Profile",
     icon: User,
     description: "Manage your account settings and information.",
   },
@@ -68,7 +68,7 @@ export default function DashboardPage() {
         <h2 className="text-2xl font-semibold mb-4 text-gray-200">
           Quick Links
         </h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {quickLinks.map((link) => (
             <Link href={link.href} key={link.href} className="block group">
               <Card className="bg-gray-900/60 border-gray-700 group-hover:border-cyan-600/70 transition-all duration-200 text-gray-100 shadow-md backdrop-blur-sm h-full group-hover:bg-gray-800/80 group-hover:-translate-y-1">

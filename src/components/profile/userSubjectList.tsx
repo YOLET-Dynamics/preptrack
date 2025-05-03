@@ -87,7 +87,7 @@ export default function UserSubjectList() {
   return (
     <div className="w-full mb-6">
       <h3 className="text-base font-medium text-gray-300 mb-3">
-        Your Subjects
+        Your Courses
       </h3>
       {renderContent()}
     </div>
@@ -173,7 +173,7 @@ const ErrorDisplay = ({
     className="bg-red-900/30 border-red-500/50 text-red-300"
   >
     <AlertTriangle className="h-4 w-4 !text-red-400" />
-    <AlertTitle className="text-red-300">Failed to load subjects</AlertTitle>
+    <AlertTitle className="text-red-300">Failed to load courses</AlertTitle>
     <AlertDescription className="text-red-400/90">
       {formatError(error instanceof Error ? error.message : String(error))}
       {onRetry && (

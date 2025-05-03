@@ -109,7 +109,7 @@ export default function TestPathsPage() {
           className="bg-transparent dark:border-cyan-500 dark:text-cyan-500 dark:hover:bg-cyan-500/10 shrink-0 w-full sm:w-auto"
         >
           <PlusIcon className="h-4 w-4 mr-2" />
-          Add Test Path
+          New Assessment
         </Button>
       </div>
 
@@ -144,8 +144,8 @@ export default function TestPathsPage() {
               <p className="text-lg mb-2">No Test Paths Found</p>
               <p className="text-sm">
                 {userSubject
-                  ? "No test paths available for the selected subject. Try creating one!"
-                  : "Please select a subject above to view test paths."}
+                  ? "No test paths available for the selected course. Try creating one!"
+                  : "Please select a course above to view test paths."}
               </p>
             </div>
           )}
