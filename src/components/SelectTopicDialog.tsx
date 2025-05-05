@@ -88,12 +88,14 @@ export default function SelectTopicDialog({
   };
 
   const handleContinue = () => {
-    if (selectedTopics.length === 0) return;
-
     if (testorStudyGuide === "sg") {
-      setShowStudyGuideLoading(true);
-    } else {
+      onOpenChange(false);
+    } else if (testorStudyGuide === "tp") {
+      resetStudyGuideContent();
       setShowConceptDialog(true);
+    } else {
+      console.warn("testorStudyGuide state is unexpected:", testorStudyGuide);
+      onOpenChange(false);
     }
   };
 
@@ -129,12 +131,13 @@ export default function SelectTopicDialog({
                 size="icon"
                 onClick={onBack}
                 aria-label="Go back"
-                className="h-8 w-8 text-gray-400 hover:text-cyan-400 hover:bg-gray-800"
+                className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-muted/50"
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
-              <DialogTitle className="text-lg sm:text-xl font-semibold truncate text-gray-50">
-                Select Units from {userSubject?.name || "Subject"}
+              <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold text-foreground">
+                <Book className="h-5 w-5 text-primary" />
+                Select Topics from {userSubject?.name || "Course"}
               </DialogTitle>
             </div>
           </DialogHeader>
@@ -161,38 +164,31 @@ export default function SelectTopicDialog({
                         text-left group
                       `,
                         topic.isSelected
-                          ? "border-cyan-500 bg-cyan-600/20"
-                          : "border-gray-700 bg-gray-800/50 hover:border-cyan-500/50 disabled:opacity-50 disabled:pointer-events-none disabled:border-gray-700"
+                          ? "border-primary bg-primary/20 shadow-sm"
+                          : "border-border bg-card hover:border-primary/50 disabled:opacity-50 disabled:pointer-events-none disabled:border-border"
                       )}
                     >
+                      {topic.isSelected && (
+                        <div className="absolute top-2 right-2 bg-primary rounded-full p-0.5">
+                          <Check className="h-3 w-3 text-background" />
+                        </div>
+                      )}
                       <Book
                         className={cn(
                           "h-4 w-4 mr-3 flex-shrink-0",
                           topic.isSelected
-                            ? "text-cyan-400"
-                            : "text-gray-400 group-hover:text-cyan-400"
+                            ? "text-primary"
+                            : "text-muted-foreground group-hover:text-primary"
                         )}
                       />
                       <span
                         className={cn(
-                          "flex-grow text-xs sm:text-sm font-medium",
-                          topic.isSelected ? "text-cyan-400" : "text-gray-200"
+                          "flex-grow text-xs sm:text-sm font-medium pr-4",
+                          topic.isSelected ? "text-primary" : "text-foreground"
                         )}
                       >
                         {topic.name}
                       </span>
-                      <div
-                        className={cn(
-                          "w-5 h-5 rounded-full border-2 flex items-center justify-center ml-2 flex-shrink-0",
-                          topic.isSelected
-                            ? "border-cyan-500 bg-cyan-500"
-                            : "border-gray-500 group-hover:border-cyan-500/50"
-                        )}
-                      >
-                        {topic.isSelected && (
-                          <Check className="h-3 w-3 text-gray-900" />
-                        )}
-                      </div>
                     </button>
                   ))}
                 </div>
@@ -231,7 +227,11 @@ export default function SelectTopicDialog({
               disabled={selectedTopics.length === 0}
               onClick={handleContinue}
             >
-              Continue
+              {selectedTopics.length > 0
+                ? `Continue with ${selectedTopics.length} Topic${
+                    selectedTopics.length > 1 ? "s" : ""
+                  }`
+                : "Select at least one Topic"}
             </Button>
           </div>
         </DialogContent>

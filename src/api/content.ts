@@ -5,6 +5,7 @@ import { Exam } from "../models/content/exam";
 import { Subject } from "../models/content/subject";
 import { Topic } from "../models/content/topic";
 import { HttpResponse } from "@/common/response";
+import { LessonResponse } from "@/models/studyguide/lesson";
 
 const DEFAULT_PAGE_SIZE = 6;
 const TOPIC_PAGE_SIZE = 5;
@@ -100,6 +101,22 @@ export const contentApi = {
       }
 
       return result.data as Exam;
+    } catch (error: any) {
+      return Promise.reject("An unexpected error occurred");
+    }
+  },
+
+  async getLesson(lessonID: string) {
+    try {
+      const { data: result } = await coreClient.get<
+        HttpResponse<LessonResponse>
+      >(`/content/lesson/${lessonID}`);
+
+      if (!result.success) {
+        return Promise.reject(result.data);
+      }
+
+      return result.data as LessonResponse;
     } catch (error: any) {
       return Promise.reject("An unexpected error occurred");
     }

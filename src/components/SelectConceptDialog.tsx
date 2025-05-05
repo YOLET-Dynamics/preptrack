@@ -158,11 +158,12 @@ export default function SelectConceptDialog({
               size="icon"
               onClick={onBack}
               aria-label="Go back"
-              className="h-8 w-8 text-gray-400 hover:text-cyan-400 hover:bg-gray-800"
+              className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-muted/50"
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <DialogTitle className="text-lg sm:text-xl font-semibold text-gray-50">
+            <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold text-foreground">
+              <BookOpen className="h-5 w-5 text-primary" />
               Select Sub-units (Concepts)
             </DialogTitle>
           </div>
@@ -193,23 +194,22 @@ export default function SelectConceptDialog({
                     {" "}
                     <button
                       onClick={() => toggleTopicExpansion(topic.id)}
-                      className="w-full flex items-center justify-between p-2 rounded-md hover:bg-gray-800/50 transition-colors"
+                      className="w-full flex items-center justify-between p-2 rounded-md hover:bg-muted/50 transition-colors"
                     >
                       <div className="flex items-center gap-2">
-                        <BookOpen className="h-4 w-4 text-cyan-400 flex-shrink-0" />
-                        <span className="font-medium text-left text-gray-200">
+                        <BookOpen className="h-4 w-4 text-primary flex-shrink-0" />
+                        <span className="font-medium text-left text-foreground">
                           Unit - {topic.name}
                         </span>
-                        <span className="text-xs text-gray-400 whitespace-nowrap">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">
                           {" "}
-                          {/* Smaller text */}({selectedCount}/
-                          {MAX_CONCEPTS_PER_TOPIC} selected)
+                          ({selectedCount}/{MAX_CONCEPTS_PER_TOPIC} selected)
                         </span>
                       </div>
                       {expandedTopics[topic.id] ? (
-                        <ChevronUp className="h-4 w-4 flex-shrink-0" />
+                        <ChevronUp className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
                       ) : (
-                        <ChevronDown className="h-4 w-4 flex-shrink-0" />
+                        <ChevronDown className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
                       )}
                     </button>
                     {expandedTopics[topic.id] && (
@@ -229,36 +229,29 @@ export default function SelectConceptDialog({
                                 }
                                 className={cn(
                                   `
-                                   aspect-[3/2] flex flex-col items-center justify-between p-2 rounded-lg border-2 transition-all duration-150
+                                   aspect-[3/2] flex flex-col items-center justify-center p-2 rounded-lg border-2 transition-all duration-150
                                    text-center group relative
                                  `,
                                   isSelected
-                                    ? "border-cyan-500 bg-cyan-600/20"
-                                    : "border-gray-700 bg-gray-800/50 hover:border-cyan-500/50 disabled:opacity-50 disabled:pointer-events-none disabled:border-gray-700"
+                                    ? "border-primary bg-primary/20"
+                                    : "border-border bg-card hover:border-primary/50 disabled:opacity-50 disabled:pointer-events-none disabled:border-border"
                                 )}
                               >
+                                {isSelected && (
+                                  <div className="absolute top-1 right-1 bg-primary rounded-full p-0.5">
+                                    <Check className="h-2.5 w-2.5 text-background" />
+                                  </div>
+                                )}
                                 <span
                                   className={cn(
-                                    "text-xs sm:text-sm font-medium flex-grow flex items-center justify-center",
+                                    "text-xs sm:text-sm font-medium flex-grow flex items-center justify-center px-1",
                                     isSelected
-                                      ? "text-cyan-400"
-                                      : "text-gray-200"
+                                      ? "text-primary"
+                                      : "text-foreground"
                                   )}
                                 >
                                   {concept.name}
                                 </span>
-                                <div
-                                  className={cn(
-                                    "w-4 h-4 rounded-full border-2 flex items-center justify-center mt-1 flex-shrink-0",
-                                    isSelected
-                                      ? "border-cyan-500 bg-cyan-500"
-                                      : "border-gray-500 group-hover:border-cyan-500/50"
-                                  )}
-                                >
-                                  {isSelected && (
-                                    <Check className="h-2.5 w-2.5 text-gray-900" />
-                                  )}
-                                </div>
                               </button>
                             );
                           })}
