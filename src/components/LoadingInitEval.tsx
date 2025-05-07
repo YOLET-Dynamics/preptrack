@@ -48,7 +48,7 @@ export default function LoadingInitEval({ onError }: LoadingInitEvalProps) {
       const response = await profileApi.initExam(request);
       setExamId(response.exam_id);
       setIsInit(true);
-      router.push(`/app/exam/${response.exam_id}`);
+      router.push(`/dashboard/exam/${response.exam_id}`);
     } catch (err) {
       setError(
         typeof err === "string"

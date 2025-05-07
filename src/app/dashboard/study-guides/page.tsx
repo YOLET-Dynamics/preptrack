@@ -18,6 +18,7 @@ import { TestPathFilters } from "@/components/test-path/filters";
 import { StudyGuide } from "@/models/studyguide/studyguide";
 import { StudyGuideCard } from "@/components/study-guide/card";
 import { useStudyGuideStore } from "@/store/studyGuideStore";
+import { toast } from "sonner";
 
 export default function StudyGuidesPage() {
   const router = useRouter();
@@ -67,7 +68,7 @@ export default function StudyGuidesPage() {
       router.push(`/dashboard/study-guides/${data.study_guide_id}`);
     },
     onError: (error: any) => {
-      console.error("Study guide generation failed:", error);
+      toast.error("Failed to generate study guide");
       setGenerationError(formatError(error));
       resetTestorStudyGuide();
     },
@@ -85,7 +86,7 @@ export default function StudyGuidesPage() {
       });
     },
     onError: (error: any) => {
-      console.error("Failed to toggle hidden status:", error);
+      toast.error("Failed to toggle hidden status");
     },
   });
 

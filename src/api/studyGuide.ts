@@ -65,6 +65,7 @@ export const studyGuideApi = {
 
   async generateStudyGuide(body: GenerateSGReq) {
     try {
+      console.log(body);
       const { data: result } = await coreClient.post<
         HttpResponse<{ study_guide_id: string }>
       >("/studyguide", body);

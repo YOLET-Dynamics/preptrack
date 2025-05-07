@@ -34,17 +34,23 @@ export function StudyGuideCard({
   return (
     <Card
       className={cn(
-        "relative flex flex-col p-5 transition-all hover:shadow-lg border border-border",
-        guide.hidden ? "opacity-60 hover:opacity-100" : "",
-        guide.completed && !guide.hidden
-          ? "bg-green-100 dark:bg-green-900/30"
-          : "bg-card"
+        "group relative flex flex-col p-4 transition-all duration-200 ease-in-out",
+        "bg-transparent rounded-md shadow-sm",
+        !guide.hidden && [
+          "hover:shadow-xl hover:scale-[1.015]",
+          "hover:border-primary",
+        ],
+        guide.hidden
+          ? "border border-neutral-600 opacity-60 hover:opacity-100"
+          : guide.completed
+            ? "border border-neutral-600 border-l-4 border-l-green-500 dark:border-l-green-400"
+            : "border border-cyan-500"
       )}
     >
       {guide.hidden && (
         <Badge
           variant="outline"
-          className="absolute top-3 left-3 text-xs px-1.5 py-0.5 border-yellow-600 text-yellow-600 bg-yellow-50 dark:bg-yellow-900/30"
+          className="absolute top-3 left-3 text-xs px-1.5 py-0.5 border-yellow-300 text-yellow-700 bg-yellow-50 dark:border-yellow-700 dark:text-yellow-300 dark:bg-yellow-900/30 z-10"
         >
           Hidden
         </Badge>
@@ -56,7 +62,7 @@ export function StudyGuideCard({
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-2 right-2 h-7 w-7 text-muted-foreground hover:text-foreground z-10"
+              className="absolute top-2 right-2 h-7 w-7 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full z-10"
               onClick={(e) => {
                 e.stopPropagation();
                 onToggleHidden();
@@ -72,26 +78,26 @@ export function StudyGuideCard({
               )}
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="top">
+          <TooltipContent
+            side="top"
+            className="bg-popover text-popover-foreground border-border"
+          >
             <p>{guide.hidden ? "Show study guide" : "Hide study guide"}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
 
-      {/* Clickable Card Area */}
       <div
-        className="flex flex-col flex-grow cursor-pointer space-y-4 pt-6" // Add padding-top to avoid overlap with hidden badge/button
+        className="flex flex-col flex-grow cursor-pointer space-y-3 pt-5"
         onClick={onPress}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") onPress();
-        }} // Accessibility
+        }}
       >
-        {/* Title and Badges */}
-        <div className="space-y-3">
-          {/* Make title area slightly larger to prevent overlap with button */}
-          <h3 className="font-semibold text-base leading-snug flex-1 pr-8 group-hover:text-primary">
+        <div className="space-y-2">
+          <h3 className="font-semibold text-base leading-snug flex-1 pr-8 text-foreground group-hover:text-primary">
             {guide.title}
           </h3>
           {guide.description && (
@@ -99,25 +105,38 @@ export function StudyGuideCard({
               {guide.description}
             </p>
           )}
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary" className="text-xs font-normal">
+          <div className="flex flex-wrap gap-2 pt-1">
+            <Badge
+              variant="secondary"
+              className="text-xs font-normal border-border/50"
+            >
               {sectionLength} {sectionLength === 1 ? "Section" : "Sections"}
             </Badge>
-            <Badge variant="secondary" className="text-xs font-normal">
+            <Badge
+              variant="secondary"
+              className="text-xs font-normal border-border/50"
+            >
               {lessonCount} {lessonCount === 1 ? "Lesson" : "Lessons"}
             </Badge>
+            {guide.completed && !guide.hidden && (
+              <Badge
+                variant="outline"
+                className="border-green-300 text-green-700 bg-green-50 dark:border-green-700 dark:text-green-300 dark:bg-green-900/30 text-xs"
+              >
+                Completed
+              </Badge>
+            )}
           </div>
         </div>
 
-        {/* Progress Bar */}
-        <div className="space-y-1 pt-2">
+        <div className="space-y-1.5 pt-2">
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>Progress</span>
             <span>{completionPercentage.toFixed(0)}%</span>
           </div>
           <Progress
             value={completionPercentage}
-            className="h-1.5"
+            className="h-1.5 bg-neutral-200 dark:bg-neutral-700 [&>div]:bg-gradient-to-r [&>div]:from-cyan-500 [&>div]:to-blue-500"
             aria-label={`Study guide progress ${completionPercentage.toFixed(
               0
             )}%`}

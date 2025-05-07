@@ -159,6 +159,8 @@ const LessonContentViewer = ({
     );
   }
 
+  console.log(lessonContent);
+
   return (
     <div className="p-6 lg:p-8 relative">
       {isFetchingLessonContent && !isLoadingLessonContent && (
@@ -182,7 +184,7 @@ const LessonContentViewer = ({
           </Button>
         )}
       </div>
-      <article className="prose prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-md prose-img:border prose-img:border-border">
+      <article className="prose prose-slate dark:prose-invert max-w-none">
         <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
           {lessonContent.content}
         </ReactMarkdown>
@@ -237,7 +239,6 @@ export default function StudyGuideSectionDetailPage() {
   const { setExamId } = useExamIdStore();
   const { setIsInit } = useExamInitStore();
 
-  // Fetch section details if not in store or if ID differs
   const {
     data: fetchedSectionData,
     isLoading: isLoadingSection,
@@ -353,7 +354,7 @@ export default function StudyGuideSectionDetailPage() {
   const isSectionExamEnabled = (parseFloat(section.completion) || 0) >= 75;
 
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-screen">
       {/* Header */}
       <header className="flex items-center gap-4 px-4 py-3 border-b border-border flex-shrink-0 h-[65px]">
         <Button

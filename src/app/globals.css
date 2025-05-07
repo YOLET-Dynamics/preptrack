@@ -1,7 +1,5 @@
-@import "tailwindcss";
 @import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
+@import "tailwindcss";
 
 @theme inline {
   --color-background: var(--background);
@@ -129,7 +127,11 @@
   }
 
   @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
   }
 }

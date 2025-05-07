@@ -19,6 +19,7 @@ import { useUserSubjectStore } from "@/store/userSubject";
 import { useTopicStore } from "@/store/topicStore";
 import { useConceptStore } from "@/store/conceptStore";
 import { useContentReqStore } from "@/store/contentReqStore";
+import useSubjectStore from "@/store/subjectStore";
 
 interface SelectSubjectDialogProps {
   open: boolean;
@@ -35,6 +36,7 @@ export default function SelectSubjectDialog({
   const [currentPage, setCurrentPage] = useState(1);
   const [showTopicDialog, setShowTopicDialog] = useState(false);
 
+  const { setSubject } = useSubjectStore();
   const { setUserSubject } = useUserSubjectStore();
   const { clearSelectedTopics } = useTopicStore();
   const { clearSelectedConcepts } = useConceptStore();
@@ -81,6 +83,7 @@ export default function SelectSubjectDialog({
         name: selectedSubjectData.name,
         desc: selectedSubjectData.desc,
       };
+      setSubject(minifiedSubject);
       setUserSubject(minifiedSubject);
       resetContent();
       resetStudyGuideContent();
@@ -91,6 +94,7 @@ export default function SelectSubjectDialog({
   const handleTopicDialogClose = (isOpen: boolean) => {
     if (!isOpen) {
       setShowTopicDialog(false);
+      onOpenChange(false);
     }
   };
 

@@ -106,7 +106,7 @@ export default function SelectConceptDialog({
 
     if (isSelected) {
       removeConcept(concept.id);
-    } else if (conceptsInThisTopic < MAX_CONCEPTS_PER_TOPIC) {
+
       const updatedContentReq = contentReq
         .map((item) => {
           if (item.topic_id === concept.topic.id) {
@@ -121,13 +121,16 @@ export default function SelectConceptDialog({
 
       resetContentReq();
       updatedContentReq.forEach((item) => addContentReq(item));
-    } else if (conceptsInThisTopic < MAX_CONCEPTS_PER_TOPIC) {
-      addConcept(concept);
-      addContentReq({ topic_id: concept.topic.id, concept_id: [concept.id] });
+
     } else {
-      console.warn(
-        `Max concepts (${MAX_CONCEPTS_PER_TOPIC}) reached for topic ${concept.topic.name}`
-      );
+      if (conceptsInThisTopic < MAX_CONCEPTS_PER_TOPIC) {
+        addConcept(concept);
+        addContentReq({ topic_id: concept.topic.id, concept_id: [concept.id] });
+      } else {
+        console.warn(
+          `Max concepts (${MAX_CONCEPTS_PER_TOPIC}) reached for topic ${concept.topic.name}`
+        );
+      }
     }
   };
 
