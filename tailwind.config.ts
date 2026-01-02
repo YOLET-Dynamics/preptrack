@@ -61,13 +61,11 @@ const config: Config = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        cyan: {
-          400: "#22d3ee",
-          500: "#06b6d4",
-        },
-        teal: {
-          400: "#2dd4bf",
-          500: "#14b8a6",
+        brand: {
+          black: "#000000",
+          indigo: "#223843",
+          green: "#83C88C",
+          white: "#ffffff",
         },
       },
       borderRadius: {
@@ -98,8 +96,8 @@ const config: Config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        raleway: ["var(--font-raleway)"],
-        "funnel-sans": ["var(--font-funnel-sans)"],
+        inter: ["var(--font-inter)", "system-ui", "sans-serif"],
+        "dm-sans": ["var(--font-dm-sans)", "system-ui", "sans-serif"],
       },
     },
   },

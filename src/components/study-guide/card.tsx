@@ -35,22 +35,22 @@ export function StudyGuideCard({
     <Card
       className={cn(
         "group relative flex flex-col p-4 transition-all duration-200 ease-in-out",
-        "bg-transparent rounded-md shadow-sm",
+        "bg-brand-indigo/10 rounded-2xl shadow-sm",
         !guide.hidden && [
           "hover:shadow-xl hover:scale-[1.015]",
-          "hover:border-primary",
+          "hover:border-brand-green/50",
         ],
         guide.hidden
-          ? "border border-neutral-600 opacity-60 hover:opacity-100"
+          ? "border border-brand-indigo/40 opacity-60 hover:opacity-100"
           : guide.completed
-            ? "border border-neutral-600 border-l-4 border-l-green-500 dark:border-l-green-400"
-            : "border border-cyan-500"
+            ? "border border-brand-indigo/40 border-l-4 border-l-brand-green"
+            : "border border-brand-green/50"
       )}
     >
       {guide.hidden && (
         <Badge
           variant="outline"
-          className="absolute top-3 left-3 text-xs px-1.5 py-0.5 border-yellow-300 text-yellow-700 bg-yellow-50 dark:border-yellow-700 dark:text-yellow-300 dark:bg-yellow-900/30 z-10"
+          className="absolute top-3 left-3 text-xs px-1.5 py-0.5 border-yellow-500/50 text-yellow-400 bg-yellow-500/10 z-10 font-dm-sans"
         >
           Hidden
         </Badge>
@@ -62,7 +62,7 @@ export function StudyGuideCard({
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-2 right-2 h-7 w-7 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full z-10"
+              className="absolute top-2 right-2 h-7 w-7 text-white/50 hover:text-brand-green hover:bg-brand-green/10 rounded-full z-10"
               onClick={(e) => {
                 e.stopPropagation();
                 onToggleHidden();
@@ -80,7 +80,7 @@ export function StudyGuideCard({
           </TooltipTrigger>
           <TooltipContent
             side="top"
-            className="bg-popover text-popover-foreground border-border"
+            className="bg-brand-indigo border-brand-indigo/60 text-white"
           >
             <p>{guide.hidden ? "Show study guide" : "Hide study guide"}</p>
           </TooltipContent>
@@ -97,31 +97,31 @@ export function StudyGuideCard({
         }}
       >
         <div className="space-y-2">
-          <h3 className="font-semibold text-base leading-snug flex-1 pr-8 text-foreground group-hover:text-primary">
+          <h3 className="font-semibold text-base leading-snug flex-1 pr-8 text-white group-hover:text-brand-green font-inter">
             {guide.title}
           </h3>
           {guide.description && (
-            <p className="text-xs text-muted-foreground line-clamp-2">
+            <p className="text-xs text-white/50 line-clamp-2 font-dm-sans">
               {guide.description}
             </p>
           )}
           <div className="flex flex-wrap gap-2 pt-1">
             <Badge
               variant="secondary"
-              className="text-xs font-normal border-border/50"
+              className="text-xs font-normal bg-brand-indigo/30 border-brand-indigo/40 text-white/70 font-dm-sans"
             >
               {sectionLength} {sectionLength === 1 ? "Section" : "Sections"}
             </Badge>
             <Badge
               variant="secondary"
-              className="text-xs font-normal border-border/50"
+              className="text-xs font-normal bg-brand-indigo/30 border-brand-indigo/40 text-white/70 font-dm-sans"
             >
               {lessonCount} {lessonCount === 1 ? "Lesson" : "Lessons"}
             </Badge>
             {guide.completed && !guide.hidden && (
               <Badge
                 variant="outline"
-                className="border-green-300 text-green-700 bg-green-50 dark:border-green-700 dark:text-green-300 dark:bg-green-900/30 text-xs"
+                className="border-brand-green/50 text-brand-green bg-brand-green/10 text-xs font-dm-sans"
               >
                 Completed
               </Badge>
@@ -130,13 +130,13 @@ export function StudyGuideCard({
         </div>
 
         <div className="space-y-1.5 pt-2">
-          <div className="flex justify-between text-xs text-muted-foreground">
+          <div className="flex justify-between text-xs text-white/50 font-dm-sans">
             <span>Progress</span>
             <span>{completionPercentage.toFixed(0)}%</span>
           </div>
           <Progress
             value={completionPercentage}
-            className="h-1.5 bg-neutral-200 dark:bg-neutral-700 [&>div]:bg-gradient-to-r [&>div]:from-cyan-500 [&>div]:to-blue-500"
+            className="h-1.5 bg-brand-indigo/30 [&>div]:bg-brand-green"
             aria-label={`Study guide progress ${completionPercentage.toFixed(
               0
             )}%`}

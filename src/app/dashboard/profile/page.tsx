@@ -8,7 +8,6 @@ import { useAuth } from "@/provider/AuthProvider";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Edit } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 import { useForm, type AnyFieldApi } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "@/api/auth";
@@ -43,9 +42,9 @@ const ProfileSectionCard: React.FC<{
   isSaving = false,
   canSave = true,
 }) => (
-  <Card className="bg-gray-900/60 border-gray-700 text-gray-100 shadow-lg backdrop-blur-sm">
-    <CardHeader className="flex flex-row items-center justify-between border-b border-gray-700 pb-3">
-      <CardTitle className="text-lg font-semibold text-gray-200">
+  <Card className="bg-brand-indigo/15 border-brand-indigo/40 text-white shadow-lg backdrop-blur-sm rounded-2xl">
+    <CardHeader className="flex flex-row items-center justify-between border-b border-brand-indigo/30 pb-3">
+      <CardTitle className="text-lg font-semibold text-white font-inter">
         {title}
       </CardTitle>
       {isEditing ? (
@@ -54,7 +53,7 @@ const ProfileSectionCard: React.FC<{
             variant="ghost"
             size="sm"
             onClick={onCancel}
-            className="text-gray-400 hover:text-gray-100 hover:bg-gray-800"
+            className="text-white/50 hover:text-white hover:bg-brand-indigo/30"
             disabled={isSaving}
           >
             Cancel
@@ -63,7 +62,7 @@ const ProfileSectionCard: React.FC<{
             variant="secondary"
             size="sm"
             onClick={onSave}
-            className="bg-cyan-600 hover:bg-cyan-700 text-white"
+            className="bg-brand-green hover:bg-brand-green/90 text-brand-black font-medium"
             disabled={isSaving || !canSave}
           >
             {isSaving ? "Saving..." : "Save"}
@@ -75,7 +74,7 @@ const ProfileSectionCard: React.FC<{
             variant="ghost"
             size="sm"
             onClick={onEdit}
-            className="text-gray-400 hover:text-cyan-400 hover:bg-gray-800"
+            className="text-white/50 hover:text-brand-green hover:bg-brand-indigo/30"
           >
             <Edit className="mr-2 h-4 w-4" /> Edit
           </Button>
@@ -92,11 +91,11 @@ const InfoItem: React.FC<{
   isLoading: boolean;
 }> = ({ label, value, isLoading }) => (
   <div>
-    <p className="text-xs font-medium text-gray-500 mb-1">{label}</p>
+    <p className="text-xs font-medium text-white/40 mb-1 font-dm-sans">{label}</p>
     {isLoading ? (
-      <Skeleton className="h-5 w-3/4 bg-gray-700" />
+      <Skeleton className="h-5 w-3/4 bg-brand-indigo/40" />
     ) : (
-      <p className="text-sm text-gray-100">{value || "N/A"}</p>
+      <p className="text-sm text-white font-dm-sans">{value || "N/A"}</p>
     )}
   </div>
 );
@@ -179,7 +178,7 @@ export default function ProfilePage() {
       nameForm.setFieldValue("first_name", userInfo.first_name || "");
       nameForm.setFieldValue("last_name", userInfo.last_name || "");
     }
-  }, [userInfo, nameForm]); // Keep nameForm dependency for safety
+  }, [userInfo, nameForm]);
 
   const handlePersonalInfoEdit = () => {
     if (userInfo) {
@@ -202,20 +201,18 @@ export default function ProfilePage() {
     nameForm.handleSubmit();
   };
 
-  const handleChangePassword = () => console.log("Change Password clicked");
-
   return (
     <div className="space-y-6 max-w-3xl">
-      <h1 className="text-2xl font-semibold text-gray-100 mb-6">My Profile</h1>
+      <h1 className="text-2xl font-semibold text-white mb-6 font-inter">My Profile</h1>
 
-      <Card className="bg-gray-900/60 border-gray-700 text-gray-100 shadow-lg backdrop-blur-sm">
-        <CardContent className="flex items-center space-x-4">
+      <Card className="bg-brand-indigo/15 border-brand-indigo/40 text-white shadow-lg backdrop-blur-sm rounded-2xl">
+        <CardContent className="flex items-center space-x-4 pt-6">
           {isLoading ? (
-            <Skeleton className="h-16 w-16 rounded-full bg-gray-700" />
+            <Skeleton className="h-16 w-16 rounded-full bg-brand-indigo/40" />
           ) : (
             <Avatar className="h-16 w-16 text-xl">
               <AvatarImage src={userInfo?.profile_url} alt="User profile" />
-              <AvatarFallback className="bg-gradient-to-br from-cyan-600 to-teal-600 text-white font-semibold">
+              <AvatarFallback className="bg-brand-green/20 text-brand-green font-semibold font-inter">
                 {userInfo
                   ? getInitials(userInfo.first_name, userInfo.last_name)
                   : "--"}
@@ -225,15 +222,15 @@ export default function ProfilePage() {
           <div className="flex-1">
             {isLoading ? (
               <>
-                <Skeleton className="h-6 w-40 mb-1 bg-gray-700" />
-                <Skeleton className="h-4 w-32 bg-gray-700" />
+                <Skeleton className="h-6 w-40 mb-1 bg-brand-indigo/40" />
+                <Skeleton className="h-4 w-32 bg-brand-indigo/40" />
               </>
             ) : (
               <>
-                <h2 className="text-xl font-semibold text-gray-50">
+                <h2 className="text-xl font-semibold text-white font-inter">
                   {`${userInfo?.first_name || ""} ${userInfo?.last_name || ""}`}
                 </h2>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-white/50 font-dm-sans">
                   Member since{" "}
                   {userInfo?.created_at
                     ? format(new Date(userInfo.created_at), "MMM yyyy")
@@ -270,7 +267,7 @@ export default function ProfilePage() {
                     <div className="relative">
                       <label
                         htmlFor={field.name}
-                        className="text-xs font-medium text-gray-500 mb-1 block"
+                        className="text-xs font-medium text-white/40 mb-1 block font-dm-sans"
                       >
                         First Name
                       </label>
@@ -281,7 +278,7 @@ export default function ProfilePage() {
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                         className={cn(
-                          "bg-gray-800 border-gray-600 text-white placeholder:text-gray-500 focus:border-cyan-500",
+                          "bg-brand-indigo/30 border-brand-indigo/60 text-white placeholder:text-white/40 focus:border-brand-green rounded-xl font-dm-sans",
                           field.state.meta.errors.length > 0 &&
                             "border-red-500 focus:border-red-500"
                         )}
@@ -296,7 +293,7 @@ export default function ProfilePage() {
                     <div className="relative">
                       <label
                         htmlFor={field.name}
-                        className="text-xs font-medium text-gray-500 mb-1 block"
+                        className="text-xs font-medium text-white/40 mb-1 block font-dm-sans"
                       >
                         Last Name
                       </label>
@@ -307,7 +304,7 @@ export default function ProfilePage() {
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                         className={cn(
-                          "bg-gray-800 border-gray-600 text-white placeholder:text-gray-500 focus:border-cyan-500",
+                          "bg-brand-indigo/30 border-brand-indigo/60 text-white placeholder:text-white/40 focus:border-brand-green rounded-xl font-dm-sans",
                           field.state.meta.errors.length > 0 &&
                             "border-red-500 focus:border-red-500"
                         )}
@@ -344,18 +341,18 @@ export default function ProfilePage() {
         <div className="space-y-8">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-200">Email</p>
-              <p className="text-xs text-gray-400">
+              <p className="text-sm font-medium text-white font-dm-sans">Email</p>
+              <p className="text-xs text-white/40 font-dm-sans">
                 Update your email address.
               </p>
             </div>
             {isLoading ? (
-              <Skeleton className="h-9 w-32 bg-gray-700" />
+              <Skeleton className="h-9 w-32 bg-brand-indigo/40" />
             ) : (
               <Button
                 variant="secondary"
                 size="sm"
-                className="bg-gray-700 hover:bg-gray-600 text-gray-300"
+                className="bg-brand-indigo/40 hover:bg-brand-indigo/60 text-white/80 rounded-xl font-dm-sans"
                 onClick={() => toast.info("Feature coming soon!")}
               >
                 Change Email
@@ -365,16 +362,16 @@ export default function ProfilePage() {
 
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-200">Password</p>
-              <p className="text-xs text-gray-400">Update your password.</p>
+              <p className="text-sm font-medium text-white font-dm-sans">Password</p>
+              <p className="text-xs text-white/40 font-dm-sans">Update your password.</p>
             </div>
             {isLoading ? (
-              <Skeleton className="h-9 w-32 bg-gray-700" />
+              <Skeleton className="h-9 w-32 bg-brand-indigo/40" />
             ) : (
               <Button
                 variant="secondary"
                 size="sm"
-                className="bg-gray-700 hover:bg-gray-600 text-gray-300"
+                className="bg-brand-indigo/40 hover:bg-brand-indigo/60 text-white/80 rounded-xl font-dm-sans"
                 onClick={() => toast.info("Feature coming soon!")}
               >
                 Change Password

@@ -167,7 +167,7 @@ export default function StudyGuidesPage() {
         <Button
           onClick={handleAddStudyGuide}
           variant="outline"
-          className="bg-transparent dark:border-cyan-500 dark:text-cyan-500 dark:hover:bg-cyan-500/10 shrink-0 w-full sm:w-auto"
+          className="bg-transparent border-brand-green text-brand-green hover:bg-brand-green/10 shrink-0 w-full sm:w-auto"
           disabled={isGenerating || toggleHiddenMutation.isPending}
         >
           <PlusIcon className="h-4 w-4 mr-2" />

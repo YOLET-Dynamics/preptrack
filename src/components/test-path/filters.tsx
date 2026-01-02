@@ -21,10 +21,10 @@ export function TestPathFilters({ filters, onChange }: TestPathFiltersProps) {
         size="sm"
         onClick={() => handleToggle("showCompleted")}
         className={cn(
-          "h-8 px-3 rounded-full text-xs",
+          "h-8 px-3 rounded-full text-xs font-dm-sans",
           filters.showCompleted
-            ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/20"
-            : "text-muted-foreground border border-transparent hover:bg-muted/50 hover:text-foreground"
+            ? "bg-brand-green/10 text-brand-green border border-brand-green/30 hover:bg-brand-green/20"
+            : "text-white/50 border border-transparent hover:bg-brand-indigo/30 hover:text-white"
         )}
       >
         {filters.showCompleted ? "Showing" : "Show"} Completed
@@ -34,10 +34,10 @@ export function TestPathFilters({ filters, onChange }: TestPathFiltersProps) {
         size="sm"
         onClick={() => handleToggle("showHidden")}
         className={cn(
-          "h-8 px-3 rounded-full text-xs",
+          "h-8 px-3 rounded-full text-xs font-dm-sans",
           filters.showHidden
-            ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/20"
-            : "text-muted-foreground border border-transparent hover:bg-muted/50 hover:text-foreground"
+            ? "bg-brand-green/10 text-brand-green border border-brand-green/30 hover:bg-brand-green/20"
+            : "text-white/50 border border-transparent hover:bg-brand-indigo/30 hover:text-white"
         )}
       >
          {filters.showHidden ? "Showing" : "Show"} Hidden

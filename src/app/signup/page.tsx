@@ -9,6 +9,7 @@ import { ArrowRight, Home, CheckCircle, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import Link from "next/link";
+import Image from "next/image";
 import { authApi } from "@/api/auth";
 import { formatError } from "@/common/utils";
 import { useAuth } from "@/provider/AuthProvider";
@@ -133,11 +134,11 @@ export default function SignUpPage() {
     if (showSuccessAnimation) {
       return (
         <div className="flex flex-col items-center justify-center space-y-4 text-center min-h-[200px]">
-          <CheckCircle className="h-16 w-16 text-green-500 animate-pulse" />
-          <h2 className="text-xl sm:text-2xl font-bold text-white font-funnel-sans">
+          <CheckCircle className="h-16 w-16 text-brand-green animate-pulse" />
+          <h2 className="text-2xl sm:text-3xl font-semibold text-brand-indigo font-inter">
             Account Created!
           </h2>
-          <p className="text-gray-400 font-funnel-sans">
+          <p className="text-brand-indigo/50 font-dm-sans">
             Redirecting you to the dashboard...
           </p>
         </div>
@@ -149,10 +150,10 @@ export default function SignUpPage() {
         return (
           <>
             <div className="space-y-2 text-center">
-              <h2 className="text-xl sm:text-2xl font-bold text-white font-funnel-sans">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-brand-indigo font-inter">
                 Create your account
               </h2>
-              <p className="text-gray-400 font-funnel-sans">
+              <p className="text-brand-indigo/50 font-dm-sans">
                 Enter your email to get started
               </p>
             </div>
@@ -195,12 +196,12 @@ export default function SignUpPage() {
                       onFocus={() => handleFocus("email", true)}
                       onChange={(e) => field.handleChange(e.target.value)}
                       className={cn(
-                        "h-12 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-cyan-500 transition-all",
+                        "h-12 bg-brand-indigo/5 border-brand-indigo/20 text-brand-indigo placeholder:text-brand-indigo/40 focus:border-brand-green transition-all rounded-xl font-dm-sans",
                         field.state.meta.errors.length > 0 &&
                           "border-red-500 focus:border-red-500",
                         isFocused["email"] &&
                           !field.state.meta.errors.length &&
-                          "border-cyan-500"
+                          "border-brand-green"
                       )}
                     />
                     <FieldInfo field={field} />
@@ -215,7 +216,7 @@ export default function SignUpPage() {
                     disabled={
                       !canSubmit || isSubmitting || initMutation.isPending
                     }
-                    className="w-full h-12 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white group disabled:opacity-50"
+                    className="w-full h-12 bg-brand-indigo text-white hover:bg-brand-indigo/90 group disabled:opacity-50 font-dm-sans font-medium rounded-xl"
                   >
                     {isSubmitting || initMutation.isPending
                       ? "Sending OTP..."
@@ -234,10 +235,10 @@ export default function SignUpPage() {
         return (
           <>
             <div className="space-y-2 text-center">
-              <h2 className="text-xl sm:text-2xl font-bold text-white font-funnel-sans">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-brand-indigo font-inter">
                 Verify your email
               </h2>
-              <p className="text-gray-400 font-funnel-sans">
+              <p className="text-brand-indigo/50 font-dm-sans">
                 Enter the 6-digit code sent to {email}
               </p>
             </div>
@@ -272,15 +273,15 @@ export default function SignUpPage() {
                       onBlur={field.handleBlur}
                     >
                       <InputOTPGroup>
-                        <InputOTPSlot index={0} className="text-white" />
-                        <InputOTPSlot index={1} className="text-white" />
-                        <InputOTPSlot index={2} className="text-white" />
+                        <InputOTPSlot index={0} className="text-brand-indigo border-brand-indigo/20" />
+                        <InputOTPSlot index={1} className="text-brand-indigo border-brand-indigo/20" />
+                        <InputOTPSlot index={2} className="text-brand-indigo border-brand-indigo/20" />
                       </InputOTPGroup>
                       <InputOTPSeparator />
                       <InputOTPGroup>
-                        <InputOTPSlot index={3} className="text-white" />
-                        <InputOTPSlot index={4} className="text-white" />
-                        <InputOTPSlot index={5} className="text-white" />
+                        <InputOTPSlot index={3} className="text-brand-indigo border-brand-indigo/20" />
+                        <InputOTPSlot index={4} className="text-brand-indigo border-brand-indigo/20" />
+                        <InputOTPSlot index={5} className="text-brand-indigo border-brand-indigo/20" />
                       </InputOTPGroup>
                     </InputOTP>
                     <div className="h-5 text-center">
@@ -297,7 +298,7 @@ export default function SignUpPage() {
                     disabled={
                       !canSubmit || isSubmitting || verifyMutation.isPending
                     }
-                    className="w-full h-12 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white group mt-4 disabled:opacity-50"
+                    className="w-full h-12 bg-brand-indigo text-white hover:bg-brand-indigo/90 group mt-4 disabled:opacity-50 font-dm-sans font-medium rounded-xl"
                   >
                     {isSubmitting || verifyMutation.isPending
                       ? "Verifying..."
@@ -312,7 +313,7 @@ export default function SignUpPage() {
             <Button
               variant="link"
               onClick={() => setCurrentStep("email")}
-              className="text-cyan-400 hover:underline mt-2"
+              className="text-brand-green hover:underline mt-2"
             >
               Change email
             </Button>
@@ -323,10 +324,10 @@ export default function SignUpPage() {
         return (
           <>
             <div className="space-y-2 text-center">
-              <h2 className="text-xl sm:text-2xl font-bold text-white font-funnel-sans">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-brand-indigo font-inter">
                 Complete your profile
               </h2>
-              <p className="text-gray-400 font-funnel-sans">
+              <p className="text-brand-indigo/50 font-dm-sans">
                 Enter your details to finish signing up
               </p>
             </div>
@@ -360,12 +361,12 @@ export default function SignUpPage() {
                       onFocus={() => handleFocus("first_name", true)}
                       onChange={(e) => field.handleChange(e.target.value)}
                       className={cn(
-                        "h-12 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-cyan-500 transition-all",
+                        "h-12 bg-brand-indigo/5 border-brand-indigo/20 text-brand-indigo placeholder:text-brand-indigo/40 focus:border-brand-green transition-all rounded-xl font-dm-sans",
                         field.state.meta.errors.length > 0 &&
                           "border-red-500 focus:border-red-500",
                         isFocused["first_name"] &&
                           !field.state.meta.errors.length &&
-                          "border-cyan-500"
+                          "border-brand-green"
                       )}
                     />
                     <FieldInfo field={field} />
@@ -394,12 +395,12 @@ export default function SignUpPage() {
                       onFocus={() => handleFocus("last_name", true)}
                       onChange={(e) => field.handleChange(e.target.value)}
                       className={cn(
-                        "h-12 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-cyan-500 transition-all",
+                        "h-12 bg-brand-indigo/5 border-brand-indigo/20 text-brand-indigo placeholder:text-brand-indigo/40 focus:border-brand-green transition-all rounded-xl font-dm-sans",
                         field.state.meta.errors.length > 0 &&
                           "border-red-500 focus:border-red-500",
                         isFocused["last_name"] &&
                           !field.state.meta.errors.length &&
-                          "border-cyan-500"
+                          "border-brand-green"
                       )}
                     />
                     <FieldInfo field={field} />
@@ -438,18 +439,18 @@ export default function SignUpPage() {
                         onFocus={() => handleFocus("password", true)}
                         onChange={(e) => field.handleChange(e.target.value)}
                         className={cn(
-                          "h-12 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-cyan-500 transition-all pr-10",
+                          "h-12 bg-brand-indigo/5 border-brand-indigo/20 text-brand-indigo placeholder:text-brand-indigo/40 focus:border-brand-green transition-all pr-10 rounded-xl font-dm-sans",
                           field.state.meta.errors.length > 0 &&
                             "border-red-500 focus:border-red-500",
                           isFocused["password"] &&
                             !field.state.meta.errors.length &&
-                            "border-cyan-500"
+                            "border-brand-green"
                         )}
                       />
                       <button
                         type="button"
                         onClick={togglePasswordVisibility}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-300"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-brand-indigo/40 hover:text-brand-indigo/60"
                         aria-label={
                           showPassword ? "Hide password" : "Show password"
                         }
@@ -473,7 +474,7 @@ export default function SignUpPage() {
                     disabled={
                       !canSubmit || isSubmitting || signupMutation.isPending
                     }
-                    className="w-full h-12 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white group mt-6 disabled:opacity-50"
+                    className="w-full h-12 bg-brand-indigo text-white hover:bg-brand-indigo/90 group mt-6 disabled:opacity-50 font-dm-sans font-medium rounded-xl"
                   >
                     {isSubmitting || signupMutation.isPending
                       ? "Creating Account..."
@@ -488,7 +489,7 @@ export default function SignUpPage() {
             <Button
               variant="link"
               onClick={() => setCurrentStep("otp")}
-              className="text-cyan-400 hover:underline mt-2"
+              className="text-brand-green hover:underline mt-2"
             >
               Entered wrong OTP?
             </Button>
@@ -500,42 +501,53 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black px-4 py-12 relative">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12 relative">
+      {/* Background elements */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-green/10 blur-3xl"></div>
+        <div className="absolute bottom-1/3 right-1/3 w-80 h-80 rounded-full bg-brand-indigo/5 blur-3xl"></div>
+      </div>
+
       <Link href="/" passHref>
         <Button
           variant="ghost"
           size="icon"
-          className="absolute top-4 right-4 text-gray-400 hover:text-cyan-400"
+          className="absolute top-4 right-4 text-brand-indigo/40 hover:text-brand-green"
         >
           <Home className="h-6 w-6" />
         </Button>
       </Link>
       <div className="w-full max-w-md mx-auto">
-        <div className="text-center mb-8">
+        <div className="text-center mb-10">
           <Link href="/" passHref>
-            <h1 className="text-3xl md:text-5xl md:leading-loose md:tracking-wide font-funnel-sans tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400 cursor-pointer">
-              preptrack.app
-            </h1>
+            <Image
+              src="/logo/PrepTrack_LogoDesign_01-01.png"
+              alt="PrepTrack"
+              width={200}
+              height={60}
+              className="h-14 w-auto mx-auto cursor-pointer"
+              priority
+            />
           </Link>
         </div>
 
-        <div className="bg-black/30 backdrop-blur-sm border border-gray-800 rounded-xl p-6 sm:p-8 shadow-2xl">
+        <div className="bg-white border border-brand-indigo/10 rounded-2xl p-8 sm:p-10 shadow-xl shadow-brand-indigo/5">
           <div className="space-y-6">
             {renderStep()}
 
             {currentStep === "email" && !showSuccessAnimation && (
-              <p className="text-xs text-gray-500 text-center">
+              <p className="text-xs text-brand-indigo/40 text-center font-dm-sans">
                 By signing up, you agree to our{" "}
                 <a
                   href="/coming-soon"
-                  className="text-cyan-400 hover:underline"
+                  className="text-brand-green hover:underline"
                 >
                   Terms of Service
                 </a>{" "}
                 and{" "}
                 <a
                   href="/coming-soon"
-                  className="text-cyan-400 hover:underline"
+                  className="text-brand-green hover:underline"
                 >
                   Privacy Policy
                 </a>
@@ -545,19 +557,16 @@ export default function SignUpPage() {
         </div>
 
         {!showSuccessAnimation && (
-          <div className="text-center mt-6">
-            <p className="text-gray-400">
+          <div className="text-center mt-8">
+            <p className="text-brand-indigo/50 font-dm-sans">
               Already have an account?{" "}
-              <Link href="/login" className="text-cyan-400 hover:underline">
+              <Link href="/login" className="text-brand-green hover:underline">
                 Sign in
               </Link>
             </p>
           </div>
         )}
       </div>
-
-      <div className="fixed top-1/4 left-1/4 w-64 h-64 rounded-full bg-cyan-500/10 blur-3xl -z-10"></div>
-      <div className="fixed bottom-1/3 right-1/3 w-80 h-80 rounded-full bg-teal-500/10 blur-3xl -z-10"></div>
     </div>
   );
 }

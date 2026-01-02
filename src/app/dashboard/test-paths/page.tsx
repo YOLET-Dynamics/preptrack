@@ -106,7 +106,7 @@ export default function TestPathsPage() {
         <Button
           onClick={handleAddTP}
           variant="outline"
-          className="bg-transparent dark:border-cyan-500 dark:text-cyan-500 dark:hover:bg-cyan-500/10 shrink-0 w-full sm:w-auto"
+          className="bg-transparent border-brand-green text-brand-green hover:bg-brand-green/10 shrink-0 w-full sm:w-auto"
         >
           <PlusIcon className="h-4 w-4 mr-2" />
           New Assessment

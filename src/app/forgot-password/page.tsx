@@ -14,6 +14,7 @@ import { ArrowRight, Eye, EyeOff, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import Link from "next/link";
+import Image from "next/image";
 import { useForm, type AnyFieldApi } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -117,10 +118,10 @@ export default function ForgotPasswordPage() {
         return (
           <>
             <div className="space-y-2 text-center">
-              <h2 className="text-xl sm:text-2xl font-bold text-white font-funnel-sans">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-brand-indigo font-inter">
                 Forgot Your Password?
               </h2>
-              <p className="text-gray-400 font-funnel-sans">
+              <p className="text-brand-indigo/50 font-dm-sans">
                 Enter your email to receive a reset code
               </p>
             </div>
@@ -163,12 +164,12 @@ export default function ForgotPasswordPage() {
                       onFocus={() => handleFocus("email", true)}
                       onChange={(e) => field.handleChange(e.target.value)}
                       className={cn(
-                        "h-12 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-cyan-500 transition-all",
+                        "h-12 bg-brand-indigo/5 border-brand-indigo/20 text-brand-indigo placeholder:text-brand-indigo/40 focus:border-brand-green transition-all rounded-xl font-dm-sans",
                         field.state.meta.errors.length > 0 &&
                           "border-red-500 focus:border-red-500",
                         isFocused["email"] &&
                           !field.state.meta.errors.length &&
-                          "border-cyan-500"
+                          "border-brand-green"
                       )}
                     />
                     <FieldInfo field={field} />
@@ -185,7 +186,7 @@ export default function ForgotPasswordPage() {
                       isSubmitting ||
                       sendVerificationMutation.isPending
                     }
-                    className="w-full h-12 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white group disabled:opacity-50 mt-4"
+                    className="w-full h-12 bg-brand-indigo text-white hover:bg-brand-indigo/90 group disabled:opacity-50 mt-4 font-dm-sans font-medium rounded-xl"
                   >
                     {isSubmitting || sendVerificationMutation.isPending
                       ? "Sending Code..."
@@ -204,10 +205,10 @@ export default function ForgotPasswordPage() {
         return (
           <>
             <div className="space-y-2 text-center">
-              <h2 className="text-xl sm:text-2xl font-bold text-white font-funnel-sans">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-brand-indigo font-inter">
                 Reset Your Password
               </h2>
-              <p className="text-gray-400 font-funnel-sans">
+              <p className="text-brand-indigo/50 font-dm-sans">
                 Enter the code sent to {email} and set a new password.
               </p>
             </div>
@@ -257,9 +258,9 @@ export default function ForgotPasswordPage() {
                           field.state.meta.errors.length > 0 && "border-red-500"
                         )}
                       >
-                        <InputOTPSlot index={0} className="text-white" />
-                        <InputOTPSlot index={1} className="text-white" />
-                        <InputOTPSlot index={2} className="text-white" />
+                        <InputOTPSlot index={0} className="text-brand-indigo border-brand-indigo/20" />
+                        <InputOTPSlot index={1} className="text-brand-indigo border-brand-indigo/20" />
+                        <InputOTPSlot index={2} className="text-brand-indigo border-brand-indigo/20" />
                       </InputOTPGroup>
                       <InputOTPSeparator />
                       <InputOTPGroup
@@ -267,9 +268,9 @@ export default function ForgotPasswordPage() {
                           field.state.meta.errors.length > 0 && "border-red-500"
                         )}
                       >
-                        <InputOTPSlot index={3} className="text-white" />
-                        <InputOTPSlot index={4} className="text-white" />
-                        <InputOTPSlot index={5} className="text-white" />
+                        <InputOTPSlot index={3} className="text-brand-indigo border-brand-indigo/20" />
+                        <InputOTPSlot index={4} className="text-brand-indigo border-brand-indigo/20" />
+                        <InputOTPSlot index={5} className="text-brand-indigo border-brand-indigo/20" />
                       </InputOTPGroup>
                     </InputOTP>
                     <div className="h-5 text-center">
@@ -311,18 +312,18 @@ export default function ForgotPasswordPage() {
                         onFocus={() => handleFocus("new_password", true)}
                         onChange={(e) => field.handleChange(e.target.value)}
                         className={cn(
-                          "h-12 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-cyan-500 transition-all pr-10",
+                          "h-12 bg-brand-indigo/5 border-brand-indigo/20 text-brand-indigo placeholder:text-brand-indigo/40 focus:border-brand-green transition-all pr-10 rounded-xl font-dm-sans",
                           field.state.meta.errors.length > 0 &&
                             "border-red-500 focus:border-red-500",
                           isFocused["new_password"] &&
                             !field.state.meta.errors.length &&
-                            "border-cyan-500"
+                            "border-brand-green"
                         )}
                       />
                       <button
                         type="button"
                         onClick={togglePasswordVisibility}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-300"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-brand-indigo/40 hover:text-brand-indigo/60"
                         aria-label={
                           showPassword
                             ? "Hide new password"
@@ -373,18 +374,18 @@ export default function ForgotPasswordPage() {
                         onFocus={() => handleFocus("confirm_password", true)}
                         onChange={(e) => field.handleChange(e.target.value)}
                         className={cn(
-                          "h-12 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-cyan-500 transition-all pr-10",
+                          "h-12 bg-brand-indigo/5 border-brand-indigo/20 text-brand-indigo placeholder:text-brand-indigo/40 focus:border-brand-green transition-all pr-10 rounded-xl font-dm-sans",
                           field.state.meta.errors.length > 0 &&
                             "border-red-500 focus:border-red-500",
                           isFocused["confirm_password"] &&
                             !field.state.meta.errors.length &&
-                            "border-cyan-500"
+                            "border-brand-green"
                         )}
                       />
                       <button
                         type="button"
                         onClick={toggleConfirmPasswordVisibility}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-300"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-brand-indigo/40 hover:text-brand-indigo/60"
                         aria-label={
                           showConfirmPassword
                             ? "Hide confirm password"
@@ -413,7 +414,7 @@ export default function ForgotPasswordPage() {
                       isSubmitting ||
                       resetPasswordMutation.isPending
                     }
-                    className="w-full h-12 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white group disabled:opacity-50 mt-4"
+                    className="w-full h-12 bg-brand-indigo text-white hover:bg-brand-indigo/90 group disabled:opacity-50 mt-4 font-dm-sans font-medium rounded-xl"
                   >
                     {isSubmitting || resetPasswordMutation.isPending
                       ? "Resetting Password..."
@@ -429,7 +430,7 @@ export default function ForgotPasswordPage() {
               variant="link"
               onClick={() => sendVerificationMutation.mutate({ email })}
               disabled={sendVerificationMutation.isPending}
-              className="text-cyan-400 hover:underline mt-2 text-xs w-full text-center"
+              className="text-brand-green hover:underline mt-2 text-xs w-full text-center"
             >
               {sendVerificationMutation.isPending
                 ? "Sending..."
@@ -438,7 +439,7 @@ export default function ForgotPasswordPage() {
             <Button
               variant="link"
               onClick={() => setCurrentStep("email")}
-              className="text-gray-400 hover:underline mt-0 text-xs w-full text-center"
+              className="text-brand-indigo/40 hover:underline mt-0 text-xs w-full text-center"
             >
               Entered wrong email? Start over.
             </Button>
@@ -450,43 +451,51 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black px-4 py-12 relative">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12 relative">
+      {/* Background elements */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-brand-green/10 blur-3xl"></div>
+        <div className="absolute bottom-1/3 right-1/3 w-80 h-80 rounded-full bg-brand-indigo/5 blur-3xl"></div>
+      </div>
+
       <Link href="/" passHref>
         <Button
           variant="ghost"
           size="icon"
-          className="absolute top-4 right-4 text-gray-400 hover:text-cyan-400"
+          className="absolute top-4 right-4 text-brand-indigo/40 hover:text-brand-green"
         >
           <Home className="h-6 w-6" />
         </Button>
       </Link>
       <div className="w-full max-w-md mx-auto">
-        <div className="text-center mb-8">
+        <div className="text-center mb-10">
           <Link href="/" passHref>
-            <h1 className="text-3xl md:text-5xl md:leading-loose md:tracking-wide font-funnel-sans tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400 cursor-pointer">
-              preptrack.app
-            </h1>
+            <Image
+              src="/logo/PrepTrack_LogoDesign_01-01.png"
+              alt="PrepTrack"
+              width={200}
+              height={60}
+              className="h-14 w-auto mx-auto cursor-pointer"
+              priority
+            />
           </Link>
         </div>
 
-        <div className="bg-black/30 backdrop-blur-sm border border-gray-800 rounded-xl p-6 sm:p-8 shadow-2xl min-h-[350px] flex flex-col justify-center">
+        <div className="bg-white border border-brand-indigo/10 rounded-2xl p-8 sm:p-10 shadow-xl shadow-brand-indigo/5 min-h-[350px] flex flex-col justify-center">
           <div className="space-y-6">{renderStep()}</div>
         </div>
 
-        <div className="text-center mt-6">
-          <p className="text-gray-400 text-sm">
+        <div className="text-center mt-8">
+          <p className="text-brand-indigo/50 text-sm font-dm-sans">
             Remembered your password?{" "}
             <Link href="/login" passHref>
-              <span className="text-cyan-400 hover:underline cursor-pointer">
+              <span className="text-brand-green hover:underline cursor-pointer">
                 Sign in
               </span>
             </Link>
           </p>
         </div>
       </div>
-
-      <div className="fixed top-1/4 left-1/4 w-64 h-64 rounded-full bg-cyan-500/10 blur-3xl -z-10"></div>
-      <div className="fixed bottom-1/3 right-1/3 w-80 h-80 rounded-full bg-teal-500/10 blur-3xl -z-10"></div>
     </div>
   );
 }

@@ -20,9 +20,8 @@ interface CircularProgressProps {
       const strokeDashoffset = circumference - progress * circumference;
       const center = size / 2;
   
-      // Use CSS variables for theme-aware colors defined in globals.css or theme setup
-      const progressColorClass = "text-cyan-500"; // Example: replace with your primary color variable if needed
-      const backgroundColorClass = "text-gray-700"; // Example: background circle color
+      const progressColorClass = "text-brand-green";
+      const backgroundColorClass = "text-brand-indigo/50";
   
       return (
         <div
@@ -57,8 +56,8 @@ interface CircularProgressProps {
               }}
             />
           </svg>
-          <div className="absolute flex items-center justify-center text-gray-100">
-            <span className="text-lg font-semibold">
+          <div className="absolute flex items-center justify-center text-white">
+            <span className="text-lg font-semibold font-inter">
               {(progress * 100).toFixed(1)}%
             </span>
           </div>

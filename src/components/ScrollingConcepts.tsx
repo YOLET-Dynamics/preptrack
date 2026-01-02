@@ -1,137 +1,82 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 
 const concepts = [
+  "Dosimetry",
+  "Treatment Planning",
   "Brachytherapy",
   "IMRT",
   "VMAT",
-  "SBRT",
-  "Proton Therapy",
-  "Gamma Knife",
-  "CyberKnife",
-  "Linear Accelerator",
-  "Treatment Planning",
-  "Dosimetry",
-  "Radiation Safety",
-  "Clinical Trials",
+  "Quality Assurance",
+  "Patient Safety",
+  "Radiation Physics",
+  "Anatomy",
   "Radiobiology",
-  "Patient Positioning",
+  "CT Simulation",
+  "MRI Fusion",
+  "Electron Therapy",
+  "Stereotactic",
   "Image-Guided RT",
 ];
 
-const duplicatedConcepts = [...concepts, ...concepts];
-
 const ScrollingConcepts: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const animationFrameRef = useRef<number | undefined>(undefined);
-  const startTimeRef = useRef<number | undefined>(undefined);
   const [centeredIndex, setCenteredIndex] = useState<number | null>(null);
-  const scrollWidthRef = useRef<number>(0);
-
-  const animationDuration = 30000;
-
-  const calculateCenter = useCallback((translateX: number) => {
-    if (!containerRef.current) return;
-
-    const container = containerRef.current;
-    const parentElement = container.parentElement;
-    if (!parentElement) return;
-
-    const containerVisibleWidth = parentElement.offsetWidth;
-    const containerCenter = containerVisibleWidth / 2;
-
-    let minDistance = Infinity;
-    let closestIndex = -1;
-
-    Array.from(container.children).forEach((child, index) => {
-      if (child instanceof HTMLElement) {
-        const childVisualCenter =
-          child.offsetLeft + translateX + child.offsetWidth / 2;
-        const distance = Math.abs(childVisualCenter - containerCenter);
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestIndex = index;
-        }
-      }
-    });
-
-    setCenteredIndex((prevIndex) =>
-      prevIndex !== closestIndex ? closestIndex : prevIndex
-    );
-  }, []);
-
-  const animate = useCallback(
-    (timestamp: number) => {
-      if (!containerRef.current || scrollWidthRef.current === 0) {
-        animationFrameRef.current = requestAnimationFrame(animate);
-        return;
-      }
-
-      if (startTimeRef.current === undefined) {
-        startTimeRef.current = timestamp;
-      }
-
-      const elapsed = timestamp - startTimeRef.current;
-      const progress = (elapsed / animationDuration) % 1;
-
-      const translateX = -progress * scrollWidthRef.current;
-      containerRef.current.style.transform = `translateX(${translateX}px)`;
-
-      calculateCenter(translateX);
-
-      animationFrameRef.current = requestAnimationFrame(animate);
-    },
-    [animationDuration, calculateCenter]
-  );
+  const duplicatedConcepts = [...concepts, ...concepts];
 
   useEffect(() => {
-    let isMounted = true;
-    const calculateWidthAndStartAnimation = () => {
-      if (!containerRef.current || !isMounted) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-      const children = Array.from(containerRef.current.children);
-      if (children.length > concepts.length) {
-        let totalWidth = 0;
-        const firstHalfChildren = children.slice(0, concepts.length);
-        firstHalfChildren.forEach((child) => {
-          if (child instanceof HTMLElement) {
-            const style = window.getComputedStyle(child);
-            const marginLeft = parseFloat(style.marginLeft);
-            const marginRight = parseFloat(style.marginRight);
-            totalWidth += child.offsetWidth + marginLeft + marginRight;
+    let animationFrameId: number;
+    let scrollPosition = 0;
+    const scrollSpeed = 0.5;
+
+    const scroll = () => {
+      scrollPosition += scrollSpeed;
+      if (scrollPosition >= container.scrollWidth / 2) {
+        scrollPosition = 0;
+      }
+      container.style.transform = `translateX(-${scrollPosition}px)`;
+
+      const containerRect = container.parentElement?.getBoundingClientRect();
+      if (containerRect) {
+        const centerX = containerRect.left + containerRect.width / 2;
+        const children = container.children;
+        let closestIndex: number | null = null;
+        let closestDistance = Infinity;
+
+        for (let i = 0; i < children.length; i++) {
+          const childRect = children[i].getBoundingClientRect();
+          const childCenterX = childRect.left + childRect.width / 2;
+          const distance = Math.abs(childCenterX - centerX);
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = i;
           }
-        });
-        scrollWidthRef.current = totalWidth;
-
-        startTimeRef.current = undefined;
-        if (animationFrameRef.current) {
-          cancelAnimationFrame(animationFrameRef.current);
         }
-        animationFrameRef.current = requestAnimationFrame(animate);
+        if (closestIndex !== null) {
+          setCenteredIndex(closestIndex % concepts.length);
+        }
       }
+
+      animationFrameId = requestAnimationFrame(scroll);
     };
 
-    const timeoutId = setTimeout(calculateWidthAndStartAnimation, 100);
-
-    return () => {
-      isMounted = false;
-      clearTimeout(timeoutId);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, [animate, concepts.length]);
+    animationFrameId = requestAnimationFrame(scroll);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, []);
 
   return (
-    <div className="w-full max-w-5xl mx-auto overflow-hidden py-4 mt-12 md:mt-16">
+    <div className="w-full max-w-5xl mx-auto overflow-hidden py-6 mt-16 md:mt-20">
       <div ref={containerRef} className="relative flex whitespace-nowrap">
         {duplicatedConcepts.map((concept, index) => (
           <span
             key={index}
-            className={`text-sm mx-4 font-funnel-sans transition-colors duration-300 ease-in-out ${
+            className={`text-sm mx-4 font-dm-sans transition-all duration-300 ease-in-out ${
               index === centeredIndex
-                ? "text-cyan-500 font-semibold"
-                : "text-gray-400"
+                ? "text-brand-green font-semibold scale-110"
+                : "text-brand-indigo/40"
             }`}
           >
             {concept}
