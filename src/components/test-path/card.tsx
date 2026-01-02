@@ -1,8 +1,13 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Eye, EyeOff, GraduationCap, BookOpen } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import {
+  Eye,
+  EyeOff,
+  GraduationCap,
+  BookOpen,
+  ArrowRight,
+  CheckCircle2,
+  Sparkles,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TestPath } from "@/models/testPath";
 import {
@@ -29,110 +34,179 @@ export function TestPathCard({
   );
 
   const completionPercentage = parseFloat(testPath.completion || "0");
+  const isCompleted = testPath.completed && !testPath.upgraded;
+  const isUpgraded = testPath.upgraded;
+  const isInProgress = completionPercentage > 0 && !testPath.completed;
 
   return (
     <TooltipProvider delayDuration={300}>
-      <Card
+      <div
         className={cn(
-          "group relative flex flex-col transition-all duration-200 ease-in-out",
-          "bg-white rounded-xl shadow-sm",
-          "cursor-pointer",
-          !testPath.hidden && [
-            "hover:shadow-lg hover:scale-[1.01]",
-            "hover:border-brand-green/50",
-          ],
+          "group relative overflow-hidden rounded-2xl transition-all duration-300 cursor-pointer",
+          "bg-white border",
           testPath.hidden
-            ? "border border-brand-indigo/10 opacity-70 hover:opacity-100"
-            : testPath.upgraded
-              ? "border border-brand-indigo/10 border-l-4 border-l-amber-400"
-              : testPath.completed
-                ? "border border-brand-indigo/10 border-l-4 border-l-brand-green"
-                : "border border-brand-green/30"
+            ? "border-brand-indigo/10 opacity-70 hover:opacity-100"
+            : isUpgraded
+            ? "border-amber-400/30 hover:border-amber-400/50"
+            : isCompleted
+            ? "border-brand-green/30 hover:border-brand-green/50"
+            : isInProgress
+            ? "border-brand-indigo/15 hover:border-brand-green/40"
+            : "border-brand-indigo/10 hover:border-brand-green/30",
+          !testPath.hidden &&
+            "hover:shadow-xl hover:shadow-brand-green/5 hover:-translate-y-1"
         )}
         onClick={onPress}
         data-completed={testPath.completed}
       >
-        <CardContent className="p-5 space-y-4">
-          <div className="flex justify-between items-start">
-            <h3 className="font-semibold text-base text-brand-indigo flex-1 pr-10 break-words hyphens-auto font-inter group-hover:text-brand-green transition-colors">
-              {testPath.title}
-            </h3>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute top-3 right-3 h-8 w-8 text-brand-indigo/40 hover:text-brand-green hover:bg-brand-green/10 rounded-lg z-10"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onToggleHidden();
-                  }}
-                  aria-label={
-                    testPath.hidden ? "Show test path" : "Hide test path"
-                  }
-                >
-                  {testPath.hidden ? (
-                    <Eye className="h-4 w-4" />
-                  ) : (
-                    <EyeOff className="h-4 w-4" />
-                  )}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent
-                side="top"
-                className="bg-brand-indigo border-brand-indigo/20 text-white"
-              >
-                <p>{testPath.hidden ? "Show" : "Hide"}</p>
-              </TooltipContent>
-            </Tooltip>
-          </div>
+        {/* Gradient background overlay */}
+        <div
+          className={cn(
+            "absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none",
+            !testPath.hidden && "group-hover:opacity-100"
+          )}
+          style={{
+            background: isUpgraded
+              ? "linear-gradient(135deg, rgba(251, 191, 36, 0.05) 0%, transparent 50%)"
+              : "linear-gradient(135deg, rgba(131, 200, 140, 0.05) 0%, transparent 50%)",
+          }}
+        />
 
-          <div className="flex flex-wrap gap-2">
-            <Badge
-              variant="secondary"
-              className="bg-brand-indigo/5 border-brand-indigo/10 text-brand-indigo/70 text-xs font-dm-sans"
-            >
-              <BookOpen className="h-3 w-3 mr-1.5" />
-              {testPath.sections.length}{" "}
-              {testPath.sections.length === 1 ? "Section" : "Sections"}
-            </Badge>
-            <Badge
-              variant="secondary"
-              className="bg-brand-indigo/5 border-brand-indigo/10 text-brand-indigo/70 text-xs font-dm-sans"
-            >
-              <GraduationCap className="h-3 w-3 mr-1.5" />
-              {examCount} {examCount === 1 ? "Exam" : "Exams"}
-            </Badge>
-            {testPath.completed && !testPath.upgraded && (
-              <Badge
-                variant="outline"
-                className="border-brand-green/30 text-brand-green bg-brand-green/10 text-xs font-dm-sans"
-              >
-                Completed
-              </Badge>
+        {/* Status indicator stripe */}
+        {(isCompleted || isUpgraded) && (
+          <div
+            className={cn(
+              "absolute top-0 left-0 w-1 h-full",
+              isUpgraded
+                ? "bg-gradient-to-b from-amber-400 to-amber-400/60"
+                : "bg-gradient-to-b from-brand-green to-brand-green/60"
             )}
-            {testPath.upgraded && (
-              <Badge
-                variant="outline"
-                className="border-amber-400/30 text-amber-600 bg-amber-50 text-xs font-dm-sans"
-              >
-                Upgraded
-              </Badge>
-            )}
-          </div>
+          />
+        )}
 
-          <div className="space-y-2 pt-1">
-            <div className="flex justify-between text-xs font-medium text-brand-indigo/50 font-dm-sans">
-              <span>Progress</span>
-              <span className="text-brand-indigo">{completionPercentage.toFixed(0)}%</span>
+        {/* Toggle visibility button */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 h-8 w-8 text-brand-indigo/30 hover:text-brand-indigo hover:bg-brand-indigo/5 rounded-lg z-20 opacity-0 group-hover:opacity-100 transition-opacity"
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleHidden();
+              }}
+              aria-label={testPath.hidden ? "Show test path" : "Hide test path"}
+            >
+              {testPath.hidden ? (
+                <Eye className="h-4 w-4" />
+              ) : (
+                <EyeOff className="h-4 w-4" />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent
+            side="top"
+            className="bg-brand-indigo text-white border-0 font-dm-sans"
+          >
+            <p>{testPath.hidden ? "Show" : "Hide"}</p>
+          </TooltipContent>
+        </Tooltip>
+
+        {/* Main content */}
+        <div className="relative p-5">
+          {/* Header with title */}
+          <div className="mb-4 pr-10">
+            <div className="flex items-start gap-3">
+              {isCompleted && (
+                <div className="flex-shrink-0 mt-0.5">
+                  <CheckCircle2 className="w-5 h-5 text-brand-green" />
+                </div>
+              )}
+              {isUpgraded && (
+                <div className="flex-shrink-0 mt-0.5">
+                  <Sparkles className="w-5 h-5 text-amber-500" />
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-base text-brand-indigo group-hover:text-brand-green transition-colors font-inter leading-snug break-words">
+                  {testPath.title}
+                </h3>
+              </div>
             </div>
-            <Progress
-              value={completionPercentage}
-              className="h-2 bg-brand-indigo/10 [&>div]:bg-brand-green [&>div]:rounded-full"
-            />
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Stats pills */}
+          <div className="flex flex-wrap gap-2 mb-5">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand-indigo/5 text-brand-indigo/60 text-xs font-medium font-dm-sans">
+              <BookOpen className="h-3.5 w-3.5" />
+              <span>
+                {testPath.sections.length}{" "}
+                {testPath.sections.length === 1 ? "Section" : "Sections"}
+              </span>
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand-indigo/5 text-brand-indigo/60 text-xs font-medium font-dm-sans">
+              <GraduationCap className="h-3.5 w-3.5" />
+              <span>
+                {examCount} {examCount === 1 ? "Exam" : "Exams"}
+              </span>
+            </div>
+            {isUpgraded && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 text-amber-600 border border-amber-200/50 text-xs font-medium font-dm-sans">
+                Upgraded
+              </div>
+            )}
+          </div>
+
+          {/* Progress section */}
+          <div className="space-y-3 pt-3 border-t border-brand-indigo/5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-brand-indigo/40 font-dm-sans">
+                Progress
+              </span>
+              <span
+                className={cn(
+                  "text-sm font-semibold font-inter",
+                  isCompleted
+                    ? "text-brand-green"
+                    : isUpgraded
+                    ? "text-amber-600"
+                    : "text-brand-indigo"
+                )}
+              >
+                {completionPercentage.toFixed(0)}%
+              </span>
+            </div>
+            <div className="relative h-2 bg-brand-indigo/5 rounded-full overflow-hidden">
+              <div
+                className={cn(
+                  "absolute inset-y-0 left-0 rounded-full transition-all duration-500",
+                  isUpgraded
+                    ? "bg-gradient-to-r from-amber-400 to-amber-500"
+                    : isCompleted
+                    ? "bg-gradient-to-r from-brand-green to-emerald-500"
+                    : "bg-gradient-to-r from-brand-green/80 to-brand-green"
+                )}
+                style={{ width: `${completionPercentage}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Hover action hint */}
+          <div className="flex items-center justify-between mt-4 pt-3 border-t border-brand-indigo/5 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="text-xs text-brand-indigo/40 font-dm-sans">
+              {isCompleted
+                ? "Review assessment"
+                : isUpgraded
+                ? "Continue with new content"
+                : "Start practicing"}
+            </span>
+            <div className="flex items-center gap-1 text-brand-green text-xs font-medium font-dm-sans">
+              <span>Open</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+        </div>
+      </div>
     </TooltipProvider>
   );
 }

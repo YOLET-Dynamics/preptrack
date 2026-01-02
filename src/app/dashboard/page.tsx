@@ -22,23 +22,23 @@ import { useAuth } from "@/provider/AuthProvider";
 const quickActions = [
   {
     href: "/dashboard/test-paths",
-    label: "Assessments",
-    description: "Take personalized exams",
+    label: "Practice",
+    description: "Take personalized assessments",
     icon: ClipboardList,
     gradient: "from-blue-500 to-indigo-600",
     bgGradient: "from-blue-500/10 via-indigo-500/5 to-transparent",
   },
   {
     href: "/dashboard/study-guides",
-    label: "Study Guides",
-    description: "Bite-sized lessons",
+    label: "Learn",
+    description: "Bite-sized study guides",
     icon: BookOpen,
     gradient: "from-emerald-500 to-teal-600",
     bgGradient: "from-emerald-500/10 via-teal-500/5 to-transparent",
   },
   {
     href: "/dashboard/track",
-    label: "Track Progress",
+    label: "Progress",
     description: "View your analytics",
     icon: BarChart2,
     gradient: "from-purple-500 to-pink-600",

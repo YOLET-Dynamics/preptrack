@@ -19,13 +19,13 @@ import { formatError } from "@/common/utils";
 
 function FieldInfo({ field }: { field: AnyFieldApi }) {
   return (
-    <>
+    <div className="min-h-[20px] mt-1">
       {field.state.meta.isTouched && field.state.meta.errors.length > 0 ? (
-        <p className="text-red-500 text-xs mt-1 absolute -bottom-5 left-0">
+        <p className="text-red-500 text-xs font-dm-sans">
           {field.state.meta.errors.join(", ")}
         </p>
       ) : null}
-    </>
+    </div>
   );
 }
 
@@ -134,9 +134,8 @@ export default function LoginPage() {
                       : "Please enter a valid email address.",
                 }}
                 children={(field) => (
-                  <div className="space-y-2">
-                    <div className="relative">
-                      <Input
+                  <div>
+                    <Input
                         id={field.name}
                         name={field.name}
                         type="email"
@@ -157,8 +156,7 @@ export default function LoginPage() {
                             "border-brand-green"
                         )}
                       />
-                      <FieldInfo field={field} />
-                    </div>
+                    <FieldInfo field={field} />
                   </div>
                 )}
               />
@@ -172,7 +170,7 @@ export default function LoginPage() {
                     !value ? "Password is required" : undefined,
                 }}
                 children={(field) => (
-                  <div className="space-y-2 relative pt-4">
+                  <div>
                     <div className="relative">
                       <Input
                         id={field.name}
@@ -209,9 +207,9 @@ export default function LoginPage() {
                           <Eye className="h-5 w-5" />
                         )}
                       </button>
-                      <FieldInfo field={field} />
                     </div>
-                    <div className="flex justify-end text-xs pt-1">
+                    <FieldInfo field={field} />
+                    <div className="flex justify-end text-xs">
                       <Link href="/forgot-password" passHref>
                         <span className="text-brand-green hover:underline cursor-pointer font-dm-sans">
                           Forgot password?

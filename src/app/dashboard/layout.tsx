@@ -43,11 +43,36 @@ const getInitials = (firstName?: string, lastName?: string) => {
 };
 
 const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/test-paths", label: "Assessment", icon: ClipboardList },
-  { href: "/dashboard/study-guides", label: "Study Guides", icon: BookOpen },
-  { href: "/dashboard/track", label: "Track", icon: BarChart2 },
-  { href: "/dashboard/profile", label: "Profile", icon: User },
+  {
+    href: "/dashboard",
+    label: "Home",
+    icon: LayoutDashboard,
+    description: "Overview",
+  },
+  {
+    href: "/dashboard/test-paths",
+    label: "Practice",
+    icon: ClipboardList,
+    description: "Assessments",
+  },
+  {
+    href: "/dashboard/study-guides",
+    label: "Learn",
+    icon: BookOpen,
+    description: "Study guides",
+  },
+  {
+    href: "/dashboard/track",
+    label: "Progress",
+    icon: BarChart2,
+    description: "Analytics",
+  },
+  {
+    href: "/dashboard/profile",
+    label: "Account",
+    icon: User,
+    description: "Settings",
+  },
 ];
 
 export default function DashboardLayout({
@@ -74,38 +99,60 @@ export default function DashboardLayout({
   };
 
   const SideNavContent = ({ isMobile = false }: { isMobile?: boolean }) => (
-    <nav className="flex flex-col gap-1.5 p-3 flex-grow">
+    <nav className="flex flex-col gap-1 p-3 flex-grow">
       {navItems.map((item) => {
         const isActive = pathname === item.href;
         return (
-          <Button
+          <button
             key={item.href}
-            variant="ghost"
             className={cn(
-              "group justify-start gap-3 h-11 rounded-xl transition-all font-dm-sans",
+              "group flex items-center gap-3 rounded-xl transition-all duration-200 font-dm-sans text-left",
               isSheetOpen || isMobile
-                ? "w-full px-4"
-                : "w-12 px-0 justify-center",
+                ? "w-full px-4 py-3"
+                : "w-12 h-12 px-0 justify-center",
               isActive
-                ? "bg-brand-green/10 text-brand-green hover:bg-brand-green/15"
-                : "text-brand-indigo/60 hover:bg-brand-indigo/5 hover:text-brand-indigo"
+                ? "bg-gradient-to-r from-brand-green/10 to-brand-green/5 text-brand-green border border-brand-green/20"
+                : "text-brand-indigo/60 hover:bg-brand-indigo/5 hover:text-brand-indigo border border-transparent"
             )}
             onClick={() => {
               router.push(item.href);
               if (isMobile) setIsMobileSheetOpen(false);
             }}
           >
-            <item.icon
+            <div
               className={cn(
-                "h-5 w-5 transition-all",
-                isActive ? "text-brand-green" : "text-brand-indigo/50 group-hover:text-brand-indigo",
-                isSheetOpen || isMobile ? "" : "group-hover:scale-110"
+                "flex items-center justify-center rounded-lg transition-all",
+                isSheetOpen || isMobile ? "w-9 h-9" : "w-full h-full",
+                isActive
+                  ? "bg-brand-green/10"
+                  : "bg-brand-indigo/5 group-hover:bg-brand-indigo/10"
               )}
-            />
+            >
+              <item.icon
+                className={cn(
+                  "h-[18px] w-[18px] transition-all",
+                  isActive
+                    ? "text-brand-green"
+                    : "text-brand-indigo/50 group-hover:text-brand-indigo"
+                )}
+              />
+            </div>
             {(isSheetOpen || isMobile) && (
-              <span className="font-medium text-sm">{item.label}</span>
+              <div className="flex flex-col min-w-0">
+                <span className="font-medium text-sm leading-tight">
+                  {item.label}
+                </span>
+                <span
+                  className={cn(
+                    "text-xs leading-tight truncate",
+                    isActive ? "text-brand-green/70" : "text-brand-indigo/40"
+                  )}
+                >
+                  {item.description}
+                </span>
+              </div>
             )}
-          </Button>
+          </button>
         );
       })}
     </nav>
@@ -116,20 +163,20 @@ export default function DashboardLayout({
       {/* Desktop Sidebar */}
       <aside
         className={cn(
-          "hidden lg:flex flex-col border-r border-brand-indigo/10 bg-white transition-all duration-300 ease-out",
-          isSheetOpen ? "w-64" : "w-20"
+          "hidden lg:flex flex-col border-r border-brand-indigo/10 bg-gradient-to-b from-white to-gray-50/50 transition-all duration-300 ease-out",
+          isSheetOpen ? "w-72" : "w-20"
         )}
       >
         {/* Sidebar Header */}
-        <div className="p-4 border-b border-brand-indigo/10 h-16 flex items-center justify-between sticky top-0 bg-white z-20">
+        <div className="p-4 border-b border-brand-indigo/5 h-16 flex items-center justify-between sticky top-0 bg-white/80 backdrop-blur-sm z-20">
           {isSheetOpen && (
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center group">
               <Image
                 src="/logo/PrepTrack_LogoDesign_01-01.png"
                 alt="PrepTrack"
                 width={120}
                 height={36}
-                className="h-8 w-auto"
+                className="h-8 w-auto transition-transform group-hover:scale-[1.02]"
               />
             </Link>
           )}
@@ -137,23 +184,33 @@ export default function DashboardLayout({
             variant="ghost"
             size="icon"
             onClick={() => setIsSheetOpen(!isSheetOpen)}
-            className="hover:bg-brand-indigo/5 text-brand-indigo/40 hover:text-brand-indigo transition-all duration-200 rounded-lg"
+            className="hover:bg-brand-indigo/5 text-brand-indigo/40 hover:text-brand-indigo transition-all duration-200 rounded-lg h-9 w-9"
           >
             {isSheetOpen ? (
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4" />
             ) : (
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-4 w-4" />
             )}
           </Button>
         </div>
 
         {/* Sidebar Navigation */}
         <div className="flex flex-col flex-grow overflow-y-auto">
+          {isSheetOpen && (
+            <div className="px-4 pt-4 pb-2">
+              <span className="text-[11px] font-medium uppercase tracking-wider text-brand-indigo/40 font-inter">
+                Menu
+              </span>
+            </div>
+          )}
           <SideNavContent />
 
           {isSheetOpen && (
-            <div className="mt-auto p-4 border-t border-brand-indigo/10 text-xs text-brand-indigo/40 font-dm-sans">
-              <p>&copy; {new Date().getFullYear()} PrepTrack</p>
+            <div className="mt-auto p-4 border-t border-brand-indigo/5">
+              <div className="flex items-center gap-2 text-[11px] text-brand-indigo/40 font-dm-sans">
+                <div className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></div>
+                <span>&copy; {new Date().getFullYear()} PrepTrack</span>
+              </div>
             </div>
           )}
         </div>
@@ -177,9 +234,9 @@ export default function DashboardLayout({
               </SheetTrigger>
               <SheetContent
                 side="left"
-                className="w-[280px] p-0 border-r border-brand-indigo/10 bg-white flex flex-col"
+                className="w-[300px] p-0 border-r border-brand-indigo/10 bg-gradient-to-b from-white to-gray-50/50 flex flex-col"
               >
-                <SheetHeader className="p-4 border-b border-brand-indigo/10">
+                <SheetHeader className="p-4 border-b border-brand-indigo/5 bg-white/80 backdrop-blur-sm">
                   <SheetTitle className="flex items-center">
                     <Image
                       src="/logo/PrepTrack_LogoDesign_01-01.png"
@@ -190,9 +247,17 @@ export default function DashboardLayout({
                     />
                   </SheetTitle>
                 </SheetHeader>
+                <div className="px-4 pt-4 pb-2">
+                  <span className="text-[11px] font-medium uppercase tracking-wider text-brand-indigo/40 font-inter">
+                    Menu
+                  </span>
+                </div>
                 <SideNavContent isMobile={true} />
-                <div className="mt-auto p-4 border-t border-brand-indigo/10 text-xs text-brand-indigo/40 font-dm-sans">
-                  <p>&copy; {new Date().getFullYear()} PrepTrack</p>
+                <div className="mt-auto p-4 border-t border-brand-indigo/5">
+                  <div className="flex items-center gap-2 text-[11px] text-brand-indigo/40 font-dm-sans">
+                    <div className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></div>
+                    <span>&copy; {new Date().getFullYear()} PrepTrack</span>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>

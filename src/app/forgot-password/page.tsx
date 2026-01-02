@@ -25,16 +25,13 @@ import { ResetPasswordSchema } from "@/api/schema/auth";
 
 function FieldInfo({ field }: { field: AnyFieldApi }) {
   return (
-    <>
+    <div className="min-h-[20px] mt-1">
       {field.state.meta.isTouched && field.state.meta.errors.length > 0 ? (
-        <p className="text-red-500 text-xs mt-1 absolute -bottom-5 left-0">
+        <p className="text-red-500 text-xs font-dm-sans">
           {field.state.meta.errors.join(", ")}
         </p>
       ) : null}
-      {!field.state.meta.isTouched || field.state.meta.errors.length === 0 ? (
-        <div className="h-5"></div>
-      ) : null}
-    </>
+    </div>
   );
 }
 
@@ -150,7 +147,7 @@ export default function ForgotPasswordPage() {
                       : "Please enter a valid email address.",
                 }}
                 children={(field) => (
-                  <div className="space-y-1 relative">
+                  <div>
                     <Input
                       id={field.name}
                       name={field.name}
@@ -241,7 +238,7 @@ export default function ForgotPasswordPage() {
                       : undefined,
                 }}
                 children={(field) => (
-                  <div className="flex flex-col items-center space-y-1">
+                  <div className="flex flex-col items-center">
                     <InputOTP
                       id={field.name}
                       name={field.name}
@@ -273,9 +270,7 @@ export default function ForgotPasswordPage() {
                         <InputOTPSlot index={5} className="text-brand-indigo border-brand-indigo/20" />
                       </InputOTPGroup>
                     </InputOTP>
-                    <div className="h-5 text-center">
-                      <FieldInfo field={field} />
-                    </div>
+                    <FieldInfo field={field} />
                   </div>
                 )}
               />
@@ -297,7 +292,7 @@ export default function ForgotPasswordPage() {
                       : undefined,
                 }}
                 children={(field) => (
-                  <div className="space-y-1 relative">
+                  <div>
                     <div className="relative">
                       <Input
                         id={field.name}
@@ -359,7 +354,7 @@ export default function ForgotPasswordPage() {
                       : undefined,
                 }}
                 children={(field) => (
-                  <div className="space-y-1 relative">
+                  <div>
                     <div className="relative">
                       <Input
                         id={field.name}

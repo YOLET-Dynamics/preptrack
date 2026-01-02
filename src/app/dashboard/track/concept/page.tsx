@@ -14,6 +14,8 @@ import {
   Trophy,
   AlertCircle,
   CalendarDays,
+  TrendingUp,
+  Sparkles,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Line } from "react-chartjs-2";
@@ -32,7 +34,6 @@ import {
 } from "chart.js";
 import { useUserConceptStore } from "@/store/userConceptStore";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -68,49 +69,10 @@ interface StatInfo {
   label: string;
   value: string | number;
   icon: React.ElementType;
-  iconColorClass: string;
-  bgColorClass: string;
-  textColorClass: string;
+  gradient: string;
+  iconBg: string;
+  iconColor: string;
 }
-
-const ConceptDetailSkeleton = () => (
-  <Card className="bg-white border border-brand-indigo/10 shadow-sm rounded-2xl w-full overflow-hidden">
-    <CardHeader className="border-b border-brand-indigo/5 p-5 md:p-6">
-      <Skeleton className="h-6 w-3/4 mb-3 bg-brand-indigo/5" />
-      <Skeleton className="h-10 w-1/3 bg-brand-indigo/5" />
-    </CardHeader>
-    <CardContent className="p-5 md:p-6 space-y-6">
-      <Card className="bg-brand-indigo/5 border-brand-indigo/10">
-        <CardHeader className="pb-3 pt-4 px-4">
-          <Skeleton className="h-4 w-1/3 bg-brand-indigo/10" />
-        </CardHeader>
-        <CardContent className="px-4 pb-4">
-          <div className="grid grid-cols-3 gap-2">
-            <Skeleton className="h-16 w-full bg-white" />
-            <Skeleton className="h-16 w-full bg-white" />
-            <Skeleton className="h-16 w-full bg-white" />
-          </div>
-        </CardContent>
-      </Card>
-      <div>
-        <Skeleton className="h-5 w-1/4 mb-3 bg-brand-indigo/5" />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-          <Skeleton className="h-24 w-full bg-brand-indigo/5" />
-          <Skeleton className="h-24 w-full bg-brand-indigo/5" />
-          <Skeleton className="h-24 w-full bg-brand-indigo/5" />
-          <Skeleton className="h-24 w-full bg-brand-indigo/5" />
-        </div>
-      </div>
-      <div>
-        <div className="flex justify-between items-center mb-4">
-          <Skeleton className="h-5 w-1/3 bg-brand-indigo/5" />
-          <Skeleton className="h-9 w-[130px] bg-brand-indigo/5" />
-        </div>
-        <Skeleton className="h-[300px] w-full bg-brand-indigo/5 rounded-xl" />
-      </div>
-    </CardContent>
-  </Card>
-);
 
 export default function ConceptDetailPage() {
   const router = useRouter();
@@ -153,33 +115,33 @@ export default function ConceptDetailPage() {
         label: "Questions Done",
         value: questionsAttempted,
         icon: Pencil,
-        iconColorClass: "text-blue-500",
-        bgColorClass: "bg-blue-50",
-        textColorClass: "text-blue-700",
+        gradient: "bg-gradient-to-br from-blue-50 to-blue-100/50 border border-blue-100",
+        iconBg: "bg-blue-100",
+        iconColor: "text-blue-600",
       },
       {
         label: "Average Time",
         value: `${avgTime}s`,
         icon: Clock,
-        iconColorClass: "text-amber-500",
-        bgColorClass: "bg-amber-50",
-        textColorClass: "text-amber-700",
+        gradient: "bg-gradient-to-br from-amber-50 to-amber-100/50 border border-amber-100",
+        iconBg: "bg-amber-100",
+        iconColor: "text-amber-600",
       },
       {
         label: "Highest Score",
         value: `${highestScore.toFixed(0)}%`,
         icon: Trophy,
-        iconColorClass: "text-green-500",
-        bgColorClass: "bg-green-50",
-        textColorClass: "text-green-700",
+        gradient: "bg-gradient-to-br from-green-50 to-green-100/50 border border-green-100",
+        iconBg: "bg-green-100",
+        iconColor: "text-green-600",
       },
       {
         label: "Lowest Score",
         value: `${lowestScore.toFixed(0)}%`,
         icon: AlertCircle,
-        iconColorClass: "text-red-500",
-        bgColorClass: "bg-red-50",
-        textColorClass: "text-red-700",
+        gradient: "bg-gradient-to-br from-red-50 to-red-100/50 border border-red-100",
+        iconBg: "bg-red-100",
+        iconColor: "text-red-600",
       },
     ];
 
@@ -222,13 +184,16 @@ export default function ConceptDetailPage() {
         {
           label: "Performance",
           data: dataPoints,
-          borderColor: "#83C88C",
-          backgroundColor: "rgba(131, 200, 140, 0.1)",
-          tension: 0.3,
-          pointBackgroundColor: "#83C88C",
+          borderColor: "#3B82F6",
+          backgroundColor: "rgba(59, 130, 246, 0.1)",
+          tension: 0.4,
+          pointBackgroundColor: "#3B82F6",
           pointBorderColor: "#ffffff",
-          pointHoverBackgroundColor: "#83C88C",
-          pointHoverBorderColor: "#83C88C",
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: "#3B82F6",
+          pointHoverBorderColor: "#ffffff",
           fill: true,
         },
       ],
@@ -243,12 +208,13 @@ export default function ConceptDetailPage() {
           backgroundColor: "#223843",
           titleColor: "#ffffff",
           bodyColor: "#ffffff",
-          borderColor: "#223843",
+          borderColor: "rgba(255,255,255,0.1)",
           borderWidth: 1,
-          padding: 10,
+          padding: 12,
+          cornerRadius: 8,
           callbacks: {
             label: (context) =>
-              `${context.dataset.label}: ${context.formattedValue}%`,
+              `Score: ${context.formattedValue}%`,
           },
         },
       },
@@ -256,23 +222,25 @@ export default function ConceptDetailPage() {
         y: {
           beginAtZero: true,
           max: 100,
-          grid: { color: "rgba(34, 56, 67, 0.1)" },
+          grid: { color: "rgba(34, 56, 67, 0.06)" },
           ticks: {
-            color: "rgba(34, 56, 67, 0.5)",
-            stepSize: 20,
+            color: "rgba(34, 56, 67, 0.4)",
+            stepSize: 25,
             callback: (value) => `${value}%`,
+            font: { size: 11 },
           },
-          border: { color: "rgba(34, 56, 67, 0.2)" },
+          border: { display: false },
         },
         x: {
           grid: { display: false },
           ticks: {
-            color: "rgba(34, 56, 67, 0.5)",
+            color: "rgba(34, 56, 67, 0.4)",
             maxRotation: 0,
             autoSkip: true,
             maxTicksLimit: timeRange === "month" ? 15 : timeRange === "year" ? 12 : 7,
+            font: { size: 11 },
           },
-          border: { color: "rgba(34, 56, 67, 0.2)" },
+          border: { display: false },
         },
       },
       interaction: { intersect: false, mode: "index" },
@@ -282,211 +250,270 @@ export default function ConceptDetailPage() {
   }, [userConcept, conceptAudits, timeRange]);
 
   const showSkeleton = !userConcept;
+  const currentScore = Number(userConcept?.recent_eval) || 0;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-6">
+      {/* Back button */}
       <Button
-        variant="outline"
+        variant="ghost"
         size="sm"
         onClick={() => router.back()}
-        className="border-brand-indigo/20 text-brand-indigo hover:bg-brand-indigo/5 rounded-lg font-dm-sans"
+        className="text-brand-indigo/60 hover:text-brand-indigo hover:bg-brand-indigo/5 rounded-xl font-dm-sans -ml-2"
       >
         <ArrowLeft className="h-4 w-4 mr-2" />
-        Back
+        Back to Topic
       </Button>
 
       {showSkeleton ? (
         <ConceptDetailSkeleton />
       ) : !userConcept.concept ? (
-        <Alert variant="destructive" className="bg-red-50 border-red-200 rounded-xl">
+        <Alert variant="destructive" className="bg-red-50 border-red-200/50 rounded-2xl">
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle className="text-red-700 font-inter">Error</AlertTitle>
           <AlertDescription className="text-red-600 font-dm-sans">
-            Incomplete concept data found. Please navigate back and select a
-            concept again.
+            Incomplete concept data found. Please navigate back and select a concept again.
           </AlertDescription>
         </Alert>
       ) : (
-        <Card className="bg-white border border-brand-indigo/10 shadow-sm rounded-2xl w-full overflow-hidden">
-          <CardHeader className="border-b border-brand-indigo/5 p-5 md:p-6">
-            <CardTitle className="text-xl font-semibold text-brand-indigo font-inter mb-2">
-              {userConcept.concept.name}
-            </CardTitle>
-            <div className="flex items-baseline">
-              <span className="text-4xl font-bold text-brand-green">
-                {(Number(userConcept.recent_eval) || 0).toFixed(0)}
-              </span>
-              <span className="text-2xl font-semibold text-brand-green ml-1">
-                %
-              </span>
-              <span className="ml-2 text-sm text-brand-indigo/50 font-dm-sans">
-                Current Score
-              </span>
-            </div>
-          </CardHeader>
+        <div className="space-y-6">
+          {/* Header Card */}
+          <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 rounded-2xl p-6 sm:p-8">
+            {/* Decorative elements */}
+            <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-brand-green/20 rounded-full blur-2xl translate-y-1/2 -translate-x-1/4" />
 
-          <CardContent className="p-5 md:p-6 space-y-6">
-            <Card className="bg-brand-indigo/5 border-brand-indigo/10 rounded-xl">
-              <CardHeader className="pb-3 pt-4 px-4">
-                <CardTitle className="text-sm font-medium text-brand-indigo/60 font-dm-sans">
-                  Evaluation Progress
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="px-4 pb-4">
-                <div className="grid grid-cols-3 gap-2">
-                  {evaluationData.map((item, index) => (
-                    <div
-                      key={item.label}
-                      className={cn(
-                        "text-center p-3 rounded-lg bg-white",
-                        index !== evaluationData.length - 1
-                          ? "relative after:content-[''] after:absolute after:right-0 after:top-1/4 after:h-1/2 after:w-px after:bg-brand-indigo/10"
-                          : ""
-                      )}
-                    >
-                      <div className="text-xs text-brand-indigo/50 mb-1 font-dm-sans">
-                        {item.label}
-                      </div>
-                      <div className="text-lg font-semibold text-brand-green font-inter">
-                        {item.value.toFixed(0)}%
-                      </div>
-                    </div>
-                  ))}
+            <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 text-white/70 text-sm font-dm-sans mb-2">
+                  <Sparkles className="h-4 w-4" />
+                  <span>Concept Analysis</span>
                 </div>
-              </CardContent>
-            </Card>
+                <h1 className="text-2xl sm:text-3xl font-bold text-white font-inter mb-3">
+                  {userConcept.concept.name}
+                </h1>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-lg">
+                    <TrendingUp className="h-4 w-4 text-brand-green" />
+                    <span className="text-white/90 text-sm font-medium font-dm-sans">
+                      {currentScore >= 70 ? "On Track" : currentScore >= 40 ? "Improving" : "Keep Practicing"}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-            <div>
-              <h3 className="text-sm font-medium text-brand-indigo/60 mb-3 font-dm-sans uppercase tracking-wide">
-                Key Stats
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                {statsData.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className={cn(
-                      "rounded-xl p-4 transition-colors duration-200 flex flex-col border border-brand-indigo/5",
-                      stat.bgColorClass
-                    )}
-                  >
-                    <stat.icon
-                      className={cn("h-5 w-5 mb-2", stat.iconColorClass)}
-                    />
-                    <span
-                      className={cn(
-                        "text-xl font-semibold mt-auto font-inter",
-                        stat.textColorClass
-                      )}
-                    >
+              {/* Score display */}
+              <div className="flex-shrink-0">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/20">
+                  <div className="text-center">
+                    <div className="flex items-baseline justify-center">
+                      <span className="text-5xl font-bold text-white font-inter">
+                        {currentScore.toFixed(0)}
+                      </span>
+                      <span className="text-2xl text-white/70 ml-1">%</span>
+                    </div>
+                    <p className="text-white/60 text-sm font-dm-sans mt-1">Current Score</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Evaluation Progress */}
+          <div className="bg-white border border-brand-indigo/10 rounded-2xl p-5 sm:p-6">
+            <h3 className="text-xs font-semibold text-brand-indigo/50 uppercase tracking-wider font-inter mb-4">
+              Score Progression
+            </h3>
+            <div className="grid grid-cols-3 gap-3">
+              {evaluationData.map((item, index) => (
+                <div
+                  key={item.label}
+                  className={cn(
+                    "text-center p-4 rounded-xl bg-gradient-to-br from-brand-indigo/5 to-transparent border border-brand-indigo/5",
+                    index === 2 && "from-blue-50 to-transparent border-blue-100"
+                  )}
+                >
+                  <div className="text-xs text-brand-indigo/50 mb-1 font-dm-sans uppercase tracking-wide">
+                    {item.label}
+                  </div>
+                  <div className={cn(
+                    "text-2xl font-bold font-inter",
+                    index === 2 ? "text-blue-600" : "text-brand-indigo"
+                  )}>
+                    {item.value.toFixed(0)}%
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="bg-white border border-brand-indigo/10 rounded-2xl p-5 sm:p-6">
+            <h3 className="text-xs font-semibold text-brand-indigo/50 uppercase tracking-wider font-inter mb-4">
+              Key Statistics
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {statsData.map((stat) => (
+                <div
+                  key={stat.label}
+                  className={cn(
+                    "rounded-xl p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md",
+                    stat.gradient
+                  )}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <span className="text-2xl font-bold text-brand-indigo font-inter">
                       {stat.value}
                     </span>
-                    <span
-                      className={cn("text-xs font-medium font-dm-sans", stat.textColorClass)}
-                    >
-                      {stat.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-sm font-medium text-brand-indigo/60 font-dm-sans uppercase tracking-wide">
-                  Performance History
-                </h3>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-[130px] justify-between bg-white border-brand-indigo/20 hover:bg-brand-indigo/5 text-brand-indigo rounded-lg"
-                      disabled={isLoadingAudits && !conceptAudits}
-                    >
-                      <CalendarDays className="h-4 w-4 mr-2 text-brand-indigo/50" />
-                      {
-                        TIME_RANGE_OPTIONS.find((opt) => opt.value === timeRange)
-                          ?.label
-                      }
-                      {isLoadingAudits ? (
-                        <Loader2 className="h-4 w-4 ml-2 animate-spin" />
-                      ) : (
-                        <ChevronDown className="h-4 w-4 ml-2 opacity-50" />
-                      )}
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-[130px] bg-white border-brand-indigo/10">
-                    {TIME_RANGE_OPTIONS.map((option) => (
-                      <DropdownMenuItem
-                        key={option.value}
-                        onClick={() => {
-                          if (timeRange !== option.value) {
-                            setTimeRange(option.value);
-                          }
-                        }}
-                        disabled={isLoadingAudits}
-                        className="text-brand-indigo hover:bg-brand-indigo/5"
-                      >
-                        {option.label}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-
-              <div className="h-[300px] p-4 bg-brand-indigo/5 rounded-xl border border-brand-indigo/10 relative">
-                {isLoadingAudits && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10 rounded-xl">
-                    <Loader2 className="h-8 w-8 animate-spin text-brand-green" />
-                  </div>
-                )}
-                {!isLoadingAudits && auditsError && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10 rounded-xl p-4">
-                    <Alert variant="destructive" className="w-full max-w-md bg-red-50 border-red-200 rounded-xl">
-                      <AlertTriangle className="h-4 w-4 text-red-500" />
-                      <AlertTitle className="text-red-700 font-inter">Error Loading Chart</AlertTitle>
-                      <AlertDescription className="text-red-600 font-dm-sans">
-                        {formatError(
-                          auditsError instanceof Error
-                            ? auditsError.message
-                            : String(auditsError)
-                        )}
-                        <Button
-                          variant="link"
-                          size="sm"
-                          onClick={() => refetchAudits()}
-                          className="p-0 h-auto ml-1 text-brand-green"
-                        >
-                          Retry
-                        </Button>
-                      </AlertDescription>
-                    </Alert>
-                  </div>
-                )}
-                {!isLoadingAudits &&
-                  !auditsError &&
-                  (!conceptAudits || conceptAudits.length === 0) && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-0 rounded-xl">
-                      <LineChartIcon className="h-12 w-12 text-brand-indigo/20 mb-2" />
-                      <p className="text-sm text-brand-indigo/50 font-dm-sans">
-                        No performance data available
-                      </p>
-                      <p className="text-xs text-brand-indigo/30 font-dm-sans">
-                        for the selected time range.
-                      </p>
+                    <div className={cn("p-2 rounded-lg", stat.iconBg)}>
+                      <stat.icon className={cn("h-4 w-4", stat.iconColor)} />
                     </div>
-                  )}
-                {!isLoadingAudits &&
-                  !auditsError &&
-                  conceptAudits &&
-                  conceptAudits.length > 0 && (
-                    <Line data={chartData} options={chartOptions} />
-                  )}
-              </div>
+                  </div>
+                  <span className="text-sm text-brand-indigo/60 font-dm-sans">{stat.label}</span>
+                </div>
+              ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+
+          {/* Performance Chart */}
+          <div className="bg-white border border-brand-indigo/10 rounded-2xl p-5 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-50 rounded-xl">
+                  <LineChartIcon className="h-5 w-5 text-blue-500" />
+                </div>
+                <div>
+                  <h3 className="text-base font-semibold text-brand-indigo font-inter">
+                    Performance History
+                  </h3>
+                  <p className="text-xs text-brand-indigo/50 font-dm-sans">
+                    Track your progress over time
+                  </p>
+                </div>
+              </div>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-[140px] justify-between bg-white border-brand-indigo/20 hover:bg-brand-indigo/5 text-brand-indigo rounded-xl"
+                    disabled={isLoadingAudits && !conceptAudits}
+                  >
+                    <CalendarDays className="h-4 w-4 mr-2 text-blue-500" />
+                    <span className="font-dm-sans">
+                      {TIME_RANGE_OPTIONS.find((opt) => opt.value === timeRange)?.label}
+                    </span>
+                    {isLoadingAudits ? (
+                      <Loader2 className="h-4 w-4 ml-2 animate-spin" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 ml-2 opacity-50" />
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-[140px] bg-white border-brand-indigo/10 rounded-xl">
+                  {TIME_RANGE_OPTIONS.map((option) => (
+                    <DropdownMenuItem
+                      key={option.value}
+                      onClick={() => {
+                        if (timeRange !== option.value) {
+                          setTimeRange(option.value);
+                        }
+                      }}
+                      disabled={isLoadingAudits}
+                      className="text-brand-indigo hover:bg-brand-indigo/5 font-dm-sans rounded-lg"
+                    >
+                      {option.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            <div className="h-[300px] p-4 bg-gradient-to-br from-blue-50/50 to-transparent rounded-xl border border-blue-100/50 relative">
+              {isLoadingAudits && (
+                <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10 rounded-xl backdrop-blur-sm">
+                  <div className="flex flex-col items-center gap-3">
+                    <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+                    <span className="text-sm text-brand-indigo/50 font-dm-sans">Loading data...</span>
+                  </div>
+                </div>
+              )}
+              {!isLoadingAudits && auditsError && (
+                <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10 rounded-xl p-4">
+                  <Alert variant="destructive" className="w-full max-w-md bg-red-50 border-red-200/50 rounded-xl">
+                    <AlertTriangle className="h-4 w-4 text-red-500" />
+                    <AlertTitle className="text-red-700 font-inter">Error Loading Chart</AlertTitle>
+                    <AlertDescription className="text-red-600 font-dm-sans">
+                      {formatError(
+                        auditsError instanceof Error
+                          ? auditsError.message
+                          : String(auditsError)
+                      )}
+                      <Button
+                        variant="link"
+                        size="sm"
+                        onClick={() => refetchAudits()}
+                        className="p-0 h-auto ml-1 text-brand-green"
+                      >
+                        Retry
+                      </Button>
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              )}
+              {!isLoadingAudits &&
+                !auditsError &&
+                (!conceptAudits || conceptAudits.length === 0) && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-0 rounded-xl">
+                    <div className="p-4 bg-blue-50 rounded-2xl mb-4">
+                      <LineChartIcon className="h-10 w-10 text-blue-400" />
+                    </div>
+                    <p className="text-base font-medium text-brand-indigo font-inter mb-1">
+                      No data yet
+                    </p>
+                    <p className="text-sm text-brand-indigo/50 font-dm-sans">
+                      for the selected time range
+                    </p>
+                  </div>
+                )}
+              {!isLoadingAudits &&
+                !auditsError &&
+                conceptAudits &&
+                conceptAudits.length > 0 && (
+                  <Line data={chartData} options={chartOptions} />
+                )}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
 }
+
+const ConceptDetailSkeleton = () => (
+  <div className="space-y-6">
+    {/* Header skeleton */}
+    <div className="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl p-6 sm:p-8">
+      <Skeleton className="h-4 w-24 bg-white/20 rounded-lg mb-3" />
+      <Skeleton className="h-8 w-2/3 bg-white/20 rounded-lg mb-4" />
+      <Skeleton className="h-6 w-32 bg-white/20 rounded-lg" />
+    </div>
+
+    {/* Stats skeleton */}
+    <div className="bg-white border border-brand-indigo/10 rounded-2xl p-5">
+      <Skeleton className="h-4 w-32 bg-brand-indigo/5 rounded mb-4" />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {[...Array(4)].map((_, i) => (
+          <Skeleton key={i} className="h-24 rounded-xl bg-brand-indigo/5" />
+        ))}
+      </div>
+    </div>
+
+    {/* Chart skeleton */}
+    <div className="bg-white border border-brand-indigo/10 rounded-2xl p-5">
+      <Skeleton className="h-4 w-40 bg-brand-indigo/5 rounded mb-4" />
+      <Skeleton className="h-[300px] rounded-xl bg-brand-indigo/5" />
+    </div>
+  </div>
+);
