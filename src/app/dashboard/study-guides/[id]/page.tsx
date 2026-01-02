@@ -48,8 +48,8 @@ const SectionCard = ({
         "bg-transparent rounded-lg shadow-sm",
         "hover:shadow-xl hover:scale-[1.015] hover:border-primary",
         isCompleted
-          ? "border border-neutral-600 border-l-4 border-l-green-500 dark:border-l-green-400"
-          : "border border-cyan-500"
+          ? "border border-brand-indigo/20 border-l-4 border-l-brand-green"
+          : "border border-brand-green"
       )}
     >
       <button
@@ -62,8 +62,8 @@ const SectionCard = ({
             className={cn(
               "w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors",
               isCompleted
-                ? "bg-green-600 group-hover:bg-green-700 text-white"
-                : "bg-gradient-to-br from-cyan-700 to-cyan-900 group-hover:from-cyan-600 group-hover:to-cyan-800 text-white"
+                ? "bg-brand-green group-hover:bg-brand-green/90 text-white"
+                : "bg-gradient-to-br from-brand-green to-brand-indigo group-hover:from-brand-green/90 group-hover:to-brand-indigo/90 text-white"
             )}
           >
             {isCompleted ? (
@@ -75,17 +75,17 @@ const SectionCard = ({
 
           {/* Section Details */}
           <div className="flex-grow min-w-0">
-            <h3
-              className={cn(
-                "font-medium text-foreground truncate transition-colors",
-                isCompleted
-                  ? "group-hover:text-green-700 dark:group-hover:text-green-300"
-                  : "group-hover:text-primary"
-              )}
-            >
+              <h3
+                className={cn(
+                  "font-medium text-brand-indigo truncate transition-colors",
+                  isCompleted
+                    ? "group-hover:text-brand-green"
+                    : "group-hover:text-brand-green"
+                )}
+              >
               {section.title}
             </h3>
-            <div className="flex items-center text-xs text-muted-foreground space-x-2 mt-1">
+              <div className="flex items-center text-xs text-brand-indigo/60 space-x-2 mt-1">
               <div className="flex items-center">
                 <ListChecks className="h-3 w-3 mr-1" />
                 <span>
@@ -96,7 +96,7 @@ const SectionCard = ({
                 !isCompleted && ( // Show only if in progress
                   <>
                     <span className="mx-1 select-none">•</span>
-                    <span className="text-primary/80">
+                    <span className="text-brand-green/80">
                       {completionPercentage.toFixed(0)}% Complete
                     </span>
                   </>
@@ -104,7 +104,7 @@ const SectionCard = ({
               {isCompleted && (
                 <>
                   <span className="mx-1 select-none">•</span>
-                  <span className="text-green-600 dark:text-green-400 font-medium">
+                  <span className="text-brand-green font-medium">
                     Completed
                   </span>
                 </>
@@ -114,17 +114,17 @@ const SectionCard = ({
             {!isCompleted && completionPercentage > 0 && (
               <Progress
                 value={completionPercentage}
-                className="h-1 mt-1.5 bg-muted/70 [&>div]:bg-primary/70"
+                className="h-1 mt-1.5 bg-brand-indigo/10 [&>div]:bg-brand-green/70"
               />
             )}
           </div>
         </div>
         <ChevronRight
           className={cn(
-            "h-5 w-5 text-muted-foreground flex-shrink-0 ml-4 transition-colors",
+            "h-5 w-5 text-brand-indigo/40 flex-shrink-0 ml-4 transition-colors",
             isCompleted
-              ? "group-hover:text-green-700 dark:group-hover:text-green-400"
-              : "group-hover:text-primary"
+              ? "group-hover:text-brand-green"
+              : "group-hover:text-brand-green"
           )}
         />
       </button>
@@ -227,18 +227,18 @@ export default function StudyGuideDetailPage() {
 
       <Card className="p-4 bg-card border border-border rounded-lg shadow-md hover:shadow-lg transition-all duration-200 ease-in-out">
         {guide.description && (
-          <p className="text-sm text-muted-foreground mb-3">
+          <p className="text-sm text-brand-indigo/60 mb-3">
             {guide.description}
           </p>
         )}
         <div className="flex items-center justify-between text-sm mb-1">
-          <span className="text-muted-foreground">Overall Progress</span>
+          <span className="text-brand-indigo/60">Overall Progress</span>
           <span
             className={cn(
               "font-medium",
               completionPercentage === 100
-                ? "text-green-600 dark:text-green-400"
-                : "text-foreground"
+                ? "text-brand-green"
+                : "text-brand-indigo"
             )}
           >
             {completionPercentage.toFixed(0)}%
@@ -246,13 +246,13 @@ export default function StudyGuideDetailPage() {
         </div>
         <Progress
           value={completionPercentage}
-          className="h-2 bg-muted [&>div]:bg-gradient-to-r [&>div]:from-cyan-500 [&>div]:to-blue-500"
+          className="h-2 bg-brand-indigo/10 [&>div]:bg-gradient-to-r [&>div]:from-brand-green [&>div]:to-brand-indigo"
         />
       </Card>
 
       {/* Sections List */}
       <div className="space-y-3">
-        <h2 className="text-lg font-semibold text-foreground tracking-tight">
+        <h2 className="text-lg font-semibold text-brand-indigo tracking-tight">
           Sections
         </h2>
         {guide.sections && guide.sections.length > 0 ? (
@@ -267,8 +267,8 @@ export default function StudyGuideDetailPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-10 text-muted-foreground border border-dashed border-border rounded-lg min-h-[150px] flex flex-col justify-center items-center">
-            <BookOpenCheck className="h-8 w-8 mb-2 text-muted-foreground/50" />
+          <div className="text-center py-10 text-brand-indigo/60 border border-dashed border-brand-indigo/20 rounded-lg min-h-[150px] flex flex-col justify-center items-center">
+            <BookOpenCheck className="h-8 w-8 mb-2 text-brand-indigo/30" />
             <p className="text-base mb-1">No Sections Found</p>
             <p className="text-xs">
               This study guide does not have any sections yet.

@@ -95,10 +95,10 @@ export default function TestPathsPage() {
     <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="space-y-1">
-          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-brand-indigo font-inter">
             Assessments
           </h1>
-          <p className="text-sm md:text-base text-muted-foreground">
+          <p className="text-sm md:text-base text-brand-indigo/60 font-dm-sans">
             Personalized collection of assessments.
           </p>
         </div>
@@ -120,7 +120,7 @@ export default function TestPathsPage() {
 
       {isLoading || isRefetching ? (
         <div className="flex justify-center items-center py-10 min-h-[200px]">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <Loader2 className="h-8 w-8 animate-spin text-brand-green" />
         </div>
       ) : error ? (
         <Alert variant="destructive" className="my-6">
@@ -140,9 +140,9 @@ export default function TestPathsPage() {
               />
             ))
           ) : (
-            <div className="col-span-full text-center py-10 text-muted-foreground border border-dashed border-border rounded-lg">
-              <p className="text-lg mb-2">No Test Paths Found</p>
-              <p className="text-sm">
+            <div className="col-span-full text-center py-10 text-brand-indigo/60 border border-dashed border-brand-indigo/20 rounded-xl min-h-[200px] flex flex-col justify-center items-center bg-white/50">
+              <p className="text-lg mb-2 font-inter text-brand-indigo">No Test Paths Found</p>
+              <p className="text-sm font-dm-sans">
                 {userSubject
                   ? "No test paths available for the selected course. Try creating one!"
                   : "Please select a course above to view test paths."}

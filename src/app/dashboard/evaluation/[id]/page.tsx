@@ -64,19 +64,19 @@ const INCORRECT_MESSAGES = [
 const getDifficultyBadgeClasses = (difficulty: string | undefined): string => {
   const lowerDifficulty = difficulty?.toLowerCase() || "";
   if (lowerDifficulty.startsWith("easy")) {
-    return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200 border-green-300 dark:border-green-700";
+    return "bg-brand-green/10 text-brand-green border-brand-green/30";
   }
   if (lowerDifficulty.startsWith("med")) {
-    return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200 border-yellow-300 dark:border-yellow-700";
+    return "bg-yellow-100 text-yellow-700 border-yellow-300";
   }
   if (
     lowerDifficulty.startsWith("hard") ||
     lowerDifficulty.startsWith("expert")
   ) {
-    return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-200 border-red-300 dark:border-red-700";
+    return "bg-red-100 text-red-700 border-red-300";
   }
 
-  return "bg-gray-100 text-gray-800 dark:bg-gray-700/30 dark:text-gray-200 border-gray-300 dark:border-gray-600";
+  return "bg-brand-indigo/10 text-brand-indigo border-brand-indigo/20";
 };
 
 const getRandomMessage = (messages: string[]) => {
@@ -223,14 +223,14 @@ export default function EvaluationPage() {
           duration: 3000,
           classNames: {
             toast: isCorrect
-              ? "border-green-500 bg-green-50 dark:bg-green-900/30 dark:border-green-700"
-              : "border-orange-500 bg-orange-50 dark:bg-orange-900/30 dark:border-orange-700",
+              ? "border-brand-green bg-brand-green/10"
+              : "border-orange-400 bg-orange-50",
             title: isCorrect
-              ? "text-green-700 dark:text-green-300"
-              : "text-orange-700 dark:text-orange-300",
+              ? "text-brand-green"
+              : "text-orange-700",
             description: isCorrect
-              ? "text-green-600 dark:text-green-400"
-              : "text-orange-600 dark:text-orange-400",
+              ? "text-brand-green/80"
+              : "text-orange-600",
           },
         }
       );
@@ -433,12 +433,12 @@ export default function EvaluationPage() {
         />
       )}
 
-      <div className="min-h-screen bg-background py-6 sm:py-8 px-4">
+      <div className="min-h-screen bg-gradient-to-br from-white via-brand-indigo/5 to-white py-6 sm:py-8 px-4">
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
             <h1
-              className="text-xl sm:text-2xl font-semibold text-foreground truncate pr-4"
+              className="text-xl sm:text-2xl font-semibold text-brand-indigo truncate pr-4"
               title={examData.exam_info.title}
             >
               {examData.exam_info.title}
@@ -448,7 +448,7 @@ export default function EvaluationPage() {
               size="icon"
               onClick={handleExit}
               aria-label="Exit Exam"
-              className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+              className="text-brand-indigo/60 hover:text-red-600 hover:bg-red-50"
             >
               <X className="w-5 h-5" />
             </Button>
@@ -457,7 +457,7 @@ export default function EvaluationPage() {
           {/* Progress Bar & Info */}
           <div className="mb-6 sm:mb-8 space-y-3">
             <Progress value={progressPercent} className="w-full h-2" />
-            <div className="flex justify-between items-center text-sm text-muted-foreground">
+            <div className="flex justify-between items-center text-sm text-brand-indigo/60">
               <div className="flex items-center gap-2 flex-wrap">
                 <span>
                   Question {examProgress.currentQuestionNumber} of{" "}
@@ -477,7 +477,7 @@ export default function EvaluationPage() {
                     variant="outline"
                     className={cn(
                       "px-2.5 py-0.5",
-                      "border-teal-300 text-teal-800 dark:border-teal-600 dark:text-teal-300 bg-teal-50 dark:bg-teal-900/30"
+                      "border-brand-green/30 text-brand-green bg-brand-green/5"
                     )}
                   >
                     {currentQuestion.concept}
@@ -511,7 +511,7 @@ export default function EvaluationPage() {
                 onComplete={onTimerComplete}
               >
                 {({ remainingTime }) => (
-                  <span className="text-xs font-medium text-foreground">
+                  <span className="text-xs font-medium text-brand-indigo">
                     {remainingTime}
                   </span>
                 )}
@@ -523,7 +523,7 @@ export default function EvaluationPage() {
           {isLoadingStore && (
             <div className="flex justify-center items-center my-10">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              <span className="ml-3 text-muted-foreground">
+              <span className="ml-3 text-brand-indigo/60">
                 Loading next question...
               </span>
             </div>
@@ -531,17 +531,17 @@ export default function EvaluationPage() {
 
           {/* Question Card - Hide if loading next page */}
           {!isLoadingStore && (
-            <div className="bg-card rounded-lg border shadow-sm p-6 sm:p-8 mb-6 sm:mb-8">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-brand-indigo/10 shadow-lg shadow-brand-indigo/5 p-6 sm:p-8 mb-6 sm:mb-8">
               {/* Question Number and Text Container */}
               <div className="flex items-start gap-3 sm:gap-4 mb-8">
                 {" "}
                 {/* Use flex to align number and text */}
                 {/* Rounded Question Number */}
-                <div className="bg-cyan-400 flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 text-primary-foreground rounded-full flex items-center justify-center text-sm sm:text-base font-semibold">
+                <div className="bg-brand-green flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 text-white rounded-full flex items-center justify-center text-sm sm:text-base font-semibold">
                   {examProgress.currentQuestionNumber}
                 </div>
                 {/* Question Text */}
-                <p className="flex-grow text-lg sm:text-xl font-semibold text-foreground">
+                <p className="flex-grow text-lg sm:text-xl font-semibold text-brand-indigo">
                   {currentQuestion.value}
                 </p>
               </div>
@@ -563,15 +563,16 @@ export default function EvaluationPage() {
                       onClick={() => handleAnswerSelect(choice.id)}
                       disabled={showFeedback} // Disable after any answer is submitted
                       className={cn(
-                        "w-full h-auto justify-start text-left py-3.5 px-5 whitespace-normal text-sm sm:text-base",
-                        "border-border hover:border-primary/70 hover:bg-muted dark:hover:bg-primary/5 transition-all duration-150 ease-in-out",
+                        "w-full h-auto justify-start text-left py-4 px-5 whitespace-normal text-sm sm:text-base rounded-xl font-dm-sans",
+                        "border-brand-indigo/10 hover:border-brand-green/40 hover:bg-gradient-to-r hover:from-brand-green/5 hover:to-transparent",
+                        "transition-all duration-200 ease-out hover:scale-[1.01] hover:shadow-md",
                         showFeedback && isCorrect
-                          ? "border-green-500 bg-green-100 text-green-900 dark:bg-green-700/30 dark:text-green-200 dark:border-green-600 hover:bg-green-100 dark:hover:bg-green-700/40 ring-2 ring-green-500/50"
+                          ? "border-brand-green bg-gradient-to-r from-brand-green/15 to-brand-green/5 text-brand-green ring-2 ring-brand-green/40 shadow-md"
                           : showFeedback && isIncorrectSelected
-                          ? "border-red-500 bg-red-100 text-red-900 dark:bg-red-700/30 dark:text-red-200 dark:border-red-600 hover:bg-red-100 dark:hover:bg-red-700/40 ring-2 ring-red-500/50"
+                          ? "border-red-400 bg-gradient-to-r from-red-50 to-red-50/50 text-red-600 ring-2 ring-red-300/50 shadow-md"
                           : isSelected && !showFeedback // Selected but not yet submitted
-                          ? "border-primary bg-primary/10 ring-2 ring-primary dark:bg-primary/20 dark:border-primary-foreground/80"
-                          : "text-foreground hover:text-primary",
+                          ? "border-brand-green bg-gradient-to-r from-brand-green/10 to-transparent ring-2 ring-brand-green shadow-md scale-[1.01]"
+                          : "text-brand-indigo hover:text-brand-green bg-white/50",
                         showFeedback ? "cursor-not-allowed" : "cursor-pointer" // Cursor indication
                       )}
                     >
@@ -586,7 +587,7 @@ export default function EvaluationPage() {
                 <Button
                   onClick={handleNext}
                   disabled={isLoadingStore || isSubmitting} // Disable while loading next page or submitting final
-                  className="mt-6 w-full"
+                  className="mt-8 w-full bg-brand-indigo hover:bg-brand-indigo/90 text-white rounded-xl h-12 font-dm-sans font-medium shadow-lg shadow-brand-indigo/20 hover:shadow-xl hover:scale-[1.02] transition-all duration-200"
                   size="lg"
                 >
                   {isLoadingStore || isSubmitting ? (
@@ -600,9 +601,9 @@ export default function EvaluationPage() {
               {currentQuestion.resources &&
                 currentQuestion.resources.length > 0 && (
                   <Button
-                    variant="secondary"
+                    variant="outline"
                     onClick={() => setShowResources(true)}
-                    className="mt-4 w-full flex items-center justify-center"
+                    className="mt-4 w-full flex items-center justify-center border-brand-indigo/20 text-brand-indigo/70 hover:text-brand-green hover:border-brand-green/30 hover:bg-brand-green/5 rounded-xl h-11 font-dm-sans transition-all duration-200"
                     disabled={showFeedback} // Optionally disable when feedback is shown
                   >
                     <BookOpen className="w-4 h-4 mr-2" />

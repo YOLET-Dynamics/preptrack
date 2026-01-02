@@ -156,10 +156,10 @@ export default function StudyGuidesPage() {
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="space-y-1">
-          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-brand-indigo font-inter">
             Study-Guides
           </h1>
-          <p className="text-sm md:text-base text-muted-foreground">
+          <p className="text-sm md:text-base text-brand-indigo/60 font-dm-sans">
             Personalized and bite-sized lessons.
           </p>
         </div>
@@ -191,7 +191,7 @@ export default function StudyGuidesPage() {
       <div className="min-h-[200px]">
         {isLoadingGuides || isRefetchingGuides ? (
           <div className="flex justify-center items-center py-10 min-h-[200px]">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <Loader2 className="h-8 w-8 animate-spin text-brand-green" />
           </div>
         ) : guidesError ? (
           <Alert variant="destructive" className="my-6">
@@ -211,9 +211,9 @@ export default function StudyGuidesPage() {
                 />
               ))
             ) : (
-              <div className="col-span-full text-center py-10 text-muted-foreground border border-dashed border-border rounded-lg min-h-[200px] flex flex-col justify-center items-center">
-                <p className="text-lg mb-2">No Study Guides Found</p>
-                <p className="text-sm">
+              <div className="col-span-full text-center py-10 text-brand-indigo/60 border border-dashed border-brand-indigo/20 rounded-xl min-h-[200px] flex flex-col justify-center items-center bg-white/50">
+                <p className="text-lg mb-2 font-inter text-brand-indigo">No Study Guides Found</p>
+                <p className="text-sm font-dm-sans">
                   {userSubject
                     ? "No study guides available for the selected course. Try creating one!"
                     : "Please select a course above to view study guides."}

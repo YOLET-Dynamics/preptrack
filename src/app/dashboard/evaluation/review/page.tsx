@@ -51,7 +51,7 @@ const QuestionItem = ({ item }: { item: QuestionResult }) => {
 
   return (
     <Card className="overflow-hidden border-border/60 shadow-sm hover:shadow-md transition-shadow duration-300">
-      <CardHeader className="p-4 bg-muted/30 dark:bg-muted/20 border-b dark:border-border">
+      <CardHeader className="p-4 bg-brand-indigo/5 border-b border-brand-indigo/10">
         {/* Question Number / ID could go here if available */}
         <CardTitle className="text-base font-medium leading-relaxed">
           {item.question.value}
@@ -68,9 +68,9 @@ const QuestionItem = ({ item }: { item: QuestionResult }) => {
           {wasSkipped ? (
             <Info className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
           ) : isCorrect ? (
-            <CheckCircle2 className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5 text-green-600 dark:text-green-500" />
+            <CheckCircle2 className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5 text-brand-green" />
           ) : (
-            <XCircle className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5 text-red-600 dark:text-red-500" />
+            <XCircle className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5 text-red-600" />
           )}
           <div className="flex-1">
             <AlertTitle className="mb-1">
@@ -85,7 +85,7 @@ const QuestionItem = ({ item }: { item: QuestionResult }) => {
         {/* Correct Answer Alert (if incorrect) */}
         {!isCorrect && !wasSkipped && (
           <Alert variant="default" className="flex items-start">
-            <CheckCircle2 className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5 text-green-600 dark:text-green-500" />
+            <CheckCircle2 className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5 text-brand-green" />
             <div className="flex-1">
               <AlertTitle className="mb-1">Correct Answer</AlertTitle>
               <AlertDescription>{item.question.answer.value}</AlertDescription>
@@ -122,7 +122,7 @@ const QuestionItem = ({ item }: { item: QuestionResult }) => {
           </Collapsible>
         )}
       </CardContent>
-      <CardFooter className="p-4 bg-muted/30 dark:bg-muted/20 border-t dark:border-border flex flex-wrap gap-x-4 gap-y-2 justify-between text-xs text-muted-foreground">
+      <CardFooter className="p-4 bg-brand-indigo/5 border-t border-brand-indigo/10 flex flex-wrap gap-x-4 gap-y-2 justify-between text-xs text-brand-indigo/60">
         <div className="flex items-center gap-1" title="Time Taken">
           <Clock className="h-3.5 w-3.5" />
           <span>{item.time_taken}s</span>
@@ -283,7 +283,7 @@ export default function ExamReviewPage() {
 
       {/* Pagination */}
       {total_pages > 1 && (
-        <div className="flex justify-between items-center mt-8 pt-4 border-t dark:border-border">
+        <div className="flex justify-between items-center mt-8 pt-4 border-t border-brand-indigo/10">
           <Button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1 || isFetching}
@@ -291,7 +291,7 @@ export default function ExamReviewPage() {
           >
             Previous Page
           </Button>
-          <span className="text-sm font-medium text-muted-foreground">
+          <span className="text-sm font-medium text-brand-indigo/60">
             Page {currentPage} / {total_pages}
           </span>
           <Button

@@ -22,31 +22,25 @@ interface StatItemProps {
 
 const StatItem = ({ icon, label, value, iconColorClass }: StatItemProps) => (
   <div className="flex flex-col items-center text-center">
-    {/* Icon */}
     <div
       className={cn(
-        "mb-2 flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 bg-gray-800/60",
-        // Apply icon color to the icon itself
-        React.isValidElement(icon) &&
-          React.cloneElement(icon as React.ReactElement<any>, {
-            className: cn("h-5 w-5", iconColorClass),
-          })
+        "mb-2 flex h-10 w-10 items-center justify-center rounded-xl border border-brand-indigo/10 bg-brand-indigo/5"
       )}
-    ></div>
-    <span className="text-sm font-semibold text-gray-100">{value}</span>
+    >
+      {React.isValidElement(icon) &&
+        React.cloneElement(icon as React.ReactElement<any>, {
+          className: cn("h-5 w-5", iconColorClass),
+        })}
+    </div>
+    <span className="text-sm font-semibold text-brand-indigo font-dm-sans">{value}</span>
     {label.map((text, i) => (
-      <span key={i} className="text-[11px] leading-tight text-gray-400">
+      <span key={i} className="text-[11px] leading-tight text-brand-indigo/50 font-dm-sans">
         {text}
       </span>
     ))}
   </div>
 );
 
-/**
- * Displays a card summarizing a user's performance on a specific concept.
- * Includes recent score, questions attempted, highest score, and average time.
- * Provides a button to navigate to more detailed concept analytics.
- */
 export const UserConceptCard = ({ conceptData }: UserConceptCardProps) => {
   const router = useRouter();
   const { setUserConcept } = useUserConceptStore();
@@ -54,7 +48,6 @@ export const UserConceptCard = ({ conceptData }: UserConceptCardProps) => {
   const recentEval = Number(conceptData.recent_eval) || 0;
   const questionsAttempted = conceptData.questions_attempted || 0;
   const highestScore = Number(conceptData.highest_question_score) || 0;
-
   const avgTime = (Number(conceptData.avg_time) || 0).toFixed(1);
 
   const handleNavigate = () => {
@@ -62,18 +55,17 @@ export const UserConceptCard = ({ conceptData }: UserConceptCardProps) => {
     router.push(`/dashboard/track/concept`);
   };
 
-  // --- Render Logic ---
   return (
-    <Card className="bg-gray-800/60 border border-gray-700/80 hover:border-gray-600/90 transition-colors duration-200">
+    <Card className="bg-white border border-brand-indigo/10 hover:border-brand-green/30 transition-all duration-200 rounded-xl shadow-sm hover:shadow-md group">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-3 px-4">
-        <CardTitle className="text-sm font-medium text-gray-200 line-clamp-1 pr-2">
+        <CardTitle className="text-sm font-medium text-brand-indigo line-clamp-1 pr-2 font-inter group-hover:text-brand-green transition-colors">
           {conceptData.concept?.name || "Unnamed Concept"}
         </CardTitle>
         <Button
           variant="ghost"
           size="icon"
           onClick={handleNavigate}
-          className="h-7 w-7 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 flex-shrink-0"
+          className="h-7 w-7 text-brand-green hover:bg-brand-green/10 flex-shrink-0 rounded-lg"
           aria-label="View concept details"
         >
           <ArrowRight className="h-4 w-4" />
@@ -86,25 +78,25 @@ export const UserConceptCard = ({ conceptData }: UserConceptCardProps) => {
             icon={<CheckCircle />}
             label={["Recent"]}
             value={`${recentEval.toFixed(0)}%`}
-            iconColorClass="text-emerald-400"
+            iconColorClass="text-brand-green"
           />
           <StatItem
             icon={<List />}
             label={["Questions", "Attempted"]}
             value={questionsAttempted}
-            iconColorClass="text-sky-400"
+            iconColorClass="text-brand-green"
           />
           <StatItem
             icon={<BarChart3 />}
             label={["Highest", "Score"]}
             value={`${highestScore.toFixed(0)}%`}
-            iconColorClass="text-blue-400"
+            iconColorClass="text-brand-green"
           />
           <StatItem
             icon={<Clock />}
             label={["Avg Time"]}
             value={`${avgTime}s`}
-            iconColorClass="text-amber-400"
+            iconColorClass="text-brand-green"
           />
         </div>
       </CardContent>

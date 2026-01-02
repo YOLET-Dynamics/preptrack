@@ -123,7 +123,7 @@ export default function SelectTopicDialog({
   return (
     <>
       <Dialog open={effectiveOpen} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-3xl w-[95vw] max-h-[90vh] flex flex-col font-funnel-sans bg-background text-foreground border-border rounded-lg">
+        <DialogContent className="sm:max-w-3xl w-[95vw] max-h-[90vh] flex flex-col font-dm-sans bg-white text-brand-indigo border-brand-indigo/10 rounded-2xl shadow-xl">
           <DialogHeader className="flex-shrink-0 border-b pb-4">
             <div className="flex items-center gap-2">
               <Button
@@ -131,12 +131,12 @@ export default function SelectTopicDialog({
                 size="icon"
                 onClick={onBack}
                 aria-label="Go back"
-                className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-muted/50"
+                className="h-8 w-8 text-brand-indigo/40 hover:text-brand-green hover:bg-brand-green/10 rounded-lg"
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
-              <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold text-foreground">
-                <Book className="h-5 w-5 text-primary" />
+              <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold text-brand-indigo font-inter">
+                <Book className="h-5 w-5 text-brand-green" />
                 Select Topics from {userSubject?.name || "Course"}
               </DialogTitle>
             </div>
@@ -145,7 +145,7 @@ export default function SelectTopicDialog({
           <div className="flex-grow overflow-y-auto py-4 pr-2 space-y-4">
             {isLoadingTopics ? (
               <div className="flex justify-center items-center h-40">
-                <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
+                <Loader2 className="h-8 w-8 animate-spin text-brand-green" />
               </div>
             ) : (
               <div className="space-y-4">
@@ -160,31 +160,31 @@ export default function SelectTopicDialog({
                       }
                       className={cn(
                         `
-                        w-full relative flex items-center p-3 rounded-lg border-2 transition-all duration-150
+                        w-full relative flex items-center p-3 rounded-xl border-2 transition-all duration-200
                         text-left group
                       `,
                         topic.isSelected
-                          ? "border-primary bg-primary/20 shadow-sm"
-                          : "border-border bg-card hover:border-primary/50 disabled:opacity-50 disabled:pointer-events-none disabled:border-border"
+                          ? "border-brand-green bg-brand-green/10 shadow-sm"
+                          : "border-brand-indigo/10 bg-white hover:border-brand-green/50 disabled:opacity-50 disabled:pointer-events-none disabled:border-brand-indigo/10"
                       )}
                     >
                       {topic.isSelected && (
-                        <div className="absolute top-2 right-2 bg-primary rounded-full p-0.5">
-                          <Check className="h-3 w-3 text-background" />
+                        <div className="absolute top-2 right-2 bg-brand-green rounded-full p-0.5">
+                          <Check className="h-3 w-3 text-white" />
                         </div>
                       )}
                       <Book
                         className={cn(
                           "h-4 w-4 mr-3 flex-shrink-0",
                           topic.isSelected
-                            ? "text-primary"
-                            : "text-muted-foreground group-hover:text-primary"
+                            ? "text-brand-green"
+                            : "text-brand-indigo/40 group-hover:text-brand-green"
                         )}
                       />
                       <span
                         className={cn(
                           "flex-grow text-xs sm:text-sm font-medium pr-4",
-                          topic.isSelected ? "text-primary" : "text-foreground"
+                          topic.isSelected ? "text-brand-green" : "text-brand-indigo"
                         )}
                       >
                         {topic.name}
@@ -208,14 +208,14 @@ export default function SelectTopicDialog({
             )}
 
             <div className="flex items-center justify-between text-sm mb-4">
-              <span className="font-medium text-primary">
+              <span className="font-medium text-brand-green">
                 {selectedTopics.length}/{MAX_SELECTIONS} Selected Units
               </span>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleClearAll}
-                className="text-red-500 hover:text-red-400 hover:bg-red-500/10 h-auto p-1"
+                className="text-red-500 hover:text-red-600 hover:bg-red-50 h-auto p-1 rounded-lg"
                 disabled={selectedTopics.length === 0}
               >
                 Clear all
@@ -223,7 +223,7 @@ export default function SelectTopicDialog({
             </div>
 
             <Button
-              className="w-full h-11 text-base bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50"
+              className="w-full h-11 text-base bg-brand-indigo hover:bg-brand-indigo/90 text-white rounded-xl font-dm-sans font-medium disabled:opacity-50"
               disabled={selectedTopics.length === 0}
               onClick={handleContinue}
             >

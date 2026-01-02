@@ -7,10 +7,9 @@ import {
   Loader2,
   ArrowLeft,
   ChevronDown,
-  ChevronUp,
   AlertTriangle,
-  LineChart as LineChartIcon, // Renamed to avoid conflict
-  Pencil, // Example icons, replace if needed
+  LineChart as LineChartIcon,
+  Pencil,
   Clock,
   Trophy,
   AlertCircle,
@@ -74,69 +73,60 @@ interface StatInfo {
   textColorClass: string;
 }
 
-// --- Skeleton Component ---
-/** Renders placeholder skeletons for the main content card */
 const ConceptDetailSkeleton = () => (
-  <Card className="bg-gray-800/60 border border-gray-700/80 w-full overflow-hidden">
-    <CardHeader className="border-b border-gray-700/80 p-5 md:p-6">
-      <Skeleton className="h-6 w-3/4 mb-3 bg-gray-700/50" /> {/* Title */}
-      <Skeleton className="h-10 w-1/3 bg-gray-700/50" /> {/* Score */}
+  <Card className="bg-white border border-brand-indigo/10 shadow-sm rounded-2xl w-full overflow-hidden">
+    <CardHeader className="border-b border-brand-indigo/5 p-5 md:p-6">
+      <Skeleton className="h-6 w-3/4 mb-3 bg-brand-indigo/5" />
+      <Skeleton className="h-10 w-1/3 bg-brand-indigo/5" />
     </CardHeader>
     <CardContent className="p-5 md:p-6 space-y-6">
-      {/* Evaluation Progress Skeleton */}
-      <Card className="bg-gray-900/40 border-gray-700/60">
+      <Card className="bg-brand-indigo/5 border-brand-indigo/10">
         <CardHeader className="pb-3 pt-4 px-4">
-          <Skeleton className="h-4 w-1/3 bg-gray-700/50" /> {/* Title */}
+          <Skeleton className="h-4 w-1/3 bg-brand-indigo/10" />
         </CardHeader>
         <CardContent className="px-4 pb-4">
           <div className="grid grid-cols-3 gap-2">
-            <Skeleton className="h-16 w-full bg-gray-800/50" />
-            <Skeleton className="h-16 w-full bg-gray-800/50" />
-            <Skeleton className="h-16 w-full bg-gray-800/50" />
+            <Skeleton className="h-16 w-full bg-white" />
+            <Skeleton className="h-16 w-full bg-white" />
+            <Skeleton className="h-16 w-full bg-white" />
           </div>
         </CardContent>
       </Card>
-      {/* Stats Skeleton */}
       <div>
-        <Skeleton className="h-5 w-1/4 mb-3 bg-gray-700/50" /> {/* Title */}
+        <Skeleton className="h-5 w-1/4 mb-3 bg-brand-indigo/5" />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-          <Skeleton className="h-24 w-full bg-gray-700/50" />
-          <Skeleton className="h-24 w-full bg-gray-700/50" />
-          <Skeleton className="h-24 w-full bg-gray-700/50" />
-          <Skeleton className="h-24 w-full bg-gray-700/50" />
+          <Skeleton className="h-24 w-full bg-brand-indigo/5" />
+          <Skeleton className="h-24 w-full bg-brand-indigo/5" />
+          <Skeleton className="h-24 w-full bg-brand-indigo/5" />
+          <Skeleton className="h-24 w-full bg-brand-indigo/5" />
         </div>
       </div>
-      {/* Performance History Skeleton (Placeholder for Chart Section Title/Dropdown) */}
       <div>
-         <div className="flex justify-between items-center mb-4">
-            <Skeleton className="h-5 w-1/3 bg-gray-700/50" /> {/* Title */}
-            <Skeleton className="h-9 w-[130px] bg-gray-700/50" /> {/* Dropdown */}
-         </div>
-         {/* Chart Area Skeleton */}
-         <Skeleton className="h-[300px] w-full bg-gray-900/40 rounded-lg border border-gray-700/60" />
+        <div className="flex justify-between items-center mb-4">
+          <Skeleton className="h-5 w-1/3 bg-brand-indigo/5" />
+          <Skeleton className="h-9 w-[130px] bg-brand-indigo/5" />
+        </div>
+        <Skeleton className="h-[300px] w-full bg-brand-indigo/5 rounded-xl" />
       </div>
     </CardContent>
   </Card>
 );
-
-// --- Main Component ---
 
 export default function ConceptDetailPage() {
   const router = useRouter();
   const { userConcept } = useUserConceptStore();
   const [timeRange, setTimeRange] = useState<TimeRangeOption>("week");
 
-  // --- Data Fetching ---
   const conceptId = userConcept?.concept?.id;
   const {
-    data: conceptAuditsData, // Rename raw data
+    data: conceptAuditsData,
     isLoading: isLoadingAudits,
     error: auditsError,
     refetch: refetchAudits,
   } = useQuery({
     queryKey: ["conceptAudits", conceptId, timeRange],
-    // Explicitly type the return data if needed, though inference is usually sufficient
-    queryFn: (): Promise<ConceptAudit[]> => profileApi.getConceptAudits(conceptId!, timeRange),
+    queryFn: (): Promise<ConceptAudit[]> =>
+      profileApi.getConceptAudits(conceptId!, timeRange),
     enabled: !!conceptId,
     staleTime: 5 * 60 * 1000,
   });
@@ -159,51 +149,54 @@ export default function ConceptDetailPage() {
     const lowestScore = Number(userConcept?.lowest_question_score) || 0;
 
     const statsData: StatInfo[] = [
-       {
+      {
         label: "Questions Done",
         value: questionsAttempted,
         icon: Pencil,
-        iconColorClass: "text-blue-400",
-        bgColorClass: "bg-blue-950/60",
-        textColorClass: "text-blue-300",
+        iconColorClass: "text-blue-500",
+        bgColorClass: "bg-blue-50",
+        textColorClass: "text-blue-700",
       },
       {
         label: "Average Time",
         value: `${avgTime}s`,
         icon: Clock,
-        iconColorClass: "text-amber-400",
-        bgColorClass: "bg-amber-950/60",
-        textColorClass: "text-amber-300",
+        iconColorClass: "text-amber-500",
+        bgColorClass: "bg-amber-50",
+        textColorClass: "text-amber-700",
       },
       {
         label: "Highest Score",
         value: `${highestScore.toFixed(0)}%`,
         icon: Trophy,
-        iconColorClass: "text-emerald-400",
-        bgColorClass: "bg-emerald-950/60",
-        textColorClass: "text-emerald-300",
+        iconColorClass: "text-green-500",
+        bgColorClass: "bg-green-50",
+        textColorClass: "text-green-700",
       },
       {
         label: "Lowest Score",
         value: `${lowestScore.toFixed(0)}%`,
         icon: AlertCircle,
-        iconColorClass: "text-red-400",
-        bgColorClass: "bg-red-950/50",
-        textColorClass: "text-red-300",
+        iconColorClass: "text-red-500",
+        bgColorClass: "bg-red-50",
+        textColorClass: "text-red-700",
       },
     ];
 
-    // Chart Data and Options
     const formatLabel = (dateStr: string): string => {
       try {
         const date = new Date(dateStr.replace(" ", "T") + "Z");
         if (isNaN(date.getTime())) return "?";
 
         switch (timeRange) {
-          case "week": return date.toLocaleDateString("en-US", { weekday: "short" });
-          case "month": return date.toLocaleDateString("en-US", { day: "numeric" });
-          case "year": return date.toLocaleDateString("en-US", { month: "short" });
-          default: return "";
+          case "week":
+            return date.toLocaleDateString("en-US", { weekday: "short" });
+          case "month":
+            return date.toLocaleDateString("en-US", { day: "numeric" });
+          case "year":
+            return date.toLocaleDateString("en-US", { month: "short" });
+          default:
+            return "";
         }
       } catch (e) {
         console.error("Error formatting date label:", e);
@@ -211,7 +204,6 @@ export default function ConceptDetailPage() {
       }
     };
 
-    // Ensure conceptAudits is treated as ConceptAudit[] or empty array
     const auditsToProcess: ConceptAudit[] = conceptAudits || [];
     const sortedAudits = [...auditsToProcess].sort(
       (a, b) =>
@@ -230,28 +222,28 @@ export default function ConceptDetailPage() {
         {
           label: "Performance",
           data: dataPoints,
-          borderColor: "hsl(var(--primary))",
-          backgroundColor: "hsla(var(--primary), 0.1)",
+          borderColor: "#83C88C",
+          backgroundColor: "rgba(131, 200, 140, 0.1)",
           tension: 0.3,
-          pointBackgroundColor: "hsl(var(--primary))",
-          pointBorderColor: "hsl(var(--background))",
-          pointHoverBackgroundColor: "hsl(var(--primary))",
-          pointHoverBorderColor: "hsl(var(--primary))",
+          pointBackgroundColor: "#83C88C",
+          pointBorderColor: "#ffffff",
+          pointHoverBackgroundColor: "#83C88C",
+          pointHoverBorderColor: "#83C88C",
           fill: true,
         },
       ],
     };
 
     const chartOptions: ChartOptions<"line"> = {
-       responsive: true,
+      responsive: true,
       maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: "hsl(var(--secondary))",
-          titleColor: "hsl(var(--secondary-foreground))",
-          bodyColor: "hsl(var(--secondary-foreground))",
-          borderColor: "hsl(var(--border))",
+          backgroundColor: "#223843",
+          titleColor: "#ffffff",
+          bodyColor: "#ffffff",
+          borderColor: "#223843",
           borderWidth: 1,
           padding: 10,
           callbacks: {
@@ -262,86 +254,81 @@ export default function ConceptDetailPage() {
       },
       scales: {
         y: {
-          beginAtZero: true, max: 100,
-          grid: { color: "hsl(var(--border) / 0.5)" },
+          beginAtZero: true,
+          max: 100,
+          grid: { color: "rgba(34, 56, 67, 0.1)" },
           ticks: {
-            color: "hsl(var(--muted-foreground))",
+            color: "rgba(34, 56, 67, 0.5)",
             stepSize: 20,
             callback: (value) => `${value}%`,
           },
-          border: { color: "hsl(var(--border))" },
+          border: { color: "rgba(34, 56, 67, 0.2)" },
         },
         x: {
           grid: { display: false },
           ticks: {
-            color: "hsl(var(--muted-foreground))",
-            maxRotation: 0, autoSkip: true,
+            color: "rgba(34, 56, 67, 0.5)",
+            maxRotation: 0,
+            autoSkip: true,
             maxTicksLimit: timeRange === "month" ? 15 : timeRange === "year" ? 12 : 7,
           },
-          border: { color: "hsl(var(--border))" },
+          border: { color: "rgba(34, 56, 67, 0.2)" },
         },
       },
       interaction: { intersect: false, mode: "index" },
     };
 
     return { evaluationData, statsData, chartData, chartOptions };
-    // Ensure userConcept is a dependency so memo updates when it loads
   }, [userConcept, conceptAudits, timeRange]);
 
-  // --- Render Logic ---
-
-  // Decide whether to show skeleton or error based on userConcept presence
-  // Skeleton is shown if userConcept is initially null/undefined
   const showSkeleton = !userConcept;
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-6">
-      {/* Back Button */}
+    <div className="max-w-7xl mx-auto space-y-6">
       <Button
         variant="outline"
         size="sm"
         onClick={() => router.back()}
-        className="bg-transparent dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700/50 shrink-0"
+        className="border-brand-indigo/20 text-brand-indigo hover:bg-brand-indigo/5 rounded-lg font-dm-sans"
       >
         <ArrowLeft className="h-4 w-4 mr-2" />
         Back
       </Button>
 
-      {/* Render Skeleton or Main Content */}
       {showSkeleton ? (
         <ConceptDetailSkeleton />
       ) : !userConcept.concept ? (
-        // This case handles if userConcept exists but concept sub-object doesn't (data integrity issue)
-         <Alert variant="destructive">
-           <AlertTriangle className="h-4 w-4" />
-           <AlertTitle>Error</AlertTitle>
-           <AlertDescription>
-             Incomplete concept data found. Please navigate back and select a concept again.
-           </AlertDescription>
-         </Alert>
+        <Alert variant="destructive" className="bg-red-50 border-red-200 rounded-xl">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle className="text-red-700 font-inter">Error</AlertTitle>
+          <AlertDescription className="text-red-600 font-dm-sans">
+            Incomplete concept data found. Please navigate back and select a
+            concept again.
+          </AlertDescription>
+        </Alert>
       ) : (
-        // Render actual content if userConcept and userConcept.concept exist
-        <Card className="bg-gray-800/60 border border-gray-700/80 w-full overflow-hidden">
-          {/* Card Header: Concept Name & Current Score */}
-          <CardHeader className="border-b border-gray-700/80 p-5 md:p-6">
-            <CardTitle className="text-xl font-semibold text-gray-100 mb-2">
+        <Card className="bg-white border border-brand-indigo/10 shadow-sm rounded-2xl w-full overflow-hidden">
+          <CardHeader className="border-b border-brand-indigo/5 p-5 md:p-6">
+            <CardTitle className="text-xl font-semibold text-brand-indigo font-inter mb-2">
               {userConcept.concept.name}
             </CardTitle>
             <div className="flex items-baseline">
-              <span className="text-4xl font-bold text-cyan-400">
+              <span className="text-4xl font-bold text-brand-green">
                 {(Number(userConcept.recent_eval) || 0).toFixed(0)}
               </span>
-              <span className="text-2xl font-semibold text-cyan-400 ml-1">%</span>
-              <span className="ml-2 text-sm text-gray-400">Current Score</span>
+              <span className="text-2xl font-semibold text-brand-green ml-1">
+                %
+              </span>
+              <span className="ml-2 text-sm text-brand-indigo/50 font-dm-sans">
+                Current Score
+              </span>
             </div>
           </CardHeader>
 
-          {/* Card Content */}
           <CardContent className="p-5 md:p-6 space-y-6">
-            {/* Evaluation Progress Section */}
-            <Card className="bg-gray-900/40 border-gray-700/60">
+            <Card className="bg-brand-indigo/5 border-brand-indigo/10 rounded-xl">
               <CardHeader className="pb-3 pt-4 px-4">
-                <CardTitle className="text-sm font-medium text-gray-400">
+                <CardTitle className="text-sm font-medium text-brand-indigo/60 font-dm-sans">
                   Evaluation Progress
                 </CardTitle>
               </CardHeader>
@@ -351,16 +338,16 @@ export default function ConceptDetailPage() {
                     <div
                       key={item.label}
                       className={cn(
-                        "text-center p-3 rounded-md bg-gray-800/50",
+                        "text-center p-3 rounded-lg bg-white",
                         index !== evaluationData.length - 1
-                          ? "relative after:content-[''] after:absolute after:right-0 after:top-1/4 after:h-1/2 after:w-px after:bg-gray-700" // Vertical separator
+                          ? "relative after:content-[''] after:absolute after:right-0 after:top-1/4 after:h-1/2 after:w-px after:bg-brand-indigo/10"
                           : ""
                       )}
                     >
-                      <div className="text-xs text-gray-400 mb-1">
+                      <div className="text-xs text-brand-indigo/50 mb-1 font-dm-sans">
                         {item.label}
                       </div>
-                      <div className="text-lg font-semibold text-cyan-300">
+                      <div className="text-lg font-semibold text-brand-green font-inter">
                         {item.value.toFixed(0)}%
                       </div>
                     </div>
@@ -369,9 +356,8 @@ export default function ConceptDetailPage() {
               </CardContent>
             </Card>
 
-            {/* Statistics Section */}
             <div>
-              <h3 className="text-base font-medium text-gray-300 mb-3">
+              <h3 className="text-sm font-medium text-brand-indigo/60 mb-3 font-dm-sans uppercase tracking-wide">
                 Key Stats
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
@@ -379,7 +365,7 @@ export default function ConceptDetailPage() {
                   <div
                     key={stat.label}
                     className={cn(
-                      "rounded-lg p-4 transition-colors duration-200 flex flex-col",
+                      "rounded-xl p-4 transition-colors duration-200 flex flex-col border border-brand-indigo/5",
                       stat.bgColorClass
                     )}
                   >
@@ -388,14 +374,14 @@ export default function ConceptDetailPage() {
                     />
                     <span
                       className={cn(
-                        "text-xl font-semibold mt-auto",
+                        "text-xl font-semibold mt-auto font-inter",
                         stat.textColorClass
                       )}
                     >
                       {stat.value}
                     </span>
                     <span
-                      className={cn("text-xs font-medium", stat.textColorClass)}
+                      className={cn("text-xs font-medium font-dm-sans", stat.textColorClass)}
                     >
                       {stat.label}
                     </span>
@@ -404,22 +390,20 @@ export default function ConceptDetailPage() {
               </div>
             </div>
 
-            {/* Performance History Section */}
             <div>
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-base font-medium text-gray-300">
+                <h3 className="text-sm font-medium text-brand-indigo/60 font-dm-sans uppercase tracking-wide">
                   Performance History
                 </h3>
-                {/* Time Range Dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-[130px] justify-between bg-gray-700/50 border-gray-600 hover:bg-gray-700"
-                      disabled={isLoadingAudits && !conceptAudits} // Disable if loading initial audits
+                      className="w-[130px] justify-between bg-white border-brand-indigo/20 hover:bg-brand-indigo/5 text-brand-indigo rounded-lg"
+                      disabled={isLoadingAudits && !conceptAudits}
                     >
-                      <CalendarDays className="h-4 w-4 mr-2 text-gray-400" />
+                      <CalendarDays className="h-4 w-4 mr-2 text-brand-indigo/50" />
                       {
                         TIME_RANGE_OPTIONS.find((opt) => opt.value === timeRange)
                           ?.label
@@ -431,19 +415,17 @@ export default function ConceptDetailPage() {
                       )}
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-[130px]">
+                  <DropdownMenuContent align="end" className="w-[130px] bg-white border-brand-indigo/10">
                     {TIME_RANGE_OPTIONS.map((option) => (
                       <DropdownMenuItem
                         key={option.value}
                         onClick={() => {
-                            if (timeRange !== option.value) {
-                                setTimeRange(option.value);
-                                // Optional: Could trigger refetch manually here if needed,
-                                // but changing timeRange dependency in useQuery usually suffices.
-                                // refetchAudits();
-                            }
+                          if (timeRange !== option.value) {
+                            setTimeRange(option.value);
+                          }
                         }}
                         disabled={isLoadingAudits}
+                        className="text-brand-indigo hover:bg-brand-indigo/5"
                       >
                         {option.label}
                       </DropdownMenuItem>
@@ -452,21 +434,18 @@ export default function ConceptDetailPage() {
                 </DropdownMenu>
               </div>
 
-              {/* Chart Area */}
-              <div className="h-[300px] p-4 bg-gray-900/40 rounded-lg border border-gray-700/60 relative">
-                 {/* Loading Overlay */}
+              <div className="h-[300px] p-4 bg-brand-indigo/5 rounded-xl border border-brand-indigo/10 relative">
                 {isLoadingAudits && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-900/50 z-10 rounded-lg">
-                    <Loader2 className="h-8 w-8 animate-spin text-cyan-500" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10 rounded-xl">
+                    <Loader2 className="h-8 w-8 animate-spin text-brand-green" />
                   </div>
                 )}
-                 {/* Error Overlay */}
                 {!isLoadingAudits && auditsError && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-900/50 z-10 rounded-lg p-4">
-                    <Alert variant="destructive" className="w-full max-w-md">
-                      <AlertTriangle className="h-4 w-4" />
-                      <AlertTitle>Error Loading Chart</AlertTitle>
-                      <AlertDescription>
+                  <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10 rounded-xl p-4">
+                    <Alert variant="destructive" className="w-full max-w-md bg-red-50 border-red-200 rounded-xl">
+                      <AlertTriangle className="h-4 w-4 text-red-500" />
+                      <AlertTitle className="text-red-700 font-inter">Error Loading Chart</AlertTitle>
+                      <AlertDescription className="text-red-600 font-dm-sans">
                         {formatError(
                           auditsError instanceof Error
                             ? auditsError.message
@@ -476,7 +455,7 @@ export default function ConceptDetailPage() {
                           variant="link"
                           size="sm"
                           onClick={() => refetchAudits()}
-                          className="p-0 h-auto ml-1 text-cyan-400"
+                          className="p-0 h-auto ml-1 text-brand-green"
                         >
                           Retry
                         </Button>
@@ -484,27 +463,25 @@ export default function ConceptDetailPage() {
                     </Alert>
                   </div>
                 )}
-                 {/* Empty State Overlay */}
                 {!isLoadingAudits &&
                   !auditsError &&
                   (!conceptAudits || conceptAudits.length === 0) && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-0 rounded-lg">
-                      <LineChartIcon className="h-12 w-12 text-gray-600 mb-2" />
-                      <p className="text-sm text-gray-500">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-0 rounded-xl">
+                      <LineChartIcon className="h-12 w-12 text-brand-indigo/20 mb-2" />
+                      <p className="text-sm text-brand-indigo/50 font-dm-sans">
                         No performance data available
                       </p>
-                      <p className="text-xs text-gray-600">
+                      <p className="text-xs text-brand-indigo/30 font-dm-sans">
                         for the selected time range.
                       </p>
                     </div>
                   )}
-                  {/* Chart Rendering (only if not loading, no error, and data exists) */}
-                 {!isLoadingAudits &&
-                   !auditsError &&
-                   conceptAudits &&
-                   conceptAudits.length > 0 && (
-                     <Line data={chartData} options={chartOptions} />
-                   )}
+                {!isLoadingAudits &&
+                  !auditsError &&
+                  conceptAudits &&
+                  conceptAudits.length > 0 && (
+                    <Line data={chartData} options={chartOptions} />
+                  )}
               </div>
             </div>
           </CardContent>

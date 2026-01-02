@@ -1,4 +1,4 @@
-import { object, ValidationError } from "yup";
+import { object } from "yup";
 
 import {
   digitConstraint,

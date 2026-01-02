@@ -93,7 +93,7 @@ export default function ResultPage() {
   };
 
   return (
-    <div className="container max-w-3xl mx-auto py-6 md:py-8 px-4">
+    <div className="container max-w-3xl mx-auto py-6 md:py-8 px-4 bg-gradient-to-br from-white via-brand-indigo/5 to-white min-h-screen">
       {/* Header */}
       <div className="flex items-center gap-4 mb-6 md:mb-8">
         <Button
@@ -117,8 +117,8 @@ export default function ResultPage() {
       </div>
 
       {/* Main Score and Stats Card - Reusing Performance Page Style */}
-      <Card className="mb-6 rounded-xl overflow-hidden border border-border/60 shadow-sm">
-        <CardHeader className="p-4 md:p-6 bg-muted/30 dark:bg-muted/20 border-b dark:border-border">
+      <Card className="mb-6 rounded-2xl overflow-hidden border border-brand-indigo/10 shadow-lg shadow-brand-indigo/5 bg-white/80 backdrop-blur-sm">
+        <CardHeader className="p-4 md:p-6 bg-brand-indigo/5 border-b border-brand-indigo/10">
           <div className="flex items-center justify-between gap-4">
             <div className="flex-1">
               <CardTitle
@@ -153,7 +153,7 @@ export default function ResultPage() {
                   : `${typedEvaluationData.time_taken ?? "--"}s`
               }
               icon={Timer}
-              iconColor="text-blue-600 dark:text-blue-400"
+              iconColor="text-brand-indigo"
             />
 
             {/* Correct Answers Stat */}
@@ -163,7 +163,7 @@ export default function ResultPage() {
                 typedEvaluationData.total_questions ?? "--"
               }`}
               icon={CheckCircle}
-              iconColor="text-green-600 dark:text-green-400"
+              iconColor="text-brand-green"
             />
 
             {/* Wrong Answers Stat */}
@@ -173,7 +173,7 @@ export default function ResultPage() {
                 typedEvaluationData.total_questions ?? "--"
               }`}
               icon={XCircle}
-              iconColor="text-red-600 dark:text-red-500"
+              iconColor="text-red-600"
             />
 
             {/* Skipped Questions Stat */}
@@ -183,7 +183,7 @@ export default function ResultPage() {
                 typedEvaluationData.total_questions ?? "--"
               }`}
               icon={AlertCircle}
-              iconColor="text-yellow-600 dark:text-yellow-500"
+              iconColor="text-yellow-600"
             />
           </div>
         </CardContent>
@@ -192,7 +192,7 @@ export default function ResultPage() {
       {/* View Answers Button */}
       <Button
         variant="default"
-        className="w-full mb-8 shadow-sm"
+        className="w-full mb-8 bg-brand-indigo hover:bg-brand-indigo/90 text-white rounded-xl h-12 font-dm-sans font-medium shadow-lg shadow-brand-indigo/20 hover:shadow-xl hover:scale-[1.01] transition-all duration-200"
         onClick={handleViewReview}
       >
         View Answers & Explanations
@@ -201,7 +201,7 @@ export default function ResultPage() {
       {/* Concept Results Section */}
       {typedEvaluationData.concepts &&
         typedEvaluationData.concepts.length > 0 && (
-          <Card className="border-border/60 shadow-sm">
+          <Card className="border-brand-indigo/10 shadow-md rounded-2xl bg-white">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <ListChecks className="h-5 w-5 text-primary" /> Concept
@@ -234,9 +234,9 @@ const StatItem = ({
   icon: React.ElementType;
   iconColor?: string;
 }) => (
-  <div className="bg-background dark:bg-muted/40 rounded-lg p-3 border border-border/50 shadow-xs">
+  <div className="bg-white/70 rounded-lg p-3 border border-brand-indigo/10 shadow-xs">
     <div className="flex justify-between items-start mb-1">
-      <span className="text-lg font-semibold text-foreground">{value}</span>
+      <span className="text-lg font-semibold text-brand-indigo">{value}</span>
       <Icon
         className={cn(
           "h-4 w-4 mt-1 flex-shrink-0",
@@ -244,7 +244,7 @@ const StatItem = ({
         )}
       />
     </div>
-    <span className="text-xs text-muted-foreground">{label}</span>
+    <span className="text-xs text-brand-indigo/60">{label}</span>
   </div>
 );
 
@@ -256,11 +256,11 @@ const ConceptAccordionItem = ({ concept }: { concept: ExamConcept }) => {
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      className="w-full border rounded-lg dark:border-border overflow-hidden"
+      className="w-full border rounded-lg border-brand-indigo/10 overflow-hidden"
     >
-      <CollapsibleTrigger className="flex w-full justify-between items-center p-3 md:p-4 bg-muted/50 dark:bg-muted/30 hover:bg-muted/80 dark:hover:bg-muted/50 transition-colors">
+      <CollapsibleTrigger className="flex w-full justify-between items-center p-3 md:p-4 bg-brand-indigo/5 hover:bg-brand-indigo/10 transition-colors">
         <span
-          className="font-medium dark:text-foreground text-sm truncate pr-2"
+          className="font-medium text-brand-indigo text-sm truncate pr-2"
           title={concept.name}
         >
           {concept.name}
@@ -274,10 +274,10 @@ const ConceptAccordionItem = ({ concept }: { concept: ExamConcept }) => {
           )}
         </div>
       </CollapsibleTrigger>
-      <CollapsibleContent className="p-3 md:p-4 bg-background dark:bg-background/50 border-t dark:border-border">
-        <div className="space-y-1 text-sm text-muted-foreground">
+      <CollapsibleContent className="p-3 md:p-4 bg-white border-t border-brand-indigo/10">
+        <div className="space-y-1 text-sm text-brand-indigo/60">
           <p>
-            <span className="font-medium text-foreground">ID:</span>{" "}
+            <span className="font-medium text-brand-indigo">ID:</span>{" "}
             {concept.id}
           </p>
           <p>Further details about this concept could be shown here.</p>

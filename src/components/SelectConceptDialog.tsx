@@ -121,7 +121,6 @@ export default function SelectConceptDialog({
 
       resetContentReq();
       updatedContentReq.forEach((item) => addContentReq(item));
-
     } else {
       if (conceptsInThisTopic < MAX_CONCEPTS_PER_TOPIC) {
         addConcept(concept);
@@ -153,29 +152,28 @@ export default function SelectConceptDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-3xl w-[95vw] max-h-[90vh] flex flex-col font-funnel-sans bg-background text-foreground border-border rounded-lg">
-        <DialogHeader className="flex-shrink-0 border-b pb-4">
+      <DialogContent className="sm:max-w-3xl w-[95vw] max-h-[90vh] flex flex-col font-dm-sans bg-white text-brand-indigo border-brand-indigo/10 rounded-2xl shadow-xl">
+        <DialogHeader className="flex-shrink-0 border-b border-brand-indigo/10 pb-4">
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
               size="icon"
               onClick={onBack}
               aria-label="Go back"
-              className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-muted/50"
+              className="h-8 w-8 text-brand-indigo/40 hover:text-brand-green hover:bg-brand-green/10 rounded-lg"
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold text-foreground">
-              <BookOpen className="h-5 w-5 text-primary" />
+            <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold text-brand-indigo font-inter">
+              <BookOpen className="h-5 w-5 text-brand-green" />
               Select Sub-units (Concepts)
             </DialogTitle>
           </div>
         </DialogHeader>
         <div className="flex-grow overflow-y-auto py-4 pr-2 space-y-4">
-          {" "}
           {isLoadingConcepts ? (
             <div className="flex justify-center items-center h-40">
-              <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
+              <Loader2 className="h-8 w-8 animate-spin text-brand-green" />
             </div>
           ) : (
             <div className="space-y-4">
@@ -192,27 +190,25 @@ export default function SelectConceptDialog({
                 return (
                   <div
                     key={topic.id}
-                    className="space-y-2 rounded-lg border border-gray-700 p-3"
+                    className="space-y-2 rounded-xl border border-brand-indigo/10 p-3 bg-white"
                   >
-                    {" "}
                     <button
                       onClick={() => toggleTopicExpansion(topic.id)}
-                      className="w-full flex items-center justify-between p-2 rounded-md hover:bg-muted/50 transition-colors"
+                      className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-brand-indigo/5 transition-colors"
                     >
                       <div className="flex items-center gap-2">
-                        <BookOpen className="h-4 w-4 text-primary flex-shrink-0" />
-                        <span className="font-medium text-left text-foreground">
+                        <BookOpen className="h-4 w-4 text-brand-green flex-shrink-0" />
+                        <span className="font-medium text-left text-brand-indigo font-inter">
                           Unit - {topic.name}
                         </span>
-                        <span className="text-xs text-muted-foreground whitespace-nowrap">
-                          {" "}
+                        <span className="text-xs text-brand-indigo/50 whitespace-nowrap font-dm-sans">
                           ({selectedCount}/{MAX_CONCEPTS_PER_TOPIC} selected)
                         </span>
                       </div>
                       {expandedTopics[topic.id] ? (
-                        <ChevronUp className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
+                        <ChevronUp className="h-4 w-4 flex-shrink-0 text-brand-indigo/40" />
                       ) : (
-                        <ChevronDown className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
+                        <ChevronDown className="h-4 w-4 flex-shrink-0 text-brand-indigo/40" />
                       )}
                     </button>
                     {expandedTopics[topic.id] && (
@@ -232,25 +228,25 @@ export default function SelectConceptDialog({
                                 }
                                 className={cn(
                                   `
-                                   aspect-[3/2] flex flex-col items-center justify-center p-2 rounded-lg border-2 transition-all duration-150
+                                   aspect-[3/2] flex flex-col items-center justify-center p-2 rounded-xl border-2 transition-all duration-200
                                    text-center group relative
                                  `,
                                   isSelected
-                                    ? "border-primary bg-primary/20"
-                                    : "border-border bg-card hover:border-primary/50 disabled:opacity-50 disabled:pointer-events-none disabled:border-border"
+                                    ? "border-brand-green bg-brand-green/10"
+                                    : "border-brand-indigo/10 bg-white hover:border-brand-green/50 disabled:opacity-50 disabled:pointer-events-none disabled:border-brand-indigo/10"
                                 )}
                               >
                                 {isSelected && (
-                                  <div className="absolute top-1 right-1 bg-primary rounded-full p-0.5">
-                                    <Check className="h-2.5 w-2.5 text-background" />
+                                  <div className="absolute top-1 right-1 bg-brand-green rounded-full p-0.5">
+                                    <Check className="h-2.5 w-2.5 text-white" />
                                   </div>
                                 )}
                                 <span
                                   className={cn(
                                     "text-xs sm:text-sm font-medium flex-grow flex items-center justify-center px-1",
                                     isSelected
-                                      ? "text-primary"
-                                      : "text-foreground"
+                                      ? "text-brand-green"
+                                      : "text-brand-indigo"
                                   )}
                                 >
                                   {concept.name}
@@ -277,16 +273,16 @@ export default function SelectConceptDialog({
           )}
         </div>
 
-        <div className="flex-shrink-0 pt-4 border-t">
+        <div className="flex-shrink-0 pt-4 border-t border-brand-indigo/10">
           <div className="flex items-center justify-between text-sm mb-4">
-            <span className="font-medium text-primary">
+            <span className="font-medium text-brand-green">
               {selectedConcepts.length} Selected Concepts
             </span>
             <Button
               variant="ghost"
               size="sm"
               onClick={handleClearAll}
-              className="text-red-500 hover:text-red-400 hover:bg-red-500/10 h-auto p-1"
+              className="text-red-500 hover:text-red-600 hover:bg-red-50 h-auto p-1 rounded-lg"
               disabled={selectedConcepts.length === 0}
             >
               Clear all
@@ -294,7 +290,7 @@ export default function SelectConceptDialog({
           </div>
 
           <Button
-            className="w-full h-11 text-base bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50"
+            className="w-full h-11 text-base bg-brand-indigo hover:bg-brand-indigo/90 text-white rounded-xl font-dm-sans font-medium disabled:opacity-50"
             disabled={selectedConcepts.length === 0}
             onClick={handleContinue}
           >

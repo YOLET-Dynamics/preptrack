@@ -5,11 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { profileApi } from "@/api/profile";
 import { useUserSubjectStore } from "@/store/userSubject";
 import { SubjectMinified } from "@/models/content/subject";
-import {
-  Library,
-  AlertTriangle,
-  Leaf,
-} from "lucide-react";
+import { Library, AlertTriangle, Leaf } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -69,7 +65,7 @@ export default function UserSubjectList() {
     );
 
     return (
-      <div className="flex space-x-3 overflow-x-auto pb-3 -mb-3 scrollbar-thin scrollbar-thumb-brand-indigo/50 scrollbar-track-brand-indigo/10">
+      <div className="flex space-x-3 overflow-x-auto pb-3 -mb-3 scrollbar-thin scrollbar-thumb-brand-indigo/20 scrollbar-track-transparent">
         {sortedSubjects.map((subject) => (
           <SubjectCard
             key={subject.id}
@@ -84,7 +80,7 @@ export default function UserSubjectList() {
 
   return (
     <div className="w-full mb-6">
-      <h3 className="text-base font-medium text-white/70 mb-3 font-inter">
+      <h3 className="text-sm font-medium text-brand-indigo/60 mb-3 font-dm-sans uppercase tracking-wide">
         Your Courses
       </h3>
       {renderContent()}
@@ -107,10 +103,10 @@ const SubjectCard = ({ subject, isActive, onClick }: SubjectCardProps) => {
     <Card
       onClick={onClick}
       className={cn(
-        "min-w-[120px] flex-shrink-0 cursor-pointer transition-all duration-200 hover:scale-[1.03] hover:shadow-md bg-brand-indigo/15 border rounded-2xl",
+        "min-w-[120px] flex-shrink-0 cursor-pointer transition-all duration-200 hover:scale-[1.02] bg-white border rounded-xl",
         isActive
-          ? "border-brand-green ring-2 ring-brand-green/30 bg-brand-indigo/25"
-          : "border-brand-indigo/40 hover:border-brand-indigo/60",
+          ? "border-brand-green ring-2 ring-brand-green/20 shadow-md"
+          : "border-brand-indigo/10 hover:border-brand-green/30 hover:shadow-sm",
         "group"
       )}
     >
@@ -120,7 +116,7 @@ const SubjectCard = ({ subject, isActive, onClick }: SubjectCardProps) => {
             "p-2.5 rounded-xl mb-3 transition-colors",
             isActive
               ? "bg-brand-green/15"
-              : "bg-brand-indigo/30 group-hover:bg-brand-indigo/40"
+              : "bg-brand-indigo/5 group-hover:bg-brand-green/10"
           )}
         >
           <IconComponent
@@ -128,7 +124,7 @@ const SubjectCard = ({ subject, isActive, onClick }: SubjectCardProps) => {
               "w-5 h-5 transition-colors",
               isActive
                 ? "text-brand-green"
-                : `${config.color} opacity-70 group-hover:opacity-100`
+                : "text-brand-indigo/50 group-hover:text-brand-green"
             )}
             strokeWidth={isActive ? 2 : 1.5}
           />
@@ -137,8 +133,8 @@ const SubjectCard = ({ subject, isActive, onClick }: SubjectCardProps) => {
           className={cn(
             "text-xs font-medium text-center transition-colors line-clamp-2 font-dm-sans",
             isActive
-              ? "text-white"
-              : "text-white/70 group-hover:text-white"
+              ? "text-brand-indigo"
+              : "text-brand-indigo/60 group-hover:text-brand-indigo"
           )}
         >
           {subject.name}
@@ -149,11 +145,11 @@ const SubjectCard = ({ subject, isActive, onClick }: SubjectCardProps) => {
 };
 
 const LoadingSkeleton = () => (
-  <div className="flex flex-wrap gap-3">
+  <div className="flex gap-3">
     {[...Array(4)].map((_, index) => (
       <Skeleton
         key={index}
-        className="h-[110px] w-[120px] rounded-2xl bg-brand-indigo/20"
+        className="h-[100px] w-[120px] rounded-xl bg-brand-indigo/5"
       />
     ))}
   </div>
@@ -168,18 +164,20 @@ const ErrorDisplay = ({
 }) => (
   <Alert
     variant="destructive"
-    className="bg-red-900/20 border-red-500/40 text-red-300 rounded-xl"
+    className="bg-red-50 border-red-200 text-red-700 rounded-xl"
   >
-    <AlertTriangle className="h-4 w-4 !text-red-400" />
-    <AlertTitle className="text-red-300 font-inter">Failed to load courses</AlertTitle>
-    <AlertDescription className="text-red-400/80 font-dm-sans">
+    <AlertTriangle className="h-4 w-4 !text-red-500" />
+    <AlertTitle className="text-red-700 font-inter">
+      Failed to load courses
+    </AlertTitle>
+    <AlertDescription className="text-red-600 font-dm-sans">
       {formatError(error instanceof Error ? error.message : String(error))}
       {onRetry && (
         <button
           onClick={onRetry}
-          className="ml-2 text-brand-green hover:underline text-xs"
+          className="ml-2 text-brand-green hover:underline text-xs font-medium"
         >
-          (Retry)
+          Retry
         </button>
       )}
     </AlertDescription>
@@ -187,10 +185,12 @@ const ErrorDisplay = ({
 );
 
 const EmptyState = () => (
-  <div className="text-center py-6 px-4 bg-brand-indigo/10 border border-dashed border-brand-indigo/40 rounded-2xl">
-    <Library className="mx-auto h-8 w-8 text-white/30 mb-2" />
-    <p className="text-sm text-white/50 font-dm-sans">No subjects found.</p>
-    <p className="text-xs text-white/30 mt-1 font-dm-sans">
+  <div className="text-center py-8 px-4 bg-brand-indigo/5 border border-dashed border-brand-indigo/20 rounded-xl">
+    <Library className="mx-auto h-8 w-8 text-brand-indigo/30 mb-3" />
+    <p className="text-sm text-brand-indigo/60 font-dm-sans font-medium">
+      No subjects found
+    </p>
+    <p className="text-xs text-brand-indigo/40 mt-1 font-dm-sans">
       You might need to select subjects in your profile settings.
     </p>
   </div>

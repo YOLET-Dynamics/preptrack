@@ -39,16 +39,16 @@ const ExamListItem = ({
   return (
     <button
       onClick={handleExamClick}
-      className="w-full text-left p-3 hover:bg-muted/50 dark:hover:bg-muted/30 rounded-md transition-colors flex items-center justify-between group"
+      className="w-full text-left p-3 hover:bg-brand-indigo/5 rounded-md transition-colors flex items-center justify-between group"
       aria-label={`View exam: ${exam.title}`}
     >
       <div className="flex items-center gap-3">
-        <BookOpen className="h-4 w-4 text-primary/80 flex-shrink-0" />
-        <span className="text-sm text-foreground group-hover:text-primary truncate">
+        <BookOpen className="h-4 w-4 text-brand-green/80 flex-shrink-0" />
+        <span className="text-sm text-brand-indigo group-hover:text-brand-green truncate">
           {exam.title}
         </span>
       </div>
-      <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary ml-2 flex-shrink-0" />
+      <ChevronRight className="h-4 w-4 text-brand-indigo/40 group-hover:text-brand-green ml-2 flex-shrink-0" />
     </button>
   );
 };
@@ -70,10 +70,10 @@ const TestPathSectionItem = ({
     <Card
       className={cn(
         "group relative transition-all duration-200 ease-in-out",
-        "bg-card rounded-lg shadow-sm border",
+        "bg-white rounded-lg shadow-sm border",
         isCompleted
-          ? "border-green-500/50 dark:border-green-400/40"
-          : "border-border/60 hover:border-primary/80"
+          ? "border-brand-green/50"
+          : "border-brand-indigo/10 hover:border-brand-green/60"
       )}
     >
       <CardHeader className="p-4">
@@ -83,8 +83,8 @@ const TestPathSectionItem = ({
               className={cn(
                 "w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 text-white",
                 isCompleted
-                  ? "bg-green-600"
-                  : "bg-gradient-to-br from-cyan-600 to-blue-600"
+                  ? "bg-brand-green"
+                  : "bg-gradient-to-br from-brand-green to-brand-indigo"
               )}
             >
               {isCompleted ? (
@@ -96,14 +96,14 @@ const TestPathSectionItem = ({
             <div className="min-w-0 flex-1">
               <CardTitle
                 className={cn(
-                  "text-base font-medium text-foreground truncate",
-                  isCompleted ? "text-green-700 dark:text-green-300" : ""
+                  "text-base font-medium text-brand-indigo truncate",
+                  isCompleted ? "text-brand-green" : ""
                 )}
                 title={section.title}
               >
                 {section.title}
               </CardTitle>
-              <div className="flex items-center text-xs text-muted-foreground space-x-2 mt-0.5">
+              <div className="flex items-center text-xs text-brand-indigo/60 space-x-2 mt-0.5">
                 <div className="flex items-center">
                   <ListChecks className="h-3 w-3 mr-1" />
                   <span>
@@ -116,8 +116,8 @@ const TestPathSectionItem = ({
                     <span
                       className={
                         isCompleted
-                          ? "text-green-600 dark:text-green-400"
-                          : "text-primary/90"
+                          ? "text-brand-green"
+                          : "text-brand-green/80"
                       }
                     >
                       {completionPercentage.toFixed(0)}% Complete
@@ -131,19 +131,19 @@ const TestPathSectionItem = ({
         {!isCompleted && completionPercentage > 0 && (
           <Progress
             value={completionPercentage}
-            className="h-1 mt-2 bg-muted/70 [&>div]:bg-primary/70"
+              className="h-1 mt-2 bg-brand-indigo/10 [&>div]:bg-brand-green/70"
           />
         )}
         {isCompleted && (
           <Progress
             value={100}
-            className="h-1 mt-2 bg-green-500/20 [&>div]:bg-green-500"
+              className="h-1 mt-2 bg-brand-green/20 [&>div]:bg-brand-green"
           />
         )}
       </CardHeader>
       {totalExams > 0 && (
         <CardContent className="p-2 pt-0">
-          <div className="space-y-1 border-t border-border/60 pt-2">
+          <div className="space-y-1 border-t border-brand-indigo/10 pt-2">
             {section.exams.map((exam) => (
               <ExamListItem key={exam.id} exam={exam} testPathId={testPathId} />
             ))}
@@ -152,7 +152,7 @@ const TestPathSectionItem = ({
       )}
       {totalExams === 0 && (
         <CardContent className="p-4 pt-0">
-          <p className="text-xs text-muted-foreground text-center py-2">
+          <p className="text-xs text-brand-indigo/60 text-center py-2">
             No exams in this section.
           </p>
         </CardContent>
@@ -255,19 +255,19 @@ export default function TestPathDetailPage() {
         {/* Future actions like 'Upgrade Path' could go here */}
       </div>
 
-      <Card className="bg-card border border-border/60 rounded-lg shadow">
+      <Card className="bg-white border border-brand-indigo/10 rounded-lg shadow">
         <CardContent className="p-4">
           {/* <p className="text-sm text-muted-foreground mb-3">
             {testPath.description || "Review your progress and continue your learning journey."} 
           </p> // TestPath model doesn't have description currently */}
           <div className="flex items-center justify-between text-sm mb-1.5">
-            <span className="text-muted-foreground">Overall Progress</span>
+            <span className="text-brand-indigo/60">Overall Progress</span>
             <span
               className={cn(
                 "font-medium",
                 overallCompletionPercentage === 100
-                  ? "text-green-600 dark:text-green-400"
-                  : "text-foreground"
+                  ? "text-brand-green"
+                  : "text-brand-indigo"
               )}
             >
               {overallCompletionPercentage.toFixed(0)}%
@@ -275,7 +275,7 @@ export default function TestPathDetailPage() {
           </div>
           <Progress
             value={overallCompletionPercentage}
-            className="h-2 bg-muted [&>div]:bg-gradient-to-r [&>div]:from-cyan-500 [&>div]:to-blue-500"
+            className="h-2 bg-brand-indigo/10 [&>div]:bg-gradient-to-r [&>div]:from-brand-green [&>div]:to-brand-indigo"
             aria-label={`Overall progress: ${overallCompletionPercentage.toFixed(
               0
             )}%`}
@@ -285,7 +285,7 @@ export default function TestPathDetailPage() {
 
       {/* Sections List */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-foreground tracking-tight">
+        <h2 className="text-lg font-semibold text-brand-indigo tracking-tight">
           Sections ({testPath.sections?.length || 0})
         </h2>
         {testPath.sections && testPath.sections.length > 0 ? (
@@ -300,8 +300,8 @@ export default function TestPathDetailPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-10 text-muted-foreground border border-dashed border-border rounded-lg min-h-[150px] flex flex-col justify-center items-center bg-card">
-            <ClipboardList className="h-8 w-8 mb-2 text-muted-foreground/50" />
+          <div className="text-center py-10 text-brand-indigo/60 border border-dashed border-brand-indigo/20 rounded-lg min-h-[150px] flex flex-col justify-center items-center bg-white">
+            <ClipboardList className="h-8 w-8 mb-2 text-brand-indigo/30" />
             <p className="text-base mb-1">No Sections Found</p>
             <p className="text-xs">
               This assessment does not have any sections configured yet.

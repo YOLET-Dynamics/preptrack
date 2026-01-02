@@ -30,23 +30,22 @@ const StatDisplay = ({
 }: StatDisplayProps) => (
   <div
     className={cn(
-      "rounded-lg p-4 transition-colors duration-200",
+      "rounded-xl p-4 transition-colors duration-200 border border-brand-indigo/5",
       bgColorClass
     )}
   >
     <div className="flex items-start justify-between mb-1">
-      <span className={cn("text-xl font-semibold", textColorClass)}>
+      <span className={cn("text-xl font-semibold font-inter", textColorClass)}>
         {value}
       </span>
-      <div className={cn("p-1 rounded", bgColorClass)}>
-        {" "}
+      <div className={cn("p-1.5 rounded-lg", bgColorClass)}>
         {React.isValidElement(icon) &&
           React.cloneElement(icon as React.ReactElement<any>, {
             className: cn("h-5 w-5", iconColorClass),
           })}
       </div>
     </div>
-    <span className={cn("text-sm font-medium", textColorClass)}>{title}</span>
+    <span className={cn("text-sm font-medium font-dm-sans", textColorClass)}>{title}</span>
   </div>
 );
 
@@ -63,31 +62,31 @@ export const TopicDetailsCard = ({ topicData }: TopicDetailsCardProps) => {
   const stats: Omit<StatDisplayProps, "value">[] = [
     {
       title: "Initial Score",
-      bgColorClass: "bg-sky-950/60",
+      bgColorClass: "bg-blue-50",
       icon: <Clock />,
-      textColorClass: "text-sky-300",
-      iconColorClass: "text-sky-400",
+      textColorClass: "text-blue-700",
+      iconColorClass: "text-blue-500",
     },
     {
       title: "Questions Done",
-      bgColorClass: "bg-amber-950/60",
+      bgColorClass: "bg-amber-50",
       icon: <HelpCircle />,
-      textColorClass: "text-amber-300",
-      iconColorClass: "text-amber-400",
+      textColorClass: "text-amber-700",
+      iconColorClass: "text-amber-500",
     },
     {
       title: "Highest Score",
-      bgColorClass: "bg-emerald-950/60",
+      bgColorClass: "bg-green-50",
       icon: <CheckCircle />,
-      textColorClass: "text-emerald-300",
-      iconColorClass: "text-emerald-400",
+      textColorClass: "text-green-700",
+      iconColorClass: "text-green-500",
     },
     {
       title: "Lowest Score",
-      bgColorClass: "bg-red-950/50",
+      bgColorClass: "bg-red-50",
       icon: <XCircle />,
-      textColorClass: "text-red-300",
-      iconColorClass: "text-red-400",
+      textColorClass: "text-red-700",
+      iconColorClass: "text-red-500",
     },
   ];
 
@@ -99,10 +98,10 @@ export const TopicDetailsCard = ({ topicData }: TopicDetailsCardProps) => {
   ];
 
   return (
-    <Card className="bg-gray-800/60 border border-gray-700/80 w-full">
+    <Card className="bg-white border border-brand-indigo/10 shadow-sm rounded-2xl w-full">
       <CardHeader className="pb-4 pt-5 px-5">
         <div className="flex justify-between items-start gap-4">
-          <CardTitle className="text-lg font-semibold text-gray-100 flex-1 leading-tight">
+          <CardTitle className="text-lg font-semibold text-brand-indigo font-inter flex-1 leading-tight">
             {topicData.topic.name}
           </CardTitle>
           <div className="flex-shrink-0">
@@ -110,7 +109,6 @@ export const TopicDetailsCard = ({ topicData }: TopicDetailsCardProps) => {
               progress={recentEvalPercentage / 100}
               size={80}
               strokeWidth={6}
-              className="text-cyan-500"
             />
           </div>
         </div>

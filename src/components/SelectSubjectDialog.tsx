@@ -114,10 +114,10 @@ export default function SelectSubjectDialog({
   return (
     <>
       <Dialog open={effectiveOpen} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-3xl w-[95vw] max-h-[90vh] flex flex-col font-funnel-sans bg-background text-foreground border-border rounded-lg">
+        <DialogContent className="sm:max-w-3xl w-[95vw] max-h-[90vh] flex flex-col font-dm-sans bg-white text-brand-indigo border-brand-indigo/10 rounded-2xl shadow-xl">
           <DialogHeader className="flex-shrink-0 border-b pb-4">
-            <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold text-foreground">
-              <GraduationCap className="h-5 w-5 text-primary" />
+            <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold text-brand-indigo font-inter">
+              <GraduationCap className="h-5 w-5 text-brand-green" />
               Select a course
             </DialogTitle>
           </DialogHeader>
@@ -125,7 +125,7 @@ export default function SelectSubjectDialog({
           <div className="flex-grow overflow-y-auto py-4 pr-2 space-y-4">
             {isLoadingSubjects ? (
               <div className="flex justify-center items-center h-40">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <Loader2 className="h-8 w-8 animate-spin text-brand-green" />
               </div>
             ) : subjectsData && subjectsData.rows.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -137,31 +137,31 @@ export default function SelectSubjectDialog({
                       onClick={() => handleSubjectSelection(subject)}
                       className={cn(
                         `
-                        relative flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all duration-150
+                        relative flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all duration-200
                         aspect-square text-center group
                       `,
                         isSelected
-                          ? "border-primary bg-primary/20 shadow-md"
-                          : "border-border bg-card hover:border-primary/50 hover:shadow-sm"
+                          ? "border-brand-green bg-brand-green/10 shadow-md"
+                          : "border-brand-indigo/10 bg-white hover:border-brand-green/50 hover:shadow-sm"
                       )}
                     >
                       {isSelected && (
-                        <div className="absolute top-2 right-2 bg-primary rounded-full p-0.5">
-                          <Check className="h-3 w-3 text-background" />
+                        <div className="absolute top-2 right-2 bg-brand-green rounded-full p-0.5">
+                          <Check className="h-3 w-3 text-white" />
                         </div>
                       )}
                       <Book
                         className={cn(
                           "h-6 w-6 mb-2",
                           isSelected
-                            ? "text-primary"
-                            : "text-muted-foreground group-hover:text-primary"
+                            ? "text-brand-green"
+                            : "text-brand-indigo/40 group-hover:text-brand-green"
                         )}
                       />
                       <span
                         className={cn(
                           "text-xs sm:text-sm font-medium",
-                          isSelected ? "text-primary" : "text-foreground"
+                          isSelected ? "text-brand-green" : "text-brand-indigo"
                         )}
                       >
                         {subject.name}
@@ -171,13 +171,13 @@ export default function SelectSubjectDialog({
                 })}
               </div>
             ) : (
-              <div className="text-center py-8 text-muted-foreground">
+              <div className="text-center py-8 text-brand-indigo/50 font-dm-sans">
                 No courses available.
               </div>
             )}
           </div>
 
-          <div className="flex-shrink-0 pt-4 border-t border-border space-y-4">
+          <div className="flex-shrink-0 pt-4 border-t border-brand-indigo/10 space-y-4">
             {subjectsData &&
               subjectsData.totalPages &&
               subjectsData.totalPages > 1 && (
@@ -188,7 +188,7 @@ export default function SelectSubjectDialog({
                 />
               )}
             <Button
-              className="w-full h-11 text-base bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50"
+              className="w-full h-11 text-base bg-brand-indigo hover:bg-brand-indigo/90 text-white rounded-xl font-dm-sans font-medium disabled:opacity-50"
               disabled={!selectedSubjectId}
               onClick={handleContinue}
             >

@@ -39,8 +39,8 @@ const LessonListItem = ({
 }) => {
   const Icon = lesson.completed ? CheckCircle2 : BookOpen;
   const iconColor = lesson.completed
-    ? "text-green-600 dark:text-green-500"
-    : "text-muted-foreground";
+    ? "text-brand-green"
+    : "text-brand-indigo/40";
 
   return (
     <button
@@ -48,8 +48,8 @@ const LessonListItem = ({
       className={cn(
         `w-full flex items-center gap-3 p-3 rounded-md text-left transition-colors duration-150`,
         isSelected
-          ? "bg-primary/10 dark:bg-primary/20"
-          : "hover:bg-muted/50 dark:hover:bg-muted/30",
+          ? "bg-brand-green/10"
+          : "hover:bg-brand-indigo/5",
         lesson.completed && !isSelected ? "opacity-70" : ""
       )}
       aria-current={isSelected ? "page" : undefined}
@@ -58,16 +58,16 @@ const LessonListItem = ({
       <span
         className={cn(
           "flex-grow text-sm font-medium truncate",
-          isSelected ? "text-primary" : "text-foreground"
+          isSelected ? "text-brand-green" : "text-brand-indigo"
         )}
       >
         {lesson.title}
       </span>
       {isLoadingContent && isSelected ? (
-        <Loader2 className="h-4 w-4 animate-spin text-primary ml-auto flex-shrink-0" />
+        <Loader2 className="h-4 w-4 animate-spin text-brand-green ml-auto flex-shrink-0" />
       ) : (
         !lesson.completed && (
-          <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <ChevronRight className="h-4 w-4 text-brand-indigo/40 ml-auto flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
         )
       )}
     </button>
@@ -113,8 +113,8 @@ const LessonContentViewer = ({
 
   if (!selectedLessonId) {
     return (
-      <div className="h-full flex flex-col items-center justify-center text-center p-8 text-muted-foreground">
-        <FileText className="h-12 w-12 mb-4 opacity-50" />
+      <div className="h-full flex flex-col items-center justify-center text-center p-8 text-brand-indigo/60">
+        <FileText className="h-12 w-12 mb-4 text-brand-indigo/30" />
         <p className="text-lg font-medium">Select a lesson</p>
         <p className="text-sm">
           Choose a lesson from the list to view its content.
@@ -153,7 +153,7 @@ const LessonContentViewer = ({
 
   if (!lessonContent) {
     return (
-      <div className="h-full flex items-center justify-center text-muted-foreground p-8">
+      <div className="h-full flex items-center justify-center text-brand-indigo/60 p-8">
         Lesson content not available.
       </div>
     );
@@ -165,11 +165,11 @@ const LessonContentViewer = ({
     <div className="p-6 lg:p-8 relative">
       {isFetchingLessonContent && !isLoadingLessonContent && (
         <div className="absolute top-4 right-4">
-          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground/50" />
+          <Loader2 className="h-5 w-5 animate-spin text-brand-indigo/30" />
         </div>
       )}
       <div className="flex items-start justify-between gap-4 mb-6">
-        <h2 className="text-xl lg:text-2xl font-semibold text-foreground flex-1">
+        <h2 className="text-xl lg:text-2xl font-semibold text-brand-indigo flex-1">
           {lessonContent.title}
         </h2>
         {lessonContent.exam?.id && (
@@ -184,15 +184,15 @@ const LessonContentViewer = ({
           </Button>
         )}
       </div>
-      <article className="prose prose-slate dark:prose-invert max-w-none">
+      <article className="prose prose-slate max-w-none">
         <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
           {lessonContent.content}
         </ReactMarkdown>
       </article>
 
       {lessonContent.resources && lessonContent.resources.length > 0 && (
-        <div className="mt-10 pt-6 border-t border-border">
-          <h3 className="text-lg font-semibold mb-4 text-foreground">
+        <div className="mt-10 pt-6 border-t border-brand-indigo/10">
+          <h3 className="text-lg font-semibold mb-4 text-brand-indigo">
             Additional Resources
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -202,7 +202,7 @@ const LessonContentViewer = ({
                 href={resource.resource_url} // Assuming it's a link or image source
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block rounded-lg overflow-hidden border border-border aspect-video relative group bg-muted hover:shadow-md transition-shadow"
+                className="block rounded-lg overflow-hidden border border-brand-indigo/10 aspect-video relative group bg-brand-indigo/5 hover:shadow-md transition-shadow"
               >
                 {/* Basic image display, consider adding specific handlers for different resource types */}
                 <img
@@ -356,7 +356,7 @@ export default function StudyGuideSectionDetailPage() {
   return (
     <div className="flex flex-col h-screen">
       {/* Header */}
-      <header className="flex items-center gap-4 px-4 py-3 border-b border-border flex-shrink-0 h-[65px]">
+      <header className="flex items-center gap-4 px-4 py-3 border-b border-brand-indigo/10 flex-shrink-0 h-[65px] bg-white">
         <Button
           variant="outline"
           size="icon"
@@ -368,12 +368,12 @@ export default function StudyGuideSectionDetailPage() {
         </Button>
         <div className="flex-1 flex items-baseline gap-2 min-w-0">
           <h1
-            className="font-semibold text-lg lg:text-xl text-foreground truncate"
+            className="font-semibold text-lg lg:text-xl text-brand-indigo truncate"
             title={section.title}
           >
             {section.title}
           </h1>
-          <span className="text-sm text-muted-foreground flex-shrink-0">
+          <span className="text-sm text-brand-indigo/60 flex-shrink-0">
             ({section.lessons?.length || 0} Lessons)
           </span>
         </div>
@@ -396,7 +396,7 @@ export default function StudyGuideSectionDetailPage() {
       </header>
 
       <div className="flex flex-1 overflow-hidden">
-        <aside className="w-[280px] lg:w-[320px] border-r border-border bg-muted/30 overflow-y-auto flex-shrink-0">
+        <aside className="w-[280px] lg:w-[320px] border-r border-brand-indigo/10 bg-brand-indigo/5 overflow-y-auto flex-shrink-0">
           <div className="p-3 space-y-1.5">
             {(section.lessons || []).map((lesson) => (
               <LessonListItem
@@ -417,7 +417,7 @@ export default function StudyGuideSectionDetailPage() {
               />
             ))}
             {section.lessons?.length === 0 && (
-              <div className="p-4 text-center text-sm text-muted-foreground">
+              <div className="p-4 text-center text-sm text-brand-indigo/60">
                 No lessons in this section yet.
               </div>
             )}

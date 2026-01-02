@@ -140,7 +140,7 @@ export default function ExamDetailPage() {
   const { exam_info, topics, concepts } = examData;
 
   return (
-    <div className="container mx-auto max-w-4xl p-4 md:p-6 lg:p-8 space-y-6 md:space-y-8">
+    <div className="container mx-auto max-w-4xl p-4 md:p-6 lg:p-8 space-y-6 md:space-y-8 bg-gradient-to-br from-white via-brand-indigo/5 to-white min-h-screen">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex items-center gap-3 min-w-0">
           <Button
@@ -171,7 +171,7 @@ export default function ExamDetailPage() {
           size="lg"
           onClick={handleTakeExam}
           disabled={isLoading}
-          className="w-full sm:w-auto shrink-0 transition-all duration-300 ease-in-out hover:scale-105"
+          className="w-full sm:w-auto shrink-0 bg-brand-green hover:bg-brand-green/90 text-white rounded-xl shadow-lg shadow-brand-green/20 hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out font-dm-sans font-medium"
           aria-label={`Take exam: ${exam_info.title}`}
         >
           {isLoading ? (
@@ -183,23 +183,23 @@ export default function ExamDetailPage() {
         </Button>
       </div>
 
-      <Card className="border-border/60 shadow-sm hover:shadow-md transition-shadow duration-300">
+      <Card className="border-brand-indigo/10 shadow-lg shadow-brand-indigo/5 hover:shadow-xl transition-all duration-300 rounded-2xl bg-white/80 backdrop-blur-sm">
         <CardContent className="p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
             <InfoItem
               icon={HelpCircle}
               label="Questions"
               value={`${exam_info.total_questions || 0}`}
-              iconColor="text-blue-600 dark:text-blue-400"
-              bgColor="bg-blue-100 dark:bg-blue-900/30"
+              iconColor="text-brand-indigo"
+              bgColor="bg-brand-indigo/10"
               description={`Total questions in the exam`}
             />
             <InfoItem
               icon={Gauge}
               label="Difficulty"
               value={exam_info.difficulty || "N/A"}
-              iconColor="text-orange-600 dark:text-orange-400"
-              bgColor="bg-orange-100 dark:bg-orange-900/30"
+              iconColor="text-brand-green"
+              bgColor="bg-brand-green/10"
               description={`Estimated difficulty level`}
             />
           </div>
@@ -207,7 +207,7 @@ export default function ExamDetailPage() {
       </Card>
 
       {exam_info.description && (
-        <Card className="border-border/60 shadow-sm">
+        <Card className="border-brand-indigo/10 shadow-md rounded-2xl bg-white">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg flex items-center gap-2">
               <FileText className="h-5 w-5 text-primary" /> Description
@@ -222,7 +222,7 @@ export default function ExamDetailPage() {
       )}
 
       {(topics?.length || concepts?.length) && (
-        <Card className="border-border/60 shadow-sm">
+        <Card className="border-brand-indigo/10 shadow-md rounded-2xl bg-white">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg flex items-center gap-2">
               <ListChecks className="h-5 w-5 text-primary" /> Covered Content
@@ -243,7 +243,7 @@ export default function ExamDetailPage() {
                     <Badge
                       key={topic.id}
                       variant="secondary"
-                      className="text-sm px-2.5 py-0.5 bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200 border-indigo-200 dark:border-indigo-700"
+                      className="text-sm px-2.5 py-0.5 bg-brand-indigo/10 text-brand-indigo border-brand-indigo/20"
                     >
                       {topic.name}
                     </Badge>
@@ -262,7 +262,7 @@ export default function ExamDetailPage() {
                     <Badge
                       key={concept.id}
                       variant="outline"
-                      className="text-sm px-2.5 py-0.5 border-teal-300 text-teal-800 dark:border-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-900/30"
+                      className="text-sm px-2.5 py-0.5 border-brand-green/30 text-brand-green bg-brand-green/5"
                     >
                       {concept.name}
                     </Badge>
@@ -298,13 +298,13 @@ const InfoItem = ({
   description?: string;
 }) => (
   <div
-    className="flex flex-col items-center space-y-1.5 p-4 rounded-lg bg-background dark:bg-muted/30 border border-border/50"
+    className="flex flex-col items-center space-y-1.5 p-4 rounded-lg bg-white/70 border border-brand-indigo/10"
     title={description}
   >
     <div className={cn("p-2.5 rounded-full", bgColor)}>
       <Icon className={cn("h-5 w-5", iconColor)} />
     </div>
-    <span className="text-sm font-medium text-foreground pt-1">{value}</span>
-    <span className="text-xs text-muted-foreground">{label}</span>
+    <span className="text-sm font-medium text-brand-indigo pt-1">{value}</span>
+    <span className="text-xs text-brand-indigo/60">{label}</span>
   </div>
 );

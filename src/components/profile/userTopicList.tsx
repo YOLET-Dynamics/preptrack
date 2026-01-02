@@ -4,7 +4,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { profileApi } from "@/api/profile";
 import { UserTopicCard } from "./userTopicCard";
-import { Loader2, AlertTriangle, BookOpenCheck } from "lucide-react";
+import { AlertTriangle, BookOpenCheck } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { formatError } from "@/common/utils";
@@ -55,7 +55,9 @@ export default function UserTopicList({ subjectId }: UserTopicListProps) {
 
   return (
     <div className="w-full">
-      <h3 className="text-base font-medium text-gray-300 mb-3">Topics</h3>
+      <h3 className="text-sm font-medium text-brand-indigo/60 mb-3 font-dm-sans uppercase tracking-wide">
+        Topics
+      </h3>
       {renderContent()}
     </div>
   );
@@ -66,7 +68,7 @@ const LoadingSkeleton = () => (
     {[...Array(3)].map((_, index) => (
       <Skeleton
         key={index}
-        className="h-[180px] w-full rounded-lg bg-gray-700/50"
+        className="h-[180px] w-full rounded-xl bg-brand-indigo/5"
       />
     ))}
   </div>
@@ -81,18 +83,18 @@ const ErrorDisplay = ({
 }) => (
   <Alert
     variant="destructive"
-    className="bg-red-900/30 border-red-500/50 text-red-300"
+    className="bg-red-50 border-red-200 text-red-700 rounded-xl"
   >
-    <AlertTriangle className="h-4 w-4 !text-red-400" />
-    <AlertTitle className="text-red-300">Failed to load topics</AlertTitle>
-    <AlertDescription className="text-red-400/90">
+    <AlertTriangle className="h-4 w-4 !text-red-500" />
+    <AlertTitle className="text-red-700 font-inter">Failed to load topics</AlertTitle>
+    <AlertDescription className="text-red-600 font-dm-sans">
       {formatError(error instanceof Error ? error.message : String(error))}
       {onRetry && (
         <button
           onClick={onRetry}
-          className="ml-2 text-cyan-400 hover:underline text-xs"
+          className="ml-2 text-brand-green hover:underline text-xs font-medium"
         >
-          (Retry)
+          Retry
         </button>
       )}
     </AlertDescription>
@@ -100,19 +102,19 @@ const ErrorDisplay = ({
 );
 
 const EmptyState = () => (
-  <div className="text-center py-10 px-4 bg-gray-800/50 border border-dashed border-gray-700 rounded-lg min-h-[150px] flex flex-col justify-center items-center">
-    <BookOpenCheck className="mx-auto h-10 w-10 text-gray-500 mb-3" />
-    <p className="text-md font-medium text-gray-400">No Topics Found</p>
-    <p className="text-sm text-gray-500 mt-1">
+  <div className="text-center py-10 px-4 bg-brand-indigo/5 border border-dashed border-brand-indigo/20 rounded-xl min-h-[150px] flex flex-col justify-center items-center">
+    <BookOpenCheck className="mx-auto h-10 w-10 text-brand-indigo/30 mb-3" />
+    <p className="text-base font-medium text-brand-indigo/60 font-dm-sans">No Topics Found</p>
+    <p className="text-sm text-brand-indigo/40 mt-1 font-dm-sans">
       No topic data available for this course yet.
     </p>
   </div>
 );
 
 const SelectSubjectMessage = () => (
-  <div className="text-center py-10 px-4 bg-gray-800/50 border border-dashed border-gray-700 rounded-lg min-h-[150px] flex flex-col justify-center items-center">
-    <p className="text-md font-medium text-gray-400">Select a Course</p>
-    <p className="text-sm text-gray-500 mt-1">
+  <div className="text-center py-10 px-4 bg-brand-indigo/5 border border-dashed border-brand-indigo/20 rounded-xl min-h-[150px] flex flex-col justify-center items-center">
+    <p className="text-base font-medium text-brand-indigo/60 font-dm-sans">Select a Course</p>
+    <p className="text-sm text-brand-indigo/40 mt-1 font-dm-sans">
       Please select a course above to view its topics.
     </p>
   </div>

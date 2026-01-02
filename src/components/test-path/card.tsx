@@ -35,26 +35,26 @@ export function TestPathCard({
       <Card
         className={cn(
           "group relative flex flex-col transition-all duration-200 ease-in-out",
-          "bg-brand-indigo/10 rounded-2xl shadow-sm",
+          "bg-white rounded-xl shadow-sm",
           "cursor-pointer",
           !testPath.hidden && [
-            "hover:shadow-xl hover:scale-[1.015]",
-            "hover:border-brand-green/50", 
+            "hover:shadow-lg hover:scale-[1.01]",
+            "hover:border-brand-green/50",
           ],
           testPath.hidden
-            ? "border border-brand-indigo/40 opacity-70 hover:opacity-100"
+            ? "border border-brand-indigo/10 opacity-70 hover:opacity-100"
             : testPath.upgraded
-              ? "border border-brand-indigo/40 border-l-4 border-l-yellow-500"
+              ? "border border-brand-indigo/10 border-l-4 border-l-amber-400"
               : testPath.completed
-                ? "border border-brand-indigo/40 border-l-4 border-l-brand-green"
-                : "border border-brand-green/50" 
+                ? "border border-brand-indigo/10 border-l-4 border-l-brand-green"
+                : "border border-brand-green/30"
         )}
         onClick={onPress}
         data-completed={testPath.completed}
       >
-        <CardContent className="p-4 space-y-3">
-          <div className="flex justify-between items-start mb-1">
-            <h3 className="font-semibold text-base text-white flex-1 pr-10 break-words hyphens-auto font-inter">
+        <CardContent className="p-5 space-y-4">
+          <div className="flex justify-between items-start">
+            <h3 className="font-semibold text-base text-brand-indigo flex-1 pr-10 break-words hyphens-auto font-inter group-hover:text-brand-green transition-colors">
               {testPath.title}
             </h3>
             <Tooltip>
@@ -62,7 +62,7 @@ export function TestPathCard({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute top-2 right-2 h-8 w-8 text-white/50 hover:text-brand-green hover:bg-brand-green/10 rounded-full z-10"
+                  className="absolute top-3 right-3 h-8 w-8 text-brand-indigo/40 hover:text-brand-green hover:bg-brand-green/10 rounded-lg z-10"
                   onClick={(e) => {
                     e.stopPropagation();
                     onToggleHidden();
@@ -80,7 +80,7 @@ export function TestPathCard({
               </TooltipTrigger>
               <TooltipContent
                 side="top"
-                className="bg-brand-indigo border-brand-indigo/60 text-white"
+                className="bg-brand-indigo border-brand-indigo/20 text-white"
               >
                 <p>{testPath.hidden ? "Show" : "Hide"}</p>
               </TooltipContent>
@@ -90,7 +90,7 @@ export function TestPathCard({
           <div className="flex flex-wrap gap-2">
             <Badge
               variant="secondary"
-              className="bg-brand-indigo/30 border-brand-indigo/40 text-white/70 text-xs font-dm-sans"
+              className="bg-brand-indigo/5 border-brand-indigo/10 text-brand-indigo/70 text-xs font-dm-sans"
             >
               <BookOpen className="h-3 w-3 mr-1.5" />
               {testPath.sections.length}{" "}
@@ -98,7 +98,7 @@ export function TestPathCard({
             </Badge>
             <Badge
               variant="secondary"
-              className="bg-brand-indigo/30 border-brand-indigo/40 text-white/70 text-xs font-dm-sans"
+              className="bg-brand-indigo/5 border-brand-indigo/10 text-brand-indigo/70 text-xs font-dm-sans"
             >
               <GraduationCap className="h-3 w-3 mr-1.5" />
               {examCount} {examCount === 1 ? "Exam" : "Exams"}
@@ -106,7 +106,7 @@ export function TestPathCard({
             {testPath.completed && !testPath.upgraded && (
               <Badge
                 variant="outline"
-                className="border-brand-green/50 text-brand-green bg-brand-green/10 text-xs font-dm-sans"
+                className="border-brand-green/30 text-brand-green bg-brand-green/10 text-xs font-dm-sans"
               >
                 Completed
               </Badge>
@@ -114,21 +114,21 @@ export function TestPathCard({
             {testPath.upgraded && (
               <Badge
                 variant="outline"
-                className="border-yellow-500/50 text-yellow-400 bg-yellow-500/10 text-xs font-dm-sans"
+                className="border-amber-400/30 text-amber-600 bg-amber-50 text-xs font-dm-sans"
               >
                 Upgraded
               </Badge>
             )}
           </div>
 
-          <div className="space-y-1.5 pt-2">
-            <div className="flex justify-between text-xs font-medium text-white/50 font-dm-sans">
+          <div className="space-y-2 pt-1">
+            <div className="flex justify-between text-xs font-medium text-brand-indigo/50 font-dm-sans">
               <span>Progress</span>
-              <span>{completionPercentage.toFixed(0)}%</span>
+              <span className="text-brand-indigo">{completionPercentage.toFixed(0)}%</span>
             </div>
             <Progress
               value={completionPercentage}
-              className="h-1.5 bg-brand-indigo/30 [&>div]:bg-brand-green"
+              className="h-2 bg-brand-indigo/10 [&>div]:bg-brand-green [&>div]:rounded-full"
             />
           </div>
         </CardContent>

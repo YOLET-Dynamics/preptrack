@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/provider/AuthProvider";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Edit } from "lucide-react";
+import { Edit, Shield, Mail, Lock } from "lucide-react";
 import { useForm, type AnyFieldApi } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "@/api/auth";
@@ -25,6 +25,7 @@ const getInitials = (firstName: string, lastName: string) => {
 
 const ProfileSectionCard: React.FC<{
   title: string;
+  icon?: React.ReactNode;
   children: React.ReactNode;
   isEditing?: boolean;
   onEdit?: () => void;
@@ -34,6 +35,7 @@ const ProfileSectionCard: React.FC<{
   canSave?: boolean;
 }> = ({
   title,
+  icon,
   children,
   isEditing = false,
   onEdit,
@@ -42,27 +44,33 @@ const ProfileSectionCard: React.FC<{
   isSaving = false,
   canSave = true,
 }) => (
-  <Card className="bg-brand-indigo/15 border-brand-indigo/40 text-white shadow-lg backdrop-blur-sm rounded-2xl">
-    <CardHeader className="flex flex-row items-center justify-between border-b border-brand-indigo/30 pb-3">
-      <CardTitle className="text-lg font-semibold text-white font-inter">
-        {title}
-      </CardTitle>
+  <Card className="bg-white border border-brand-indigo/10 shadow-sm rounded-2xl">
+    <CardHeader className="flex flex-row items-center justify-between border-b border-brand-indigo/5 pb-4">
+      <div className="flex items-center gap-3">
+        {icon && (
+          <div className="p-2 rounded-xl bg-brand-green/10">
+            {icon}
+          </div>
+        )}
+        <CardTitle className="text-lg font-semibold text-brand-indigo font-inter">
+          {title}
+        </CardTitle>
+      </div>
       {isEditing ? (
-        <div className="flex space-x-2">
+        <div className="flex gap-2">
           <Button
             variant="ghost"
             size="sm"
             onClick={onCancel}
-            className="text-white/50 hover:text-white hover:bg-brand-indigo/30"
+            className="text-brand-indigo/50 hover:text-brand-indigo hover:bg-brand-indigo/5 rounded-lg"
             disabled={isSaving}
           >
             Cancel
           </Button>
           <Button
-            variant="secondary"
             size="sm"
             onClick={onSave}
-            className="bg-brand-green hover:bg-brand-green/90 text-brand-black font-medium"
+            className="bg-brand-green hover:bg-brand-green/90 text-white font-medium rounded-lg"
             disabled={isSaving || !canSave}
           >
             {isSaving ? "Saving..." : "Save"}
@@ -74,14 +82,14 @@ const ProfileSectionCard: React.FC<{
             variant="ghost"
             size="sm"
             onClick={onEdit}
-            className="text-white/50 hover:text-brand-green hover:bg-brand-indigo/30"
+            className="text-brand-indigo/50 hover:text-brand-green hover:bg-brand-green/5 rounded-lg"
           >
             <Edit className="mr-2 h-4 w-4" /> Edit
           </Button>
         )
       )}
     </CardHeader>
-    <CardContent className="">{children}</CardContent>
+    <CardContent className="pt-6">{children}</CardContent>
   </Card>
 );
 
@@ -91,16 +99,15 @@ const InfoItem: React.FC<{
   isLoading: boolean;
 }> = ({ label, value, isLoading }) => (
   <div>
-    <p className="text-xs font-medium text-white/40 mb-1 font-dm-sans">{label}</p>
+    <p className="text-xs font-medium text-brand-indigo/50 mb-1.5 font-dm-sans uppercase tracking-wide">{label}</p>
     {isLoading ? (
-      <Skeleton className="h-5 w-3/4 bg-brand-indigo/40" />
+      <Skeleton className="h-5 w-3/4 bg-brand-indigo/5" />
     ) : (
-      <p className="text-sm text-white font-dm-sans">{value || "N/A"}</p>
+      <p className="text-sm text-brand-indigo font-dm-sans font-medium">{value || "N/A"}</p>
     )}
   </div>
 );
 
-// Helper for form field errors
 function FieldInfo({ field }: { field: AnyFieldApi }) {
   return (
     <>
@@ -118,7 +125,6 @@ export default function ProfilePage() {
   const userInfo = user?.user_info;
   const [isEditingPersonalInfo, setIsEditingPersonalInfo] = useState(false);
 
-  // Mutation for updating name
   const updateNameMutation = useMutation({
     mutationFn: authApi.updateName,
     onSuccess: (data) => {
@@ -131,7 +137,6 @@ export default function ProfilePage() {
     },
   });
 
-  // Form for personal info edit
   const nameForm = useForm({
     defaultValues: {
       first_name: "",
@@ -203,37 +208,45 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <h1 className="text-2xl font-semibold text-white mb-6 font-inter">My Profile</h1>
+      <div>
+        <h1 className="text-2xl sm:text-3xl font-bold text-brand-indigo font-inter">
+          My Profile
+        </h1>
+        <p className="text-brand-indigo/60 font-dm-sans mt-1">
+          Manage your account settings
+        </p>
+      </div>
 
-      <Card className="bg-brand-indigo/15 border-brand-indigo/40 text-white shadow-lg backdrop-blur-sm rounded-2xl">
-        <CardContent className="flex items-center space-x-4 pt-6">
+      {/* Profile Header Card */}
+      <Card className="bg-gradient-to-br from-brand-green/10 to-brand-indigo/5 border border-brand-indigo/10 shadow-sm rounded-2xl overflow-hidden">
+        <CardContent className="flex items-center gap-5 py-6">
           {isLoading ? (
-            <Skeleton className="h-16 w-16 rounded-full bg-brand-indigo/40" />
+            <Skeleton className="h-20 w-20 rounded-full bg-brand-indigo/10" />
           ) : (
-            <Avatar className="h-16 w-16 text-xl">
+            <Avatar className="h-20 w-20 text-2xl border-4 border-white shadow-md">
               <AvatarImage src={userInfo?.profile_url} alt="User profile" />
-              <AvatarFallback className="bg-brand-green/20 text-brand-green font-semibold font-inter">
+              <AvatarFallback className="bg-brand-green text-white font-semibold font-inter">
                 {userInfo
                   ? getInitials(userInfo.first_name, userInfo.last_name)
                   : "--"}
               </AvatarFallback>
             </Avatar>
           )}
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             {isLoading ? (
               <>
-                <Skeleton className="h-6 w-40 mb-1 bg-brand-indigo/40" />
-                <Skeleton className="h-4 w-32 bg-brand-indigo/40" />
+                <Skeleton className="h-7 w-48 mb-2 bg-brand-indigo/10" />
+                <Skeleton className="h-4 w-32 bg-brand-indigo/10" />
               </>
             ) : (
               <>
-                <h2 className="text-xl font-semibold text-white font-inter">
+                <h2 className="text-2xl font-bold text-brand-indigo font-inter truncate">
                   {`${userInfo?.first_name || ""} ${userInfo?.last_name || ""}`}
                 </h2>
-                <p className="text-sm text-white/50 font-dm-sans">
+                <p className="text-sm text-brand-indigo/50 font-dm-sans">
                   Member since{" "}
                   {userInfo?.created_at
-                    ? format(new Date(userInfo.created_at), "MMM yyyy")
+                    ? format(new Date(userInfo.created_at), "MMMM yyyy")
                     : "N/A"}
                 </p>
               </>
@@ -242,6 +255,7 @@ export default function ProfilePage() {
         </CardContent>
       </Card>
 
+      {/* Personal Information */}
       <ProfileSectionCard
         title="Personal Information"
         isEditing={isEditingPersonalInfo}
@@ -258,7 +272,7 @@ export default function ProfilePage() {
             handlePersonalInfoSave();
           }}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
             {isEditingPersonalInfo ? (
               <>
                 <nameForm.Field
@@ -267,7 +281,7 @@ export default function ProfilePage() {
                     <div className="relative">
                       <label
                         htmlFor={field.name}
-                        className="text-xs font-medium text-white/40 mb-1 block font-dm-sans"
+                        className="text-xs font-medium text-brand-indigo/50 mb-1.5 block font-dm-sans uppercase tracking-wide"
                       >
                         First Name
                       </label>
@@ -278,7 +292,7 @@ export default function ProfilePage() {
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                         className={cn(
-                          "bg-brand-indigo/30 border-brand-indigo/60 text-white placeholder:text-white/40 focus:border-brand-green rounded-xl font-dm-sans",
+                          "h-11 bg-brand-indigo/5 border-brand-indigo/20 text-brand-indigo placeholder:text-brand-indigo/40 focus:border-brand-green rounded-xl font-dm-sans",
                           field.state.meta.errors.length > 0 &&
                             "border-red-500 focus:border-red-500"
                         )}
@@ -293,7 +307,7 @@ export default function ProfilePage() {
                     <div className="relative">
                       <label
                         htmlFor={field.name}
-                        className="text-xs font-medium text-white/40 mb-1 block font-dm-sans"
+                        className="text-xs font-medium text-brand-indigo/50 mb-1.5 block font-dm-sans uppercase tracking-wide"
                       >
                         Last Name
                       </label>
@@ -304,7 +318,7 @@ export default function ProfilePage() {
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                         className={cn(
-                          "bg-brand-indigo/30 border-brand-indigo/60 text-white placeholder:text-white/40 focus:border-brand-green rounded-xl font-dm-sans",
+                          "h-11 bg-brand-indigo/5 border-brand-indigo/20 text-brand-indigo placeholder:text-brand-indigo/40 focus:border-brand-green rounded-xl font-dm-sans",
                           field.state.meta.errors.length > 0 &&
                             "border-red-500 focus:border-red-500"
                         )}
@@ -329,7 +343,7 @@ export default function ProfilePage() {
               </>
             )}
             <InfoItem
-              label="Email address"
+              label="Email Address"
               value={userInfo?.email}
               isLoading={isLoading}
             />
@@ -337,44 +351,60 @@ export default function ProfilePage() {
         </form>
       </ProfileSectionCard>
 
-      <ProfileSectionCard title="Security">
-        <div className="space-y-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-white font-dm-sans">Email</p>
-              <p className="text-xs text-white/40 font-dm-sans">
-                Update your email address.
-              </p>
+      {/* Security Section */}
+      <ProfileSectionCard 
+        title="Security" 
+        icon={<Shield className="h-5 w-5 text-brand-green" />}
+      >
+        <div className="space-y-6">
+          <div className="flex items-center justify-between p-4 rounded-xl bg-brand-indigo/5 border border-brand-indigo/10">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-white">
+                <Mail className="h-4 w-4 text-brand-indigo/60" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-brand-indigo font-dm-sans">Email</p>
+                <p className="text-xs text-brand-indigo/50 font-dm-sans">
+                  Update your email address
+                </p>
+              </div>
             </div>
             {isLoading ? (
-              <Skeleton className="h-9 w-32 bg-brand-indigo/40" />
+              <Skeleton className="h-9 w-28 bg-brand-indigo/10" />
             ) : (
               <Button
-                variant="secondary"
+                variant="outline"
                 size="sm"
-                className="bg-brand-indigo/40 hover:bg-brand-indigo/60 text-white/80 rounded-xl font-dm-sans"
+                className="border-brand-indigo/20 text-brand-indigo hover:bg-brand-indigo/5 rounded-lg font-dm-sans"
                 onClick={() => toast.info("Feature coming soon!")}
               >
-                Change Email
+                Change
               </Button>
             )}
           </div>
 
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-white font-dm-sans">Password</p>
-              <p className="text-xs text-white/40 font-dm-sans">Update your password.</p>
+          <div className="flex items-center justify-between p-4 rounded-xl bg-brand-indigo/5 border border-brand-indigo/10">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-white">
+                <Lock className="h-4 w-4 text-brand-indigo/60" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-brand-indigo font-dm-sans">Password</p>
+                <p className="text-xs text-brand-indigo/50 font-dm-sans">
+                  Update your password
+                </p>
+              </div>
             </div>
             {isLoading ? (
-              <Skeleton className="h-9 w-32 bg-brand-indigo/40" />
+              <Skeleton className="h-9 w-28 bg-brand-indigo/10" />
             ) : (
               <Button
-                variant="secondary"
+                variant="outline"
                 size="sm"
-                className="bg-brand-indigo/40 hover:bg-brand-indigo/60 text-white/80 rounded-xl font-dm-sans"
+                className="border-brand-indigo/20 text-brand-indigo hover:bg-brand-indigo/5 rounded-lg font-dm-sans"
                 onClick={() => toast.info("Feature coming soon!")}
               >
-                Change Password
+                Change
               </Button>
             )}
           </div>

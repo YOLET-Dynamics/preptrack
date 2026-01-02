@@ -41,11 +41,12 @@ const Pagination: React.FC<PaginationProps> = ({
         onClick={handlePrevious}
         disabled={currentPage === 1}
         aria-label="Go to previous page"
+        className="border-brand-indigo/20 text-brand-indigo/60 hover:bg-brand-indigo/5 hover:text-brand-indigo disabled:opacity-50 rounded-lg"
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
 
-      <span className="text-sm text-muted-foreground tabular-nums">
+      <span className="text-sm text-brand-indigo/60 tabular-nums font-dm-sans">
         Page {currentPage} of {totalPages}
       </span>
 
@@ -55,6 +56,7 @@ const Pagination: React.FC<PaginationProps> = ({
         onClick={handleNext}
         disabled={currentPage === totalPages}
         aria-label="Go to next page"
+        className="border-brand-indigo/20 text-brand-indigo/60 hover:bg-brand-indigo/5 hover:text-brand-indigo disabled:opacity-50 rounded-lg"
       >
         <ChevronRight className="h-4 w-4" />
       </Button>

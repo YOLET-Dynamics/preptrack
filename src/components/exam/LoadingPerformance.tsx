@@ -3,9 +3,9 @@ import { useRouter } from "next/navigation";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useExamStore, useExamAttemptStore, useExamInitStore } from "@/store/examStore"; // Assuming these are correctly located
+import { useExamAttemptStore, useExamInitStore } from "@/store/examStore";
 import { evaluationApi } from "@/api/evaluation";
-import useExamEvaluationStore from "@/store/examEvalStore"; // Assuming correct location
+import useExamEvaluationStore from "@/store/examEvalStore";
 import { formatError } from "@/common/utils";
 
 interface LoadingPerformanceProps {
@@ -20,42 +20,38 @@ export default function LoadingPerformance({
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
-  // const { examData } = useExamStore(); // examId is passed as prop now
   const { responses, resetResponses } = useExamAttemptStore();
   const { setExamEvaluation } = useExamEvaluationStore();
-  const { isInit } = useExamInitStore(); // Assuming this store and state exist
+  const { isInit } = useExamInitStore();
 
   useEffect(() => {
-    // Ensure examId and responses are available before proceeding
     if (!examId || !responses || responses.length === 0) {
       setError("Missing exam data or responses to submit.");
-      // Optional: Automatically call onError after a delay or let the user click 'Try Again'
-      // setTimeout(onError, 3000);
       return;
     }
 
     const request = {
       exam_id: examId,
       attempts: responses,
-      is_init: isInit, // Include is_init from the store
+      is_init: isInit,
     };
 
     const timer = setTimeout(() => {
       submitRequest(request);
-    }, 1500); // Slight delay to show the loading animation
+    }, 1500);
 
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [examId]); // Depend only on examId to run once when the component mounts with the ID
+  }, [examId]);
 
   const submitRequest = async (request: any) => {
     try {
       setError(null);
       const response = await evaluationApi.evaluateExam(request);
-      setExamEvaluation(response); // Store the evaluation results
-      resetResponses(); // Clear the attempts from the store
-      router.replace("/dashboard/track/performance"); // Navigate to the new performance page
-    } catch (err: any) { // Catch specific error type if possible
+      setExamEvaluation(response);
+      resetResponses();
+      router.replace("/dashboard/track/performance");
+    } catch (err: any) {
       setError(
         formatError(err) ||
           "Something went wrong while analyzing your results. Please try again."
@@ -64,20 +60,20 @@ export default function LoadingPerformance({
   };
 
   return (
-    <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[100] flex items-center justify-center">
-      <div className="bg-card p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
+    <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-[100] flex items-center justify-center">
+      <div className="bg-white border border-brand-indigo/10 p-8 rounded-2xl shadow-xl max-w-md w-full mx-4">
         {error ? (
           <div className="flex flex-col items-center justify-center">
-            <Alert variant="destructive" className="mb-4">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
+            <Alert variant="destructive" className="mb-4 bg-red-50 border-red-200 rounded-xl">
+              <AlertCircle className="h-4 w-4 text-red-500" />
+              <AlertTitle className="text-red-700 font-inter">Error</AlertTitle>
+              <AlertDescription className="text-red-600 font-dm-sans">{error}</AlertDescription>
             </Alert>
             <Button
-              className="w-full"
+              className="w-full bg-brand-indigo text-white hover:bg-brand-indigo/90 rounded-xl font-dm-sans"
               onClick={() => {
                 setError(null);
-                onError(); // Allow the parent component to handle retry/closing
+                onError();
               }}
             >
               Close
@@ -85,11 +81,14 @@ export default function LoadingPerformance({
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center text-center">
-            <Loader2 className="h-10 w-10 animate-spin text-primary mb-6" />
-            <h2 className="text-xl font-semibold text-foreground mb-3">
+            <div className="relative mb-6">
+              <div className="absolute inset-0 bg-brand-green/20 rounded-full blur-xl animate-pulse" />
+              <Loader2 className="h-12 w-12 animate-spin text-brand-green relative z-10" />
+            </div>
+            <h2 className="text-xl font-semibold text-brand-indigo font-inter mb-3">
               Analyzing Your Results
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-brand-indigo/60 font-dm-sans">
               We're processing your answers to provide detailed performance
               insights. Please wait a moment.
             </p>

@@ -3,7 +3,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { profileApi } from "@/api/profile";
-import { Loader2, ArrowLeft, AlertTriangle, BookOpenCheck } from "lucide-react";
+import { ArrowLeft, AlertTriangle, BookOpenCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useUserTopicStore } from "@/store/userTopicStore";
 import { TopicDetailsCard } from "@/components/profile/topicDetailsCard";
@@ -59,29 +59,29 @@ export default function TopicDetailPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-6">
+    <div className="max-w-7xl mx-auto space-y-6">
       <Button
         variant="outline"
         size="sm"
         onClick={() => router.back()}
-        className="bg-transparent dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700/50 shrink-0"
+        className="border-brand-indigo/20 text-brand-indigo hover:bg-brand-indigo/5 rounded-lg font-dm-sans"
       >
         <ArrowLeft className="h-4 w-4 mr-2" />
         Back
       </Button>
 
       {isLoadingDetails && !userTopic ? (
-        <Skeleton className="h-[200px] w-full rounded-lg bg-gray-700/50" />
+        <Skeleton className="h-[200px] w-full rounded-xl bg-brand-indigo/5" />
       ) : displayTopicData ? (
         <TopicDetailsCard topicData={displayTopicData} />
       ) : (
-        <div className="text-center py-10 text-muted-foreground">
+        <div className="text-center py-10 text-brand-indigo/50 font-dm-sans">
           Topic data not found.
         </div>
       )}
 
       <div className="mt-8">
-        <h2 className="text-lg font-medium text-gray-200 mb-4">
+        <h2 className="text-lg font-medium text-brand-indigo font-inter mb-4">
           Concept Evaluations
         </h2>
         {renderConceptList()}
@@ -95,7 +95,7 @@ const ConceptLoadingSkeleton = () => (
     {[...Array(3)].map((_, index) => (
       <Skeleton
         key={index}
-        className="h-[130px] w-full rounded-lg bg-gray-700/50"
+        className="h-[130px] w-full rounded-xl bg-brand-indigo/5"
       />
     ))}
   </div>
@@ -110,18 +110,18 @@ const ConceptErrorDisplay = ({
 }) => (
   <Alert
     variant="destructive"
-    className="bg-red-900/30 border-red-500/50 text-red-300"
+    className="bg-red-50 border-red-200 text-red-700 rounded-xl"
   >
-    <AlertTriangle className="h-4 w-4 !text-red-400" />
-    <AlertTitle className="text-red-300">Failed to load concepts</AlertTitle>
-    <AlertDescription className="text-red-400/90">
+    <AlertTriangle className="h-4 w-4 !text-red-500" />
+    <AlertTitle className="text-red-700 font-inter">Failed to load concepts</AlertTitle>
+    <AlertDescription className="text-red-600 font-dm-sans">
       {formatError(error instanceof Error ? error.message : String(error))}
       {onRetry && (
         <button
           onClick={onRetry}
-          className="ml-2 text-cyan-400 hover:underline text-xs"
+          className="ml-2 text-brand-green hover:underline text-xs font-medium"
         >
-          (Retry)
+          Retry
         </button>
       )}
     </AlertDescription>
@@ -129,10 +129,10 @@ const ConceptErrorDisplay = ({
 );
 
 const ConceptEmptyState = () => (
-  <div className="text-center py-10 px-4 bg-gray-800/50 border border-dashed border-gray-700 rounded-lg min-h-[150px] flex flex-col justify-center items-center">
-    <BookOpenCheck className="mx-auto h-10 w-10 text-gray-500 mb-3" />
-    <p className="text-md font-medium text-gray-400">No Concept Data</p>
-    <p className="text-sm text-gray-500 mt-1">
+  <div className="text-center py-10 px-4 bg-brand-indigo/5 border border-dashed border-brand-indigo/20 rounded-xl min-h-[150px] flex flex-col justify-center items-center">
+    <BookOpenCheck className="mx-auto h-10 w-10 text-brand-indigo/30 mb-3" />
+    <p className="text-base font-medium text-brand-indigo/60 font-dm-sans">No Concept Data</p>
+    <p className="text-sm text-brand-indigo/40 mt-1 font-dm-sans">
       No concept evaluations found for this topic yet.
     </p>
   </div>

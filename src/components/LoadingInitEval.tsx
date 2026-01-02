@@ -60,15 +60,15 @@ export default function LoadingInitEval({ onError }: LoadingInitEvalProps) {
 
   if (error) {
     return (
-      <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm">
-        <div className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg">
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{error}</AlertDescription>
+      <div className="fixed inset-0 z-50 bg-white/90 backdrop-blur-sm">
+        <div className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-brand-indigo/10 bg-white p-8 shadow-xl rounded-2xl">
+          <Alert variant="destructive" className="bg-red-50 border-red-200">
+            <AlertCircle className="h-4 w-4 text-red-500" />
+            <AlertTitle className="text-red-700 font-inter">Error</AlertTitle>
+            <AlertDescription className="text-red-600 font-dm-sans">{error}</AlertDescription>
           </Alert>
           <Button
-            className="w-full"
+            className="w-full bg-brand-indigo text-white hover:bg-brand-indigo/90 rounded-xl font-dm-sans"
             onClick={() => {
               setError(null);
               onError();
@@ -82,23 +82,23 @@ export default function LoadingInitEval({ onError }: LoadingInitEvalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm">
-      <div className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg">
+    <div className="fixed inset-0 z-50 bg-white/90 backdrop-blur-sm">
+      <div className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-brand-indigo/10 bg-white p-8 shadow-xl rounded-2xl">
         <div className="flex flex-col items-center justify-center">
           <div className="relative">
             <div className="grid grid-cols-2 gap-2 animate-spin">
-              <div className="h-5 w-5 rounded-full bg-primary" />
-              <div className="h-5 w-5 rounded-full bg-yellow-500" />
-              <div className="h-5 w-5 rounded-full bg-yellow-500" />
-              <div className="h-5 w-5 rounded-full bg-primary" />
+              <div className="h-5 w-5 rounded-full bg-brand-green" />
+              <div className="h-5 w-5 rounded-full bg-brand-indigo/20" />
+              <div className="h-5 w-5 rounded-full bg-brand-indigo/20" />
+              <div className="h-5 w-5 rounded-full bg-brand-green" />
             </div>
           </div>
 
-          <h2 className="mt-8 text-xl font-semibold text-primary">
+          <h2 className="mt-8 text-xl font-semibold text-brand-green font-inter">
             Preparing your initial evaluation
           </h2>
 
-          <p className="mt-4 max-w-md text-center text-muted-foreground">
+          <p className="mt-4 max-w-md text-center text-brand-indigo/60 font-dm-sans">
             We need to assess your current knowledge level to create a
             personalized learning path for you.
           </p>

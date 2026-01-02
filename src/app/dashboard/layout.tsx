@@ -74,55 +74,62 @@ export default function DashboardLayout({
   };
 
   const SideNavContent = ({ isMobile = false }: { isMobile?: boolean }) => (
-    <nav className="flex flex-col gap-2 p-3 flex-grow">
-      {navItems.map((item) => (
-        <Button
-          key={item.href}
-          variant={pathname === item.href ? "secondary" : "ghost"}
-          className={cn(
-            "group justify-start gap-3 h-11 rounded-xl transition-all text-white/80 hover:bg-brand-green/10 hover:text-brand-green font-dm-sans",
-            isSheetOpen || isMobile
-              ? "w-full px-4"
-              : "w-12 px-0 justify-center",
-            pathname === item.href &&
-              "bg-brand-green/15 text-brand-green hover:bg-brand-green/20"
-          )}
-          onClick={() => {
-            router.push(item.href);
-            if (isMobile) setIsMobileSheetOpen(false);
-          }}
-        >
-          <item.icon
+    <nav className="flex flex-col gap-1.5 p-3 flex-grow">
+      {navItems.map((item) => {
+        const isActive = pathname === item.href;
+        return (
+          <Button
+            key={item.href}
+            variant="ghost"
             className={cn(
-              "h-5 w-5 transition-transform",
-              isSheetOpen || isMobile ? "" : "group-hover:scale-110"
+              "group justify-start gap-3 h-11 rounded-xl transition-all font-dm-sans",
+              isSheetOpen || isMobile
+                ? "w-full px-4"
+                : "w-12 px-0 justify-center",
+              isActive
+                ? "bg-brand-green/10 text-brand-green hover:bg-brand-green/15"
+                : "text-brand-indigo/60 hover:bg-brand-indigo/5 hover:text-brand-indigo"
             )}
-          />
-          {(isSheetOpen || isMobile) && (
-            <span className="font-medium text-sm">{item.label}</span>
-          )}
-        </Button>
-      ))}
+            onClick={() => {
+              router.push(item.href);
+              if (isMobile) setIsMobileSheetOpen(false);
+            }}
+          >
+            <item.icon
+              className={cn(
+                "h-5 w-5 transition-all",
+                isActive ? "text-brand-green" : "text-brand-indigo/50 group-hover:text-brand-indigo",
+                isSheetOpen || isMobile ? "" : "group-hover:scale-110"
+              )}
+            />
+            {(isSheetOpen || isMobile) && (
+              <span className="font-medium text-sm">{item.label}</span>
+            )}
+          </Button>
+        );
+      })}
     </nav>
   );
 
   return (
-    <div className="min-h-screen flex bg-brand-black text-white font-dm-sans">
-      <div
+    <div className="min-h-screen flex bg-white font-dm-sans">
+      {/* Desktop Sidebar */}
+      <aside
         className={cn(
-          "hidden lg:flex flex-col border-r border-brand-indigo/30 bg-brand-indigo/5 backdrop-blur-lg transition-all duration-300 ease-in-out",
+          "hidden lg:flex flex-col border-r border-brand-indigo/10 bg-white transition-all duration-300 ease-out",
           isSheetOpen ? "w-64" : "w-20"
         )}
       >
-        <div className="p-4 border-b border-brand-indigo/30 h-16 flex items-center justify-between sticky top-0 bg-brand-black/80 backdrop-blur-md z-20">
+        {/* Sidebar Header */}
+        <div className="p-4 border-b border-brand-indigo/10 h-16 flex items-center justify-between sticky top-0 bg-white z-20">
           {isSheetOpen && (
-            <Link href="/" passHref>
+            <Link href="/" className="flex items-center">
               <Image
-                src="/logo/PrepTrack_Logo_Variations_01-05.png"
+                src="/logo/PrepTrack_LogoDesign_01-01.png"
                 alt="PrepTrack"
                 width={120}
                 height={36}
-                className="h-8 w-auto cursor-pointer"
+                className="h-8 w-auto"
               />
             </Link>
           )}
@@ -130,7 +137,7 @@ export default function DashboardLayout({
             variant="ghost"
             size="icon"
             onClick={() => setIsSheetOpen(!isSheetOpen)}
-            className="hover:bg-brand-indigo/20 text-white/50 hover:text-brand-green transition-all duration-200"
+            className="hover:bg-brand-indigo/5 text-brand-indigo/40 hover:text-brand-indigo transition-all duration-200 rounded-lg"
           >
             {isSheetOpen ? (
               <ChevronLeft className="h-5 w-5" />
@@ -139,52 +146,63 @@ export default function DashboardLayout({
             )}
           </Button>
         </div>
+
+        {/* Sidebar Navigation */}
         <div className="flex flex-col flex-grow overflow-y-auto">
           <SideNavContent />
 
           {isSheetOpen && (
-            <div className="mt-auto p-4 border-t border-brand-indigo/30 text-xs text-white/30 space-y-1 font-dm-sans">
+            <div className="mt-auto p-4 border-t border-brand-indigo/10 text-xs text-brand-indigo/40 font-dm-sans">
               <p>&copy; {new Date().getFullYear()} PrepTrack</p>
             </div>
           )}
         </div>
-      </div>
+      </aside>
 
-      <div className="flex-1 flex flex-col">
-        <header className="w-full border-b border-brand-indigo/30 h-16 flex items-center px-4 justify-between lg:justify-end bg-brand-black/80 backdrop-blur-md sticky top-0 z-10">
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Top Header */}
+        <header className="w-full border-b border-brand-indigo/10 h-16 flex items-center px-4 sm:px-6 justify-between lg:justify-end bg-white sticky top-0 z-10">
+          {/* Mobile Menu Trigger */}
           <div className="lg:hidden">
             <Sheet open={isMobileSheetOpen} onOpenChange={setIsMobileSheetOpen}>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-white/50 hover:text-brand-green"
+                  className="text-brand-indigo/60 hover:text-brand-indigo hover:bg-brand-indigo/5 rounded-lg"
                 >
                   <MenuIcon className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
               <SheetContent
                 side="left"
-                className="w-[280px] p-0 border-r border-brand-indigo/30 bg-brand-black/95 backdrop-blur-lg flex flex-col"
+                className="w-[280px] p-0 border-r border-brand-indigo/10 bg-white flex flex-col"
               >
-                <SheetHeader className="p-4 border-b border-brand-indigo/30 flex flex-row items-center justify-between">
-                  <SheetTitle className="text-lg font-semibold tracking-tight text-brand-green font-inter">
-                    Navigation
+                <SheetHeader className="p-4 border-b border-brand-indigo/10">
+                  <SheetTitle className="flex items-center">
+                    <Image
+                      src="/logo/PrepTrack_LogoDesign_01-01.png"
+                      alt="PrepTrack"
+                      width={120}
+                      height={36}
+                      className="h-8 w-auto"
+                    />
                   </SheetTitle>
                 </SheetHeader>
                 <SideNavContent isMobile={true} />
-
-                <div className="mt-auto p-4 border-t border-brand-indigo/30 text-xs text-white/30 space-y-1 font-dm-sans">
+                <div className="mt-auto p-4 border-t border-brand-indigo/10 text-xs text-brand-indigo/40 font-dm-sans">
                   <p>&copy; {new Date().getFullYear()} PrepTrack</p>
                 </div>
               </SheetContent>
             </Sheet>
           </div>
 
-          <div className="flex items-center gap-4">
-            <Avatar className="h-8 w-8 border border-brand-indigo/50">
+          {/* User Actions */}
+          <div className="flex items-center gap-3">
+            <Avatar className="h-9 w-9 border-2 border-brand-indigo/10">
               <AvatarImage src={user?.user_info?.profile_url || undefined} />
-              <AvatarFallback className="bg-brand-indigo/40 text-white text-xs font-semibold font-inter">
+              <AvatarFallback className="bg-brand-green/10 text-brand-green text-sm font-semibold font-inter">
                 {getInitials(
                   user?.user_info?.first_name,
                   user?.user_info?.last_name
@@ -200,18 +218,18 @@ export default function DashboardLayout({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-white/40 hover:text-red-400"
+                  className="text-brand-indigo/40 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                   aria-label="Sign out"
                 >
                   <LogOut className="h-5 w-5" />
                 </Button>
               </DialogTrigger>
-              <DialogContent className="w-[90%] max-w-[450px] bg-brand-indigo/90 border-brand-indigo/60 text-white rounded-2xl p-6 shadow-2xl backdrop-blur-md">
+              <DialogContent className="w-[90%] max-w-[400px] bg-white border-brand-indigo/10 text-brand-indigo rounded-2xl p-6 shadow-xl">
                 <DialogHeader>
-                  <DialogTitle className="text-xl font-semibold text-white font-inter">
+                  <DialogTitle className="text-xl font-semibold text-brand-indigo font-inter">
                     Sign Out
                   </DialogTitle>
-                  <DialogDescription className="text-white/60 pt-2 font-dm-sans">
+                  <DialogDescription className="text-brand-indigo/60 pt-2 font-dm-sans">
                     Are you sure you want to sign out of your account?
                   </DialogDescription>
                 </DialogHeader>
@@ -219,16 +237,16 @@ export default function DashboardLayout({
                   <Button
                     variant="outline"
                     onClick={() => setIsLogoutDialogOpen(false)}
-                    className="border-brand-indigo/60 bg-transparent text-white hover:bg-brand-indigo/30 px-4 py-2 rounded-xl font-dm-sans"
+                    className="border-brand-indigo/20 bg-white text-brand-indigo hover:bg-brand-indigo/5 px-4 py-2 rounded-xl font-dm-sans"
                   >
                     Cancel
                   </Button>
                   <Button
                     variant="destructive"
                     onClick={handleLogout}
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-dm-sans"
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl font-dm-sans"
                   >
-                    Yes, Sign Out
+                    Sign Out
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -236,7 +254,8 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+        {/* Page Content */}
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-gray-50/50">
           {children}
         </main>
       </div>
